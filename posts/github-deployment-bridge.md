@@ -79,7 +79,7 @@ Also, writing a focused controller is fun in a way that another Actions workflow
 3. **Standard labels beat bespoke config databases.** If your images already carry OCI source/revision, you barely need per-app mapping.
 4. **Ship the boring parts.** Helm chart, metrics, Cosign, Artifact Hub, future-me will thank present-me.
 
-If you run Flux and stare at empty GitHub Environments the way I did, maybe this helps. If not, at least I scratched my own itch - which is how most of my side projects start anyway.
+If you run Flux and stare at empty GitHub Environments the way I did, maybe this helps. If not, at least I scratched my own itch, which is how most of my side projects start anyway.
 
 ---
 
