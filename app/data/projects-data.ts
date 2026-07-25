@@ -50,6 +50,26 @@ export const projects: Project[] = [
 		showOnMain: true
 	},
 	{
+		slug: 'github-deployment-bridge',
+		title: 'GitHub Deployment Bridge',
+		description:
+			'A lightweight Kubernetes controller that watches Flux Kustomizations and HelmReleases and mirrors lifecycle state to the GitHub Deployments API. It resolves workload identity from OCI labels and optional annotations, authenticates as a GitHub App, and reports queued through success or failure without orchestrating deploys.',
+		technologies: [
+			'Go',
+			'Kubernetes',
+			'FluxCD',
+			'Helm',
+			'GitHub App',
+			'Prometheus'
+		],
+		github: 'https://github.com/roberteggl/github-deployment-bridge',
+		demo: 'https://roberteggl.github.io/github-deployment-bridge/',
+		image: '/images/github-deployment-bridge.webp',
+		category: 'tool',
+		featured: true,
+		showOnMain: true
+	},
+	{
 		slug: 'digital-member-id',
 		title: 'Digital Member ID',
 		description:
@@ -160,8 +180,7 @@ export const projects: Project[] = [
 		demo: 'https://www.npmjs.com/package/@eggl-js/expo-github-cache',
 		image: '/images/cache.webp',
 		category: 'tool',
-		featured: true,
-		showOnMain: true
+		showOnMain: false
 	},
 	{
 		slug: 'neuland-api',
