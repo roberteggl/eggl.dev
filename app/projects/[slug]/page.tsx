@@ -1,9 +1,10 @@
-import { ArrowLeft, ExternalLink, Github } from 'lucide-react'
+import { ArrowLeft, BookOpen, ExternalLink, Github } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import {
 	getAllProjects,
+	getProjectBlogPath,
 	getProjectBySlug,
 	getProjectImageSrc,
 	getProjectPath,
@@ -28,6 +29,7 @@ export default async function ProjectPage({
 	}
 
 	const relatedProjects = getRelatedProjects(project)
+	const blogPath = getProjectBlogPath(project)
 
 	return (
 		<article className="mt-12 py-8 md:py-10">
@@ -116,6 +118,16 @@ export default async function ProjectPage({
 						<ExternalLink size={16} />
 						<span className="ml-2">Live Demo</span>
 					</a>
+				)}
+
+				{blogPath && (
+					<Link
+						href={blogPath}
+						className="neo-button p-2 flex items-center text-sm"
+					>
+						<BookOpen size={16} />
+						<span className="ml-2">Read Blog Post</span>
+					</Link>
 				)}
 			</div>
 
