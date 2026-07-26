@@ -2,7 +2,8 @@
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": [
 		"config:recommended",
-		"helpers:pinGitHubActionDigests"
+		"helpers:pinGitHubActionDigests",
+		"customManagers:biomeVersions"
 	],
 	"timezone": "UTC",
 	"labels": ["dependencies"],
@@ -18,6 +19,11 @@
 			"description": "Require dashboard approval for major dependency updates",
 			"matchUpdateTypes": ["major"],
 			"dependencyDashboardApproval": true
+		},
+		{
+			"description": "Group Biome npm package and biome.json $schema",
+			"groupName": "biome",
+			"matchPackageNames": ["@biomejs/biome"]
 		},
 		{
 			"description": "Keep Contentlayer packages in sync",
