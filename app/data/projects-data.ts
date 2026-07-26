@@ -63,7 +63,7 @@ export const projects: Project[] = [
 			'Prometheus'
 		],
 		github: 'https://github.com/roberteggl/github-deployment-bridge',
-		demo: 'https://roberteggl.github.io/github-deployment-bridge/',
+		demo: 'https://deployment-bridge.eggl.dev/',
 		image: '/images/github-deployment-bridge.webp',
 		category: 'tool',
 		featured: true,

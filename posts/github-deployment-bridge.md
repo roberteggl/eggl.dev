@@ -10,7 +10,7 @@ The catch: outside of GitHub Actions, nothing feeds that UI from the cluster. Fl
 
 So I built [GitHub Deployment Bridge](https://github.com/roberteggl/github-deployment-bridge).
 
-[![GitHub Deployment Bridge docs landing page](/images/github-deployment-bridge.webp)](https://roberteggl.github.io/github-deployment-bridge/)
+[![GitHub Deployment Bridge docs landing page](/images/github-deployment-bridge.webp)](https://deployment-bridge.eggl.dev/)
 
 ## The itch
 
@@ -62,7 +62,7 @@ metadata:
 
 That is enough for the bridge to open a Deployment on the right repo and walk it through `queued` → `in_progress` → `success` / `failure` as Flux reconciles.
 
-Docs live here: [roberteggl.github.io/github-deployment-bridge](https://roberteggl.github.io/github-deployment-bridge/). The chart is on [Artifact Hub](https://artifacthub.io/packages/helm/github-deployment-bridge/github-deployment-bridge).
+Docs live here: [roberteggl.github.io/github-deployment-bridge](https://deployment-bridge.eggl.dev/). The chart is on [Artifact Hub](https://artifacthub.io/packages/helm/github-deployment-bridge/github-deployment-bridge).
 
 ## Was it overkill?
 
