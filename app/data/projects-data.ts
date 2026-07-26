@@ -7,6 +7,7 @@ export interface Project {
 	technologies: string[]
 	github?: string
 	demo?: string
+	blog?: string
 	image: string
 	category: ProjectCategory
 	featured?: boolean
@@ -64,6 +65,7 @@ export const projects: Project[] = [
 		],
 		github: 'https://github.com/roberteggl/github-deployment-bridge',
 		demo: 'https://deployment-bridge.eggl.dev/',
+		blog: 'github-deployment-bridge',
 		image: '/images/github-deployment-bridge.webp',
 		category: 'tool',
 		featured: true,
@@ -77,6 +79,7 @@ export const projects: Project[] = [
 		technologies: ['Rust', 'Next.js', 'TypeScript', 'Apple Wallet', 'QR Codes'],
 		github: 'https://github.com/neuland-ingolstadt/member-id',
 		demo: 'https://id.informatik.sexy',
+		blog: 'member-id',
 		image: '/images/member-id.webp',
 		category: 'fullstack',
 		featured: true,
@@ -137,6 +140,7 @@ export const projects: Project[] = [
 			'Infrastructure'
 		],
 		github: 'https://github.com/neuland-ingolstadt/flux-infra',
+		blog: 'neuland-talk',
 		image: '/images/k3s.webp',
 		category: 'tool',
 		showOnMain: false
@@ -271,6 +275,9 @@ export const projects: Project[] = [
 
 export const getProjectPath = (project: Pick<Project, 'slug'>) =>
 	`/projects/${project.slug}`
+
+export const getProjectBlogPath = (project: Pick<Project, 'blog'>) =>
+	project.blog ? `/blog/${project.blog}` : undefined
 
 export const getProjectBySlug = (slug: string) =>
 	projects.find((project) => project.slug === slug)
