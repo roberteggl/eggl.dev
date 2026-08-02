@@ -164,6 +164,7 @@ export const projects: Project[] = [
 			'My general-purpose helper CLI built with Go and Cobra. Distributed via Homebrew and GitHub Releases, with shell completions for bash, zsh, and fish. A small toolbox of commands I reach for across homelab, dev, and day-to-day workflows.',
 		technologies: ['Go', 'Cobra', 'CLI', 'Homebrew'],
 		github: 'https://github.com/roberteggl/eggl-cli',
+		demo: 'https://cli.eggl.dev',
 		image: '/images/eggl-cli.webp',
 		category: 'tool',
 		showOnMain: false
@@ -241,6 +242,17 @@ export const projects: Project[] = [
 		technologies: ['Home Assistant', 'Python', 'GraphQL'],
 		image: '/images/ha.webp',
 		github: 'https://github.com/roberteggl/hacs-thi-mensa',
+		category: 'tool',
+		showOnMain: false
+	},
+	{
+		slug: 'opencode-awtrix',
+		title: 'OpenCode AWTRIX',
+		description:
+			'A local OpenCode plugin that drives an AWTRIX status indicator over HTTP. It maps OpenCode session states—busy, permission requests, picker questions, errors, and idle—to colors and effects on the display, giving you a physical at-a-glance signal of what the agent is doing.',
+		technologies: ['TypeScript', 'OpenCode', 'AWTRIX', 'Smart Home'],
+		github: 'https://github.com/roberteggl/opencode-awtrix',
+		image: '/images/opencode-awtrix.webp',
 		category: 'tool',
 		showOnMain: false
 	},
