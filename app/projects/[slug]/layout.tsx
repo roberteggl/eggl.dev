@@ -69,7 +69,8 @@ const generateJsonLd = (
 	description: project.description,
 	applicationCategory: project.category,
 	operatingSystem: 'Web',
-	url: project.demo ?? `https://eggl.dev/projects/${project.slug}`,
+	url:
+		project.demo ?? project.docs ?? `https://eggl.dev/projects/${project.slug}`,
 	image: getProjectImageUrl(project.image),
 	author: {
 		'@type': 'Person',

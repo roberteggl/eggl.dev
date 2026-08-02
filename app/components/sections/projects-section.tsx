@@ -1,6 +1,12 @@
 'use client'
 import { motion, useInView } from 'framer-motion'
-import { ArrowRight, ArrowUpRight, ExternalLink, Github } from 'lucide-react'
+import {
+	ArrowRight,
+	ArrowUpRight,
+	ExternalLink,
+	FileText,
+	Github
+} from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { memo, useRef } from 'react'
@@ -164,6 +170,17 @@ const ProjectCard = memo(({ project, index }: ProjectCardProps) => {
 							>
 								<ExternalLink size={18} />
 								<span className="ml-2">View</span>
+							</a>
+						)}
+
+						{project.docs && (
+							<a
+								href={project.docs}
+								className="neo-button p-2 flex items-center"
+								aria-label={`Documentation for ${project.title}`}
+							>
+								<FileText size={18} />
+								<span className="ml-2">Docs</span>
 							</a>
 						)}
 					</motion.div>

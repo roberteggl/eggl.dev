@@ -1,4 +1,10 @@
-import { ArrowLeft, BookOpen, ExternalLink, Github } from 'lucide-react'
+import {
+	ArrowLeft,
+	BookOpen,
+	ExternalLink,
+	FileText,
+	Github
+} from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -117,6 +123,18 @@ export default async function ProjectPage({
 					>
 						<ExternalLink size={16} />
 						<span className="ml-2">Live Demo</span>
+					</a>
+				)}
+
+				{project.docs && (
+					<a
+						href={project.docs}
+						className="neo-button p-2 flex items-center text-sm"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<FileText size={16} />
+						<span className="ml-2">Docs</span>
 					</a>
 				)}
 

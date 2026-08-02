@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import {
 	ArrowUpRight,
 	ExternalLink,
+	FileText,
 	Github,
 	Grid,
 	Home,
@@ -177,6 +178,17 @@ const ProjectCard = memo(({ project, index, viewMode }: ProjectCardProps) => {
 									<span className="ml-1">Demo</span>
 								</a>
 							)}
+
+							{project.docs && (
+								<a
+									href={project.docs}
+									className="neo-button p-2 !flex items-center text-sm"
+									aria-label={`Documentation for ${project.title}`}
+								>
+									<FileText size={16} />
+									<span className="ml-1">Docs</span>
+								</a>
+							)}
 						</div>
 					</div>
 				</div>
@@ -276,6 +288,17 @@ const ProjectCard = memo(({ project, index, viewMode }: ProjectCardProps) => {
 							>
 								<ExternalLink size={18} />
 								<span className="ml-2">Demo</span>
+							</a>
+						)}
+
+						{project.docs && (
+							<a
+								href={project.docs}
+								className="neo-button p-2 !flex items-center"
+								aria-label={`Documentation for ${project.title}`}
+							>
+								<FileText size={18} />
+								<span className="ml-2">Docs</span>
 							</a>
 						)}
 					</div>

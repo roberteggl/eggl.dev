@@ -7,6 +7,7 @@ export interface Project {
 	technologies: string[]
 	github?: string
 	demo?: string
+	docs?: string
 	blog?: string
 	image: string
 	category: ProjectCategory
@@ -64,7 +65,7 @@ export const projects: Project[] = [
 			'Prometheus'
 		],
 		github: 'https://github.com/roberteggl/github-deployment-bridge',
-		demo: 'https://deployment-bridge.eggl.dev/',
+		docs: 'https://deployment-bridge.eggl.dev/',
 		blog: 'github-deployment-bridge',
 		image: '/images/github-deployment-bridge.webp',
 		category: 'tool',
@@ -164,7 +165,7 @@ export const projects: Project[] = [
 			'My general-purpose helper CLI built with Go and Cobra. Distributed via Homebrew and GitHub Releases, with shell completions for bash, zsh, and fish. A small toolbox of commands I reach for across homelab, dev, and day-to-day workflows.',
 		technologies: ['Go', 'Cobra', 'CLI', 'Homebrew'],
 		github: 'https://github.com/roberteggl/eggl-cli',
-		demo: 'https://cli.eggl.dev',
+		docs: 'https://cli.eggl.dev',
 		image: '/images/eggl-cli.webp',
 		category: 'tool',
 		showOnMain: false
