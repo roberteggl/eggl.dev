@@ -46,7 +46,7 @@
     "@types/react-dom": "19.2.4",
     "autoprefixer": "^10.5.2",
     "postcss": "^8.5.16",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.0"
   },
   "overrides": {
     "@types/react": "19.2.18",
