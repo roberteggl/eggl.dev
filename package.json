@@ -43,13 +43,13 @@
     "@biomejs/biome": "2.3.8",
     "@types/node": "^26.0.0",
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.4",
+    "@types/react-dom": "19.2.7",
     "autoprefixer": "^10.5.2",
     "postcss": "^8.5.16",
     "typescript": "^5.9.3"
   },
   "overrides": {
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.4"
+    "@types/react-dom": "19.2.7"
   }
 }
