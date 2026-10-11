@@ -1,6 +1,6 @@
 import { allBlogs } from 'contentlayer/generated'
 import { JsonLd } from '@/components/json-ld'
-import NeoMarquee from '@/components/neo-marquee'
+import { SectionDivider } from '@/components/section-divider'
 import AboutSection from '@/components/sections/about-section'
 import CareerSection from '@/components/sections/career-section'
 import ContactSection from '@/components/sections/contact-section'
@@ -8,12 +8,19 @@ import EducationSection from '@/components/sections/education-section'
 import HeroSection from '@/components/sections/hero-section'
 import ProjectsSection from '@/components/sections/projects-section'
 import SkillsSection from '@/components/sections/skills-section'
+import Ticker from '@/components/ticker'
 import { getGitHubData } from '@/lib/github'
 import { createProfilePageJsonLd } from '@/lib/structured-data'
 
 export default async function HomePage() {
-	const NEO_MARQUEE_TEXT =
-		'Full-Stack Development • SAP • Enterprise AI • Business Process Consulting • Cloud Engineering • Open Source • Software Development • Artificial Intelligence'
+	const TICKER_ITEMS = [
+		'Full-Stack Development',
+		'SAP',
+		'Open Source',
+		'AI Agents',
+		'Enterprise Software',
+		'Cloud Engineering'
+	]
 
 	const posts = allBlogs.sort(
 		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -48,13 +55,17 @@ export default async function HomePage() {
 		<>
 			<JsonLd data={profilePageJsonLd} />
 			<HeroSection />
-			<NeoMarquee text={NEO_MARQUEE_TEXT} speed={50} fullBleed={true} />
+			<Ticker items={TICKER_ITEMS} />
 			<AboutSection />
-			<NeoMarquee text={NEO_MARQUEE_TEXT} speed={50} fullBleed={true} />
+			<SectionDivider />
 			<SkillsSection />
+			<SectionDivider />
 			<ProjectsSection />
+			<SectionDivider />
 			<EducationSection />
+			<SectionDivider />
 			<CareerSection />
+			<SectionDivider />
 			<ContactSection />
 		</>
 	)

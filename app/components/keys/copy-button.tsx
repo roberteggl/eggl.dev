@@ -30,7 +30,7 @@ export default function CopyButton({
 		<button
 			type="button"
 			onClick={handleCopy}
-			className={`p-1.5 md:p-2 rounded-lg bg-background hover:bg-[#2a2a2a] transition-colors text-foreground/70 hover:text-foreground ${className}`}
+			className={`rounded-none border border-line bg-card p-1.5 text-foreground/60 transition-colors duration-200 hover:border-accent hover:text-accent md:p-2 ${className}`}
 			title={title}
 		>
 			{copied ? (

@@ -289,7 +289,7 @@ export async function getGitHubData(): Promise<GitHubData> {
 }
 
 export const getContributionColor = (count: number): string => {
-	if (count === 0) return 'bg-neutral-800'
+	if (count === 0) return 'bg-surface-2'
 	if (count < 3) return 'bg-accent/30'
 	if (count < 6) return 'bg-accent/60'
 	if (count < 10) return 'bg-accent/85'

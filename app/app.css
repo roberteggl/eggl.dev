@@ -1,61 +1,151 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* We're removing the dark mode variant since we're standardizing on dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* Base theme (using dark colors) */
+/* ----------------------------------------------------------------
+   Ink & Signal theme, oxide teal accent
+   Light = cool paper, .dark = ink
+   Corner system (enforced):
+     sharp (rounded-none): cards, surfaces, images, icon boxes,
+       inputs, tooltips, toggles, CTAs (the signal plane)
+     micro (rounded-[2px]): tags / chips only
+     contribution cells: rounded-[3px]
+   Do not introduce pills (rounded-full) or soft radii (md/lg/xl).
+---------------------------------------------------------------- */
 @theme {
-	--color-background: #18181b;
-	--color-background-dark: #131315;
-	--color-foreground: #fafafa;
+	--font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+	--font-display:
+		var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+	--font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
-	--color-primary: #fafafa;
-	--color-primary-foreground: #18181b;
+	/* light (cool paper) */
+	--color-background: #f2f4f6;
+	--color-background-dark: #e4e8ed;
+	--color-surface: #ffffff;
+	--color-surface-2: #e8ecf0;
+	--color-foreground: #0e1217;
+	--color-muted: #d4dae2;
+	--color-muted-foreground: #5a6572;
+	--color-border: #c9d0d8;
+	--color-line: #c9d0d8;
+	--color-input: #c9d0d8;
+	--color-ring: #0f766e;
 
-	--color-secondary: #ff106c;
-	--color-secondary-foreground: #fafafa;
+	--color-primary: #0e1217;
+	--color-primary-foreground: #f2f4f6;
 
-	--color-tertiary: #fafafa;
-	--color-tertiary-foreground: #18181b;
+	--color-secondary: #0f766e;
+	--color-secondary-foreground: #f2f4f6;
 
-	--color-accent: oklch(0.6544 0.1825 237.75);
-	--color-accent-light: oklch(0.7 0.1471 238.92);
-	--color-accent-background: oklch(0.5897 0.1505 237.75);
+	--color-tertiary: #e8ecf0;
+	--color-tertiary-foreground: #0e1217;
 
-	--color-neo-border: #fafafa;
-	--color-neo-foreground: #fafafa;
-	--color-neo-background: #18181b;
-	--color-neo-accent: #888892;
+	--color-accent: #0f766e;
+	--color-accent-foreground: #f2f4f6;
+	--color-accent-light: #0d9488;
+	--color-accent-background: #e6f4f2;
+	--color-accent-soft: rgba(15, 118, 110, 0.12);
 
-	--color-muted: #3f3f46;
-	--color-border: #3f3f46;
+	--color-card: #ffffff;
+	--color-card-foreground: #0e1217;
+	--color-destructive: #b3382e;
+	--color-destructive-foreground: #f2f4f6;
 
-	--shadow-neo: 4px 4px 0px 0px var(--color-neo-border);
-	--shadow-neo-lg: 8px 8px 0px 0px var(--color-neo-border);
-	--shadow-neo-thin: 4px 4px 0px 0px var(--color-neo-border);
+	/* compat neo tokens → ink & signal */
+	--color-neo-border: #c9d0d8;
+	--color-neo-foreground: #0e1217;
+	--color-neo-background: #f2f4f6;
+	--color-neo-accent: #0f766e;
 
-	--grid-line-color: 0 0% 100% / 0.1;
+	--shadow-signal: none;
+	--shadow-signal-sm: none;
+	--shadow-luxe:
+		0 1px 2px rgba(14, 18, 23, 0.05), 0 16px 40px -24px rgba(14, 18, 23, 0.22);
+	--shadow-luxe-sm:
+		0 1px 2px rgba(14, 18, 23, 0.06), 0 8px 24px -16px rgba(14, 18, 23, 0.18);
+
+	--shadow-neo: none;
+	--shadow-neo-lg: none;
+	--shadow-neo-thin: none;
+
+	--grid-line-color: 14 18 23 / 0.06;
+
+	--animate-ticker: ticker 42s linear infinite;
+
+	@keyframes ticker {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+}
+
+.dark {
+	--color-background: #0b0d10;
+	--color-background-dark: #07080a;
+	--color-surface: #14181e;
+	--color-surface-2: #1c222b;
+	--color-foreground: #e8edf2;
+	--color-muted: #2a323c;
+	--color-muted-foreground: #8b97a5;
+	--color-border: rgba(232, 237, 242, 0.16);
+	--color-line: rgba(232, 237, 242, 0.16);
+	--color-input: rgba(232, 237, 242, 0.2);
+	--color-ring: #2dd4bf;
+
+	--color-primary: #e8edf2;
+	--color-primary-foreground: #0e1217;
+
+	--color-secondary: #2dd4bf;
+	--color-secondary-foreground: #0e1217;
+
+	--color-tertiary: #1c222b;
+	--color-tertiary-foreground: #e8edf2;
+
+	--color-accent: #2dd4bf;
+	--color-accent-foreground: #0e1217;
+	--color-accent-light: #5eead4;
+	--color-accent-background: #132422;
+	--color-accent-soft: rgba(45, 212, 191, 0.14);
+
+	--color-card: #14181e;
+	--color-card-foreground: #e8edf2;
+
+	--color-neo-border: rgba(232, 237, 242, 0.16);
+	--color-neo-foreground: #e8edf2;
+	--color-neo-background: #0b0d10;
+	--color-neo-accent: #2dd4bf;
+
+	--shadow-signal: none;
+	--shadow-signal-sm: none;
+	--shadow-luxe:
+		0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px -24px rgba(0, 0, 0, 0.65);
+	--shadow-luxe-sm:
+		0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.55);
+	--shadow-neo: none;
+	--shadow-neo-lg: none;
+	--shadow-neo-thin: none;
+
+	--grid-line-color: 232 237 242 / 0.06;
+}
+
+html {
+	scroll-behavior: smooth;
 }
 
 html,
 body {
-	font-family: var(--font-geist), sans-serif;
-	@apply bg-background text-foreground;
+	font-family: var(--font-sans), sans-serif;
+	@apply bg-background text-foreground antialiased;
+	text-rendering: optimizeLegibility;
 }
 
-/* Ensure dark theme is applied immediately */
-html.dark,
-html.dark body {
-	background-color: #18181b;
-	color: #fafafa;
-}
-
-html.dark .text-foreground {
-	color: #fafafa;
-}
-
-html.dark .bg-background {
-	background-color: #18181b;
+.font-display {
+	font-family: var(--font-display), sans-serif;
+	letter-spacing: -0.03em;
 }
 
 .font-mono,
@@ -63,44 +153,211 @@ code,
 pre,
 kbd,
 samp {
-	font-family:
-		var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-		"Liberation Mono", "Courier New", monospace;
+	font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 h1,
-h2,
+h2 {
+	font-family: var(--font-display), sans-serif;
+	letter-spacing: -0.035em;
+	text-wrap: balance;
+}
+
 h3,
 h4,
 h5,
 h6 {
-	@apply font-mono tracking-tight;
+	font-family: var(--font-sans), sans-serif;
+	letter-spacing: -0.01em;
+}
+
+::selection {
+	background: var(--color-accent);
+	color: var(--color-accent-foreground);
+}
+
+:focus-visible {
+	outline: 2px solid var(--color-ring);
+	outline-offset: 3px;
+	border-radius: 0;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-track {
+	background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+	background: var(--color-border);
+	border-radius: 0;
+	border: 2px solid var(--color-background);
+}
+::-webkit-scrollbar-thumb:hover {
+	background: var(--color-accent);
+}
+
+/* Unlayered styles beat Tailwind's layered utilities in the cascade,
+   so this reduced-motion reset wins without !important. */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms;
+		transition-duration: 0.01ms;
+		scroll-behavior: auto;
+	}
+}
+
+/* ----- Signal primitives ----- */
+
+@utility signal-card {
+	@apply bg-card text-card-foreground border border-line rounded-none transition-colors duration-200;
+}
+
+@utility signal-card-hover {
+	@apply hover:border-accent/50;
+}
+
+@utility signal-chip {
+	@apply inline-flex items-center gap-1.5 rounded-[2px] border border-line bg-surface-2/60 px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-muted-foreground;
+}
+
+@utility signal-grid-bg {
+	background-image:
+		linear-gradient(to right, hsla(var(--grid-line-color)) 1px, transparent 1px),
+		linear-gradient(
+			to bottom,
+			hsla(var(--grid-line-color)) 1px,
+			transparent 1px
+		);
+	background-size: 64px 64px;
+	mask-image: radial-gradient(
+		ellipse 90% 70% at 50% 30%,
+		black 30%,
+		transparent 75%
+	);
+}
+
+@utility signal-button {
+	@apply inline-flex items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
+}
+
+@utility signal-button-outline {
+	@apply inline-flex items-center justify-center gap-2 rounded-none border border-line bg-transparent px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent hover:text-accent disabled:opacity-50;
+}
+
+/* legacy aliases → signal */
+@utility luxe-card {
+	@apply bg-card text-card-foreground border border-line rounded-none transition-colors duration-200;
+}
+
+@utility luxe-card-hover {
+	@apply hover:border-accent/50;
+}
+
+@utility luxe-chip {
+	@apply inline-flex items-center gap-1.5 rounded-[2px] border border-line bg-surface-2/60 px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-muted-foreground;
+}
+
+@utility luxe-grid-bg {
+	background-image:
+		linear-gradient(to right, hsla(var(--grid-line-color)) 1px, transparent 1px),
+		linear-gradient(
+			to bottom,
+			hsla(var(--grid-line-color)) 1px,
+			transparent 1px
+		);
+	background-size: 64px 64px;
+	mask-image: radial-gradient(
+		ellipse 90% 70% at 50% 30%,
+		black 30%,
+		transparent 75%
+	);
+}
+
+@utility luxe-button {
+	@apply inline-flex items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
+}
+
+@utility luxe-button-outline {
+	@apply inline-flex items-center justify-center gap-2 rounded-none border border-line bg-transparent px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent hover:text-accent disabled:opacity-50;
+}
+
+@utility hairline-t {
+	@apply border-t border-line;
+}
+
+@utility hairline-b {
+	@apply border-b border-line;
+}
+
+@utility eyebrow {
+	@apply font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-accent;
+}
+
+@utility container-editorial {
+	@apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+}
+
+@utility container-custom {
+	@apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+}
+
+@utility section {
+	@apply py-20 md:py-28;
+}
+
+@utility grain {
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	background-size: 180px 180px;
 }
 
 @utility neo-card {
-	@apply bg-background border-2 border-neo-border shadow-neo transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo-lg;
+	@apply bg-card text-card-foreground border border-line rounded-none transition-colors duration-200 hover:border-accent/50;
 }
 
 @utility neo-card-static {
-	@apply bg-background border-2 border-neo-border shadow-neo;
+	@apply bg-card text-card-foreground border border-line rounded-none;
+}
+
+@utility neo-button {
+	@apply inline-flex items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
+}
+
+@utility neo-button-lite {
+	@apply inline-flex items-center justify-center gap-2 rounded-none px-4 py-2 text-sm text-muted-foreground transition-all duration-200 hover:bg-surface-2 hover:text-foreground disabled:opacity-50;
+}
+
+@utility neo-grid-bg {
+	@apply bg-background;
+	background-image:
+		linear-gradient(to right, hsla(var(--grid-line-color)) 1px, transparent 1px),
+		linear-gradient(
+			to bottom,
+			hsla(var(--grid-line-color)) 1px,
+			transparent 1px
+		);
+	background-size: 64px 64px;
+	position: relative;
+}
+
+@utility neo-border-y {
+	@apply border-y border-line;
 }
 
 @utility legalsection {
-	/* Legal section typography styles */
 	& h2 {
-		@apply text-2xl font-black mt-6 mb-3;
+		@apply font-display text-2xl mt-10 mb-4;
 	}
-
 	& h3 {
-		@apply text-xl font-bold mt-4 mb-2;
+		@apply text-xl font-semibold mt-8 mb-3;
 	}
-
 	& h4 {
-		@apply text-lg font-semibold mt-3 mb-2;
+		@apply text-lg font-semibold mt-6 mb-2;
 	}
-
 	& p {
-		@apply mb-4 text-base leading-relaxed;
+		@apply mb-4 text-base leading-relaxed text-foreground/85;
 	}
 }
 @utility list-disc {
@@ -111,96 +368,64 @@ h6 {
 	list-style-position: outside;
 }
 
-@utility neo-grid-bg {
-	@apply bg-secondary;
-	background-image:
-		linear-gradient(
-			to right,
-			hsla(var(--grid-line-color)) 1.5px,
-			transparent 1.5px
-		),
-		linear-gradient(
-			to bottom,
-			hsla(var(--grid-line-color)) 1.5px,
-			transparent 1.5px
-		);
-	background-size: 50px 50px;
-	position: relative;
-}
-
-@utility neo-button {
-	@apply bg-background px-6 py-3 border-2 border-neo-border shadow-neo font-mono font-bold transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-neo-lg active:translate-x-[0px] active:translate-y-[0px] active:shadow-neo disabled:opacity-50;
-}
-
-@utility neo-button-lite {
-	@apply bg-transparent px-4 py-2 border-2 border-transparent font-mono text-sm transition-all hover:bg-background hover:border-neo-border hover:shadow-neo hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[0px] active:translate-y-[0px] active:shadow-neo disabled:opacity-50;
-}
-@utility container-custom {
-	@apply container mx-auto px-4 md:px-8;
-}
-
-@utility section {
-	@apply py-16 md:py-24;
-}
-
 /* Prose styles for markdown content */
 @utility prose {
-	@apply text-foreground;
+	@apply text-foreground/90;
 
 	& h1 {
-		@apply text-3xl font-bold font-mono mb-6 mt-8;
+		@apply font-display text-3xl md:text-4xl mb-6 mt-8;
 	}
 
 	& h2 {
-		@apply text-2xl font-bold font-mono mb-4 mt-6 text-accent-light;
+		@apply font-display text-2xl md:text-3xl mb-4 mt-10 text-foreground;
 	}
 
 	& h3 {
-		@apply text-xl font-bold font-mono mb-3 mt-5;
+		@apply text-xl font-semibold mb-3 mt-8;
 	}
 
 	& h4 {
-		@apply text-lg font-bold font-mono mb-2 mt-4;
+		@apply text-lg font-semibold mb-2 mt-6;
 	}
 
 	& p {
-		@apply mb-4 leading-relaxed;
+		@apply mb-5 leading-[1.8] text-foreground/85;
 	}
 
 	& ul {
-		@apply mb-4 list-disc list-outside ml-6;
+		@apply mb-5 list-disc list-outside ml-6 space-y-1.5;
 	}
 
 	& ol {
-		@apply mb-4 list-decimal list-outside ml-6;
+		@apply mb-5 list-decimal list-outside ml-6 space-y-1.5;
 	}
 
 	& li {
-		@apply mb-1;
+		@apply mb-1 text-foreground/85;
 	}
 
 	& blockquote {
-		@apply border-l-4 border-accent pl-4 italic my-4;
+		@apply border-l-2 border-accent pl-5 italic my-6 text-foreground/80;
 	}
 
 	& code {
-		@apply bg-muted px-1 py-0.5 rounded text-sm font-mono;
+		@apply bg-surface-2 border border-line px-1.5 py-0.5 rounded-none text-[0.85em] font-mono text-foreground;
 	}
 
 	& pre {
-		@apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+		@apply bg-surface-2 border border-line p-5 rounded-none overflow-x-auto mb-6 text-sm leading-relaxed;
 	}
 
 	& pre code {
-		@apply bg-transparent p-0;
+		@apply bg-transparent p-0 border-0;
 	}
 
 	& a {
-		@apply text-accent hover:underline transition-colors;
+		@apply text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent transition-all;
 	}
 
 	& strong {
-		@apply font-bold;
+		@apply font-semibold text-foreground;
 	}
 
 	& em {
@@ -208,27 +433,26 @@ h6 {
 	}
 
 	& hr {
-		@apply border-t border-border my-8;
+		@apply border-t border-line my-10;
 	}
 
 	& table {
-		@apply w-full border-collapse mb-4;
+		@apply w-full border-collapse mb-6 text-sm;
 	}
 
 	& th {
-		@apply border border-border px-4 py-2 text-left font-bold;
+		@apply border border-line bg-surface-2 px-4 py-2.5 text-left font-semibold;
 	}
 
 	& td {
-		@apply border border-border px-4 py-2;
+		@apply border border-line px-4 py-2.5;
 	}
 
 	& img {
-		@apply max-w-full h-auto rounded-lg my-4;
+		@apply max-w-full h-auto rounded-none my-6 border border-line;
 	}
 }
 
-/* Custom scanning animation for futuristic loading effects */
 @keyframes scan {
 	0% {
 		transform: translateX(-100%);
@@ -241,19 +465,22 @@ h6 {
 	}
 }
 
-/* Projects page specific styles */
 @utility projects-grid {
 	@apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
 }
 
 @utility projects-list {
-	@apply space-y-6;
+	@apply space-y-5;
 }
 
 @utility category-badge {
-	@apply px-3 py-1 text-xs font-mono border-2;
+	@apply px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded-[2px] border border-line bg-surface-2/60 text-muted-foreground;
+}
+
+@utility chip {
+	@apply inline-flex items-center rounded-[2px] border border-line bg-surface-2/60 px-2.5 py-1 font-mono text-[11px] text-muted-foreground;
 }
 
 @utility search-input {
-	@apply w-full px-4 py-3 bg-background border-2 border-neo-border shadow-neo font-mono focus:outline-none focus:border-accent;
+	@apply w-full px-5 py-3 bg-card border border-line rounded-none text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-colors duration-150 placeholder:text-muted-foreground;
 }

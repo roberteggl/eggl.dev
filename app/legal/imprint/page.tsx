@@ -1,15 +1,5 @@
-import { Home } from 'lucide-react'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import SectionHeader from '@/components/section-header'
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
 import imprintData from '@/data/imprint'
 
 export const metadata: Metadata = {
@@ -21,58 +11,47 @@ const Imprint = () => {
 	const { contactInformation, legalInformation } = imprintData
 
 	return (
-		<div className="container mx-auto px-4 max-w-5xl py-20">
-			{/* Breadcrumbs */}
-			<Breadcrumb className="mb-8">
-				<BreadcrumbList className="font-mono">
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link
-								href="/"
-								className="flex items-center gap-1 hover:text-accent transition-colors duration-200"
-							>
-								<Home size={14} />
-								<span>Home</span>
-							</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbPage>Imprint</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
-
-			<SectionHeader number="01" title="Impressum" />
+		<div className="container-custom max-w-3xl pb-24 pt-28 md:pt-36">
+			<SectionHeader
+				number="01"
+				eyebrow="Legal"
+				title="Impressum."
+				description="Angaben gemäß § 5 TMG."
+			/>
 
 			<h1 className="sr-only">Imprint - Robert Eggl</h1>
 
-			<section className="mb-10 mt-8">
-				<h2 className="text-2xl font-mono font-bold mb-6">
+			<section className="mb-6">
+				<h2 className="font-display text-2xl tracking-tight">
 					{contactInformation.title}
 				</h2>
-				<div className="neo-card p-6 select-none pointer-events-none">
-					<p className="mb-3">
-						<strong>Name:</strong> {contactInformation.name}
-					</p>
-					<p className="mb-3">
-						<strong>Addresse:</strong> {contactInformation.address}
-					</p>
-					<p className="mb-3">
-						<strong>E-Mail:</strong> {contactInformation.email}
-					</p>
-					<p className="mb-3">
-						<strong>Telefon:</strong> {contactInformation.phone}
-					</p>
+				<div className="luxe-card mt-4 select-none p-6 md:p-8">
+					<dl className="divide-y divide-line">
+						{[
+							['Name', contactInformation.name],
+							['Address', contactInformation.address],
+							['E-Mail', contactInformation.email],
+							['Phone', contactInformation.phone]
+						].map(([term, value]) => (
+							<div key={term} className="flex gap-4 py-3 text-[15px]">
+								<dt className="w-24 shrink-0 font-mono text-xs uppercase tracking-wider text-muted-foreground pt-0.5">
+									{term}
+								</dt>
+								<dd className="text-foreground/90">{value}</dd>
+							</div>
+						))}
+					</dl>
 				</div>
 			</section>
 
-			<section className="mb-10 mt-8">
-				<h2 className="text-2xl font-mono font-bold mb-6">
+			<section>
+				<h2 className="font-display text-2xl tracking-tight">
 					Verantwortlich für den Inhalt
 				</h2>
-				<div className="neo-card p-6 select-none pointer-events-none">
-					<p className="mb-3">{legalInformation.responsibleForContent}</p>
+				<div className="luxe-card mt-4 select-none p-6 md:p-8">
+					<p className="text-[15px] leading-relaxed text-foreground/85">
+						{legalInformation.responsibleForContent}
+					</p>
 				</div>
 			</section>
 		</div>

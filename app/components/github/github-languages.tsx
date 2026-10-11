@@ -6,18 +6,19 @@ interface GitHubLanguagesProps {
 }
 
 const GitHubLanguages = ({ githubData }: GitHubLanguagesProps) => {
+	if (githubData.stats.topLanguages.length === 0) return null
 	return (
-		<div className="mt-8 mb-8">
-			<h4 className="font-mono font-bold text-xl mb-4 flex items-center -text">
-				<Code size={20} className="mr-2 text-tertiary" />
+		<div className="mt-6">
+			<h4 className="mb-3 flex items-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+				<Code size={16} className="mr-2 text-accent" />
 				Top Languages
 			</h4>
 
-			<div className="flex flex-wrap gap-3">
-				{githubData.stats.topLanguages.map((language, index) => (
-					<div key={index} className="neo-card py-2 px-3">
-						<span className="font-mono font-bold">{language}</span>
-					</div>
+			<div className="flex flex-wrap gap-2.5">
+				{githubData.stats.topLanguages.map((language) => (
+					<span key={language} className="luxe-chip">
+						{language}
+					</span>
 				))}
 			</div>
 		</div>

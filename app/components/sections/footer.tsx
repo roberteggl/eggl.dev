@@ -1,4 +1,4 @@
-import { Github, GithubIcon, Linkedin, Mail } from 'lucide-react'
+import { ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { PERSON_TAGLINE } from '@/lib/structured-data'
 
@@ -7,85 +7,130 @@ const Footer = () => {
 	const gitSha = process.env.NEXT_PUBLIC_GIT_SHA ?? 'development'
 
 	return (
-		<footer className="py-12 border-t-2 border-neo-border bg-accent-background">
-			<div className="container-custom">
-				<div className="flex flex-col md:flex-row items-center justify-between">
-					<div className="mb-6 md:mb-0">
-						<p className="font-mono font-bold text-xl">Robert Eggl</p>
-						<p className="text-muted-foreground">{PERSON_TAGLINE}</p>
+		<footer className="relative z-10 border-t border-line bg-surface/50">
+			<div className="container-custom py-14 md:py-20">
+				<div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+					<div>
+						<p className="font-display text-3xl tracking-tight text-foreground">
+							Robert Eggl
+						</p>
+						<p className="mt-3 max-w-sm text-[15px] leading-relaxed text-muted-foreground">
+							{PERSON_TAGLINE}
+						</p>
+						<div className="mt-6 flex gap-2">
+							<a
+								href="https://github.com/roberteggl"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="rounded-none border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
+								aria-label="GitHub"
+							>
+								<Github size={18} strokeWidth={1.75} />
+							</a>
+							<a
+								href="https://linkedin.com/in/roberteggl"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="rounded-none border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
+								aria-label="LinkedIn"
+							>
+								<Linkedin size={18} strokeWidth={1.75} />
+							</a>
+							<a
+								href="mailto:info@eggl.dev"
+								className="rounded-none border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
+								aria-label="Email"
+							>
+								<Mail size={18} strokeWidth={1.75} />
+							</a>
+						</div>
 					</div>
 
-					<div className="flex gap-4">
-						<a
-							href="https://github.com/roberteggl"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="neo-button p-3 !aspect-square flex items-center justify-center"
-							aria-label="GitHub"
-						>
-							<Github size={20} />
-						</a>
-						<a
-							href="https://linkedin.com/in/roberteggl"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="neo-button p-3 !aspect-square flex items-center justify-center"
-							aria-label="LinkedIn"
-						>
-							<Linkedin size={20} />
-						</a>
+					<nav aria-label="Index">
+						<p className="eyebrow mb-5">Index</p>
+						<ul className="space-y-3 text-[15px]">
+							{[
+								{ label: 'Projects', href: '/projects' },
+								{ label: 'Blog', href: '/blog' },
+								{ label: 'GPG Keys', href: '/keys' },
+								{ label: 'Contact', href: '/#contact' }
+							].map((l) => (
+								<li key={l.label}>
+									<Link
+										href={l.href}
+										className="group inline-flex items-center gap-1 text-foreground/75 transition-colors hover:text-accent"
+									>
+										{l.label}
+										<ArrowUpRight
+											size={14}
+											className="opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"
+										/>
+									</Link>
+								</li>
+							))}
+						</ul>
+					</nav>
 
-						<a
-							href="mailto:info@eggl.dev"
-							className="neo-button p-3 !aspect-square flex items-center justify-center"
-							aria-label="Email"
-						>
-							<Mail size={20} />
-						</a>
-					</div>
+					<nav aria-label="Elsewhere">
+						<p className="eyebrow mb-5">Elsewhere</p>
+						<ul className="space-y-3 text-[15px]">
+							{[
+								{ label: 'GitHub', href: 'https://github.com/roberteggl' },
+								{
+									label: 'LinkedIn',
+									href: 'https://linkedin.com/in/roberteggl'
+								},
+								{ label: 'Email', href: 'mailto:info@eggl.dev' },
+								{ label: 'RSS Feed', href: '/api/feed' }
+							].map((l) => (
+								<li key={l.label}>
+									<a
+										href={l.href}
+										target={l.href.startsWith('http') ? '_blank' : undefined}
+										rel={
+											l.href.startsWith('http')
+												? 'noopener noreferrer'
+												: undefined
+										}
+										className="group inline-flex items-center gap-1 text-foreground/75 transition-colors hover:text-accent"
+									>
+										{l.label}
+										<ArrowUpRight
+											size={14}
+											className="opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"
+										/>
+									</a>
+								</li>
+							))}
+						</ul>
+					</nav>
 				</div>
 
-				<div className="border-t border-neo-border mt-8 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground">
-					<p>&copy; {currentYear} Robert Eggl. All rights reserved.</p>
-					<div className="flex gap-6 mt-4 md:mt-0">
-						<Link href="/legal/imprint" className="hover:underline">
+				<div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-line pt-7 text-[13px] text-muted-foreground md:flex-row md:items-center">
+					<p>© {currentYear} Robert Eggl. All rights reserved.</p>
+					<div className="flex items-center gap-6">
+						<Link
+							href="/legal/imprint"
+							className="transition-colors hover:text-accent"
+						>
 							Imprint
 						</Link>
-						<Link href="/legal/privacy" className="hover:underline">
-							Datenschutz | Privacy
+						<Link
+							href="/legal/privacy"
+							className="transition-colors hover:text-accent"
+						>
+							Privacy
 						</Link>
+						<a
+							href={`https://github.com/roberteggl/eggl.dev/commit/${gitSha}`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hidden font-mono text-xs text-muted-foreground transition-colors hover:text-accent sm:inline"
+							aria-label="View commit on GitHub"
+						>
+							{gitSha.slice(0, 7)}
+						</a>
 					</div>
-				</div>
-
-				<div className="text-xs text-center mt-10 text-muted-foreground">
-					<div className="mb-4">
-						<p className="opacity-90 hover:opacity-100 transition-opacity">
-							🤫 Psst! This isn't some boring template <br /> Every pixel was
-							crafted with care and at least three cups of coffee. ;)
-						</p>
-					</div>
-					<a
-						href={`https://github.com/roberteggl/eggl.dev/commit/${gitSha}`}
-						target="_blank"
-						className="group"
-						rel="noopener noreferrer"
-						aria-label="View commit on GitHub"
-					>
-						<div className="inline-flex items-center gap-2 neo-card px-4 py-2">
-							<div className="flex items-center gap-2">
-								<GithubIcon
-									size={12}
-									className="group-hover:scale-110 group-hover:text-accent transition-all duration-200"
-								/>
-								<span className="font-mono text-[0.7rem]">
-									Commit SHA:{' '}
-									<span className="text-accent font-bold">
-										{gitSha.slice(0, 7)}
-									</span>
-								</span>
-							</div>
-						</div>
-					</a>
 				</div>
 			</div>
 		</footer>

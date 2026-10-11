@@ -1,8 +1,17 @@
 'use client'
-import { AnimatePresence } from 'framer-motion'
+import { ThemeProvider } from 'next-themes'
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
-	return <AnimatePresence mode="wait">{children}</AnimatePresence>
+	return (
+		<ThemeProvider
+			attribute="class"
+			defaultTheme="light"
+			enableSystem={false}
+			disableTransitionOnChange
+		>
+			{children}
+		</ThemeProvider>
+	)
 }
 
 export default Provider

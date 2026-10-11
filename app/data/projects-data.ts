@@ -22,11 +22,11 @@ export const getProjectImageUrl = (image: string) =>
 	`https://eggl.dev${getProjectImageSrc(image)}`
 
 export const PROJECT_CATEGORY_COLORS: Record<ProjectCategory, string> = {
-	mobile: 'bg-blue-500/20 border-blue-500/40',
-	web: 'bg-green-500/20 border-green-500/40',
-	api: 'bg-purple-500/20 border-purple-500/40',
-	tool: 'bg-orange-500/20 border-orange-500/40',
-	fullstack: 'bg-red-500/20 border-red-500/40'
+	mobile: 'border-line bg-surface-2/60 text-muted-foreground',
+	web: 'border-line bg-surface-2/60 text-muted-foreground',
+	api: 'border-line bg-surface-2/60 text-muted-foreground',
+	tool: 'border-line bg-surface-2/60 text-muted-foreground',
+	fullstack: 'border-accent/30 bg-accent-soft text-accent'
 }
 
 export const PROJECT_CATEGORY_LABELS: Record<ProjectCategory, string> = {
@@ -83,7 +83,6 @@ export const projects: Project[] = [
 		blog: 'member-id',
 		image: '/images/member-id.webp',
 		category: 'fullstack',
-		featured: true,
 		showOnMain: true
 	},
 	{
@@ -96,7 +95,8 @@ export const projects: Project[] = [
 		demo: 'https://cl.neuland.ing',
 		image: '/images/cle.webp',
 		category: 'fullstack',
-		showOnMain: false
+		featured: true,
+		showOnMain: true
 	},
 	{
 		slug: 'neuland-connect',
@@ -204,7 +204,7 @@ export const projects: Project[] = [
 		slug: 'personal-website',
 		title: 'Personal Website',
 		description:
-			'This personal portfolio website built with Next.js, featuring a modern neo-brutalist design with smooth animations and interactive elements. The site showcases my projects, skills, and experience in an engaging way.',
+			'This personal portfolio website built with Next.js, with a clean beige design, fine hairlines, and soft motion.',
 		technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
 		demo: 'https://eggl.dev',
 		github: 'https://github.com/roberteggl/eggl.dev',
@@ -250,7 +250,7 @@ export const projects: Project[] = [
 		slug: 'opencode-awtrix',
 		title: 'OpenCode AWTRIX',
 		description:
-			'A local OpenCode plugin that drives an AWTRIX status indicator over HTTP. It maps OpenCode session states—busy, permission requests, picker questions, errors, and idle—to colors and effects on the display, giving you a physical at-a-glance signal of what the agent is doing.',
+			'A local OpenCode plugin that drives an AWTRIX status indicator over HTTP. It maps OpenCode session states (busy, permission requests, picker questions, errors, and idle) to colors and effects on the display, giving you a physical at-a-glance signal of what the agent is doing.',
 		technologies: ['TypeScript', 'OpenCode', 'AWTRIX', 'Smart Home'],
 		github: 'https://github.com/roberteggl/opencode-awtrix',
 		image: '/images/opencode-awtrix.webp',

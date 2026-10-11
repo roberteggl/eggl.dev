@@ -1,15 +1,7 @@
 import { allBlogs } from 'contentlayer/generated'
-import { BookOpen, Calendar, Clock, Home } from 'lucide-react'
+import { ArrowLeft, BookOpen, Calendar, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
 import { MDXContent } from './mdx-content'
 
 export const generateStaticParams = async () =>
@@ -34,78 +26,55 @@ export default async function BlogPostPage({
 	})
 
 	return (
-		<article className="py-20">
-			{/* Breadcrumbs */}
-			<Breadcrumb className="mb-8">
-				<BreadcrumbList className="font-mono">
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link
-								href="/"
-								className="flex items-center gap-1 hover:text-accent transition-colors duration-200"
-							>
-								<Home size={14} />
-								<span>Home</span>
-							</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link
-								href="/blog"
-								className="hover:text-accent transition-colors duration-200"
-							>
-								Blog
-							</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbPage
-							className="max-w-[200px] truncate"
-							title={post.title}
-						>
-							{post.title}
-						</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
-
-			{/* Article header */}
-			<header className="mb-12">
-				<h1 className="text-3xl md:text-4xl font-bold font-mono mb-2 leading-tight text-accent">
+		<article className="container-custom max-w-3xl pb-24 pt-32 md:pt-40">
+			<header className="mb-10 border-b border-line pb-10">
+				<div className="mb-5 flex items-center gap-3">
+					<span className="inline-flex items-center border border-accent/40 bg-accent-soft px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-accent">
+						Essay
+					</span>
+				</div>
+				<h1 className="font-display text-4xl leading-[1.08] tracking-tight text-balance md:text-5xl">
 					{post.title}
 				</h1>
 
-				{/* Meta information */}
-				<div className="flex items-center gap-4 mb-8 text-sm text-muted-foreground font-mono">
-					<div className="flex items-center gap-2">
+				<div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[13px] text-muted-foreground">
+					<span className="inline-flex items-center gap-1.5">
 						<Calendar size={14} className="text-accent" />
-						<span>{formattedDate}</span>
-					</div>
-					<div className="flex items-center gap-2">
+						{formattedDate}
+					</span>
+					<span className="inline-flex items-center gap-1.5">
 						<Clock size={14} className="text-accent" />
-						<span>{readingTime} min read</span>
-					</div>
-					<div className="flex items-center gap-2">
+						{readingTime} min read
+					</span>
+					<span className="inline-flex items-center gap-1.5">
 						<BookOpen size={14} className="text-accent" />
-						<span>{wordCount} words</span>
-					</div>
+						{wordCount} words
+					</span>
 				</div>
 
-				{/* Description */}
 				{post.description && (
-					<p className="text-xl text-muted-foreground font-mono leading-relaxed">
-						{'>'} {post.description}
+					<p className="mt-6 border-l-2 border-accent pl-5 text-lg leading-relaxed text-foreground/75 md:text-xl">
+						{post.description}
 					</p>
 				)}
 			</header>
 
-			{/* Article content */}
-			<div className="prose dark:prose-invert prose-lg max-w-none">
+			<div className="prose max-w-none">
 				<MDXContent code={post.body.code} />
 			</div>
+
+			<footer className="mt-14 border-t border-line pt-8">
+				<Link
+					href="/blog"
+					className="group inline-flex items-center gap-2 border-b border-accent/40 pb-0.5 font-mono text-[13px] uppercase tracking-[0.16em] text-accent transition-colors hover:border-accent"
+				>
+					<ArrowLeft
+						size={15}
+						className="transition-transform duration-300 group-hover:-translate-x-1"
+					/>
+					All essays
+				</Link>
+			</footer>
 		</article>
 	)
 }

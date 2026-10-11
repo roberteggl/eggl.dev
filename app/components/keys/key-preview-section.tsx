@@ -15,28 +15,21 @@ export default function KeyPreviewSection({
 	className = ''
 }: KeyPreviewSectionProps) {
 	return (
-		<div className={`relative w-full ${className}`}>
-			<div className="relative backdrop-blur-md bg-background/50 p-4 md:p-6 lg:p-8 border-2 border-foreground shadow-[8px_8px_0px_0px_rgba(250,250,250,0.8)] w-full">
-				<h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-6 md:mb-8 inline-block relative">
-					{title}
-					<div className="absolute -bottom-2 left-0 w-2/3 h-1 bg-accent" />
-				</h3>
+		<div className={`luxe-card flex flex-col p-6 md:p-8 ${className}`}>
+			<h3 className="font-display text-2xl tracking-tight">{title}</h3>
+			<p className="mt-1.5 text-sm text-muted-foreground">
+				Use the copy button to grab the full key.
+			</p>
 
-				<div className="space-y-4">
-					<div className="relative w-full bg-background-dark rounded-lg">
-						<pre className=" p-3 md:p-4 rounded-lg overflow-x-auto font-mono text-xs md:text-sm whitespace-pre-wrap w-full break-all">
-							{getKeyPreview(keyContent)}
-						</pre>
-						<CopyButton
-							text={keyContent}
-							title={copyTitle}
-							className="absolute top-2 right-2"
-						/>
-					</div>
-					<div className="text-foreground/70 text-sm md:text-base">
-						To get the full public key, use the copy button above.
-					</div>
-				</div>
+			<div className="relative mt-5 flex-1 rounded-none border border-line bg-surface-2/60">
+				<pre className="max-h-72 overflow-auto whitespace-pre-wrap break-all p-4 font-mono text-xs leading-relaxed text-foreground/80">
+					{getKeyPreview(keyContent)}
+				</pre>
+				<CopyButton
+					text={keyContent}
+					title={copyTitle}
+					className="absolute right-3 top-3"
+				/>
 			</div>
 		</div>
 	)

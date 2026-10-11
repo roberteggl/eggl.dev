@@ -1,246 +1,126 @@
 'use client'
-import { motion, useInView } from 'framer-motion'
-import {
-	ArrowRight,
-	ArrowUpRight,
-	ExternalLink,
-	FileText,
-	Github
-} from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Github } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { memo, useRef } from 'react'
+import { memo } from 'react'
 import {
 	getFeaturedProjects,
 	getProjectImageSrc,
 	getProjectPath,
 	type Project
 } from '@/data/projects-data'
+import { Reveal, Stagger, StaggerItem } from '../reveal'
 import SectionHeader from '../section-header'
+import { Button } from '../ui/button'
 
-interface ProjectCardProps {
-	project: Project
-	index: number
-}
-
-const ProjectCard = memo(({ project, index }: ProjectCardProps) => {
-	const cardRef = useRef(null)
-	const isInView = useInView(cardRef, {
-		once: true,
-		margin: '-50px 0px',
-		amount: 0.2
-	})
-
-	const cardVariants = {
-		hidden: {
-			opacity: 0,
-			y: 30
-		},
-		visible: {
-			opacity: 1,
-			y: 0,
-			transition: {
-				type: 'spring' as const,
-				damping: 20,
-				stiffness: 90,
-				delay: index * 0.1
-			}
-		}
-	}
-
-	const contentVariants = {
-		hidden: { opacity: 0 },
-		visible: {
-			opacity: 1,
-			transition: {
-				staggerChildren: 0.1,
-				delayChildren: 0.2
-			}
-		}
-	}
-
-	const itemVariants = {
-		hidden: { opacity: 0, y: 20 },
-		visible: {
-			opacity: 1,
-			y: 0,
-			transition: {
-				type: 'spring' as const,
-				damping: 25,
-				stiffness: 200
-			}
-		}
-	}
-
+const ProjectRow = memo(({ project }: { project: Project }) => {
 	return (
-		<motion.div
-			ref={cardRef}
-			className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-16 items-center`}
-			variants={cardVariants}
-			initial="hidden"
-			animate={isInView ? 'visible' : 'hidden'}
+		<Link
+			href={getProjectPath(project)}
+			className="group grid gap-6 border-t border-line py-8 transition-all duration-300 last:border-b hover:bg-surface/50 md:grid-cols-[1fr_220px] md:gap-10 md:px-6 lg:grid-cols-[80px_1fr_240px] lg:items-center"
 		>
-			<motion.div
-				className="w-full md:w-1/2 mb-6 md:mb-0"
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 0.2 }}
-			>
-				<div className="relative neo-card p-0 overflow-hidden mx-0 md:mx-4">
-					<Link
-						href={getProjectPath(project)}
-						className="relative overflow-hidden group block"
-					>
-						<Image
-							src={getProjectImageSrc(project.image)}
-							alt={`${project.title} project screenshot`}
-							className="w-full aspect-video transition-transform duration-500 object-cover group-hover:scale-102"
-							loading="lazy"
-							width={800}
-							height={450}
-						/>
-						<div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-					</Link>
-				</div>
-			</motion.div>
-
-			<motion.div
-				className="w-full md:w-1/2"
-				variants={contentVariants}
-				initial="hidden"
-				animate="visible"
-			>
-				<div className="space-y-6">
-					<motion.h3
-						className="font-mono text-3xl font-bold flex items-center"
-						variants={itemVariants}
-					>
-						<span className="inline-block w-3 h-3 mr-3 bg-accent" />
-						<Link
-							href={getProjectPath(project)}
-							className="hover:text-accent transition-colors"
+			<span className="hidden font-mono text-xs text-muted-foreground lg:block">
+				{project.category.toUpperCase()}
+			</span>
+			<span>
+				<span className="flex flex-wrap items-center gap-3">
+					<span className="font-display text-2xl tracking-tight text-foreground transition-colors group-hover:text-accent md:text-[28px]">
+						{project.title}
+					</span>
+					{project.featured ? (
+						<span className="inline-flex items-center border border-accent/40 bg-accent-soft px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">
+							Featured
+						</span>
+					) : null}
+				</span>
+				<span className="mt-2.5 line-clamp-2 block max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+					{project.description}
+				</span>
+				<span className="mt-4 flex flex-wrap gap-2">
+					{project.technologies.slice(0, 4).map((tech) => (
+						<span
+							key={tech}
+							className="rounded-[2px] border border-line px-2.5 py-1 font-mono text-[11px] text-muted-foreground"
 						>
-							{project.title}
-						</Link>
-					</motion.h3>
-
-					<motion.p className="text-muted-foreground" variants={itemVariants}>
-						{project.description}
-					</motion.p>
-
-					<motion.div className="flex flex-wrap gap-2" variants={itemVariants}>
-						{project.technologies.map((tech, techIndex) => (
-							<span
-								key={techIndex}
-								className="px-3 py-1.5 text-xs font-mono border-2 relative bg-tertiary/20 border-tertiary/40"
-								style={{
-									boxShadow: '2px 2px 0 hsl(var(--tertiary) / 0.5)'
-								}}
-							>
-								{tech}
-							</span>
-						))}
-					</motion.div>
-
-					<motion.div className="flex flex-wrap gap-3" variants={itemVariants}>
-						<Link
-							href={getProjectPath(project)}
-							className="neo-button p-2 flex items-center"
-						>
-							<ArrowUpRight size={18} />
-							<span className="ml-2">Details</span>
-						</Link>
-
-						{project.github && (
-							<a
-								href={project.github}
-								className="neo-button p-2 flex items-center"
-								aria-label={`GitHub repository for ${project.title}`}
-							>
-								<Github size={18} />
-								<span className="ml-2">Code</span>
-							</a>
-						)}
-
-						{project.demo && (
-							<a
-								href={project.demo}
-								className="neo-button p-2 flex items-center"
-								aria-label={`Live demo for ${project.title}`}
-							>
-								<ExternalLink size={18} />
-								<span className="ml-2">View</span>
-							</a>
-						)}
-
-						{project.docs && (
-							<a
-								href={project.docs}
-								className="neo-button p-2 flex items-center"
-								aria-label={`Documentation for ${project.title}`}
-							>
-								<FileText size={18} />
-								<span className="ml-2">Docs</span>
-							</a>
-						)}
-					</motion.div>
-				</div>
-			</motion.div>
-		</motion.div>
+							{tech}
+						</span>
+					))}
+				</span>
+			</span>
+			<span className="relative hidden overflow-hidden rounded-none border border-line md:block">
+				<Image
+					src={getProjectImageSrc(project.image)}
+					alt={`${project.title} project screenshot`}
+					className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+					loading="lazy"
+					width={480}
+					height={300}
+				/>
+				<span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-none border border-line bg-background text-foreground opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+					<ArrowUpRight size={17} />
+				</span>
+			</span>
+		</Link>
 	)
 })
 
-ProjectCard.displayName = 'ProjectCard'
+ProjectRow.displayName = 'ProjectRow'
 
 const ProjectsSection = () => {
-	const sectionRef = useRef(null)
-
-	const featuredProjects = getFeaturedProjects()
+	const featuredProjects = getFeaturedProjects().slice(0, 5)
 
 	return (
-		<section
-			id="projects"
-			className="section relative overflow-hidden py-32 min-h-screen bg-background"
-			ref={sectionRef}
-		>
-			<div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-				<div className="absolute top-0 left-0 w-full overflow-hidden pointer-events-none select-none">
-					<h2 className="font-mono font-black text-[20vw] leading-none opacity-[0.03] -mt-20 tracking-tighter">
-						PROJECTS
-					</h2>
-				</div>
-
-				<div className="absolute left-20 top-1/3 w-48 h-48 bg-accent opacity-10 transform rotate-12" />
-				<div className="max-sm:hidden absolute right-24 bottom-1/4 w-32 h-32 bg-secondary opacity-10" />
-				<div className="absolute top-1/4 right-1/4 w-16 h-16 border-4 border-dashed border-neo-border opacity-20" />
-			</div>
-
-			<div className="container-custom relative z-10">
-				<SectionHeader number="03" title="Featured Projects" mbSize="mb-24" />
-
-				<div className="space-y-16 md:space-y-10">
-					{featuredProjects.map((project, index) => (
-						<div
-							key={project.slug}
-							className="min-h-[400px] md:h-56 flex items-center justify-center"
+		<section id="projects" className="relative scroll-mt-24">
+			<div className="container-custom py-20 md:py-28">
+				<div className="flex flex-wrap items-end justify-between gap-6">
+					<SectionHeader
+						number="03"
+						eyebrow="Projects"
+						title="Selected projects."
+						description="Shipped and in use: enterprise platforms, campus apps, open-source tooling."
+						mbSize="mb-0"
+						className="flex-1 min-w-[260px]"
+					/>
+					<Reveal delay={0.15} className="pb-1">
+						<Link
+							href="/projects"
+							className="group inline-flex items-center gap-2 border-b border-accent/40 pb-0.5 font-mono text-[13px] uppercase tracking-[0.16em] text-accent transition-colors hover:border-accent"
 						>
-							<ProjectCard project={project} index={index} />
-						</div>
-					))}
+							All projects
+							<ArrowRight
+								size={15}
+								className="transition-transform duration-300 group-hover:translate-x-1"
+							/>
+						</Link>
+					</Reveal>
 				</div>
 
-				<div className="flex justify-center mt-16">
-					<Link
-						href="/projects"
-						className="neo-button !flex items-center group"
-					>
-						<span>View All Projects</span>
-						<ArrowRight
-							size={18}
-							className="ml-2 group-hover:translate-x-1 transition-transform"
-						/>
-					</Link>
-				</div>
+				<Stagger className="mt-12">
+					{featuredProjects.map((project) => (
+						<StaggerItem key={project.slug}>
+							<ProjectRow project={project} />
+						</StaggerItem>
+					))}
+				</Stagger>
+
+				<Reveal className="mt-10 flex flex-wrap items-center gap-4">
+					<Button asChild size="lg">
+						<Link href="/projects">
+							View all projects
+							<ArrowRight size={17} />
+						</Link>
+					</Button>
+					<Button asChild variant="outline" size="lg">
+						<a
+							href="https://github.com/roberteggl"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<Github size={17} strokeWidth={1.75} />
+							GitHub profile
+						</a>
+					</Button>
+				</Reveal>
 			</div>
 		</section>
 	)

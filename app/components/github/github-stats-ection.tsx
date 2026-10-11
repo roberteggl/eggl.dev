@@ -18,43 +18,28 @@ const GitHubStatsSection = ({ githubData }: GitHubStatsSectionProps) => {
 
 	if (hasNoData) {
 		return (
-			<div className=" p-6">
-				<div className="bg-primary-foreground border-[3px] border-black dark:border-white p-6 -rotate-1 shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] dark:shadow-[5px_5px_0px_0px_rgba(255,255,255,1)] relative overflow-hidden">
-					<h3 className="text-2xl font-bold mb-2">GitHub API took a nap 😴</h3>
-
-					<p className="text-lg mb-4">
-						...check back later to see my GitHub stats!
-					</p>
-
-					<div className="font-mono text-center my-2">
-						<pre className="inline-block text-left">
-							{`  /\\_/\\  
- ( -.- ) zzz
- >|   |<  
-   ---`}
-						</pre>
-					</div>
-
-					<div className="absolute top-3 right-3 w-6 h-6 bg-blue-300 dark:bg-blue-600 border-[2px] border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] rotate-12" />
-					<div className="absolute bottom-3 left-6 w-8 h-8 bg-tertiary/60 border-[2px] border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] -rotate-6" />
-				</div>
+			<div className="luxe-card mx-auto max-w-lg p-10 text-center">
+				<h3 className="font-display text-2xl">GitHub stats are resting</h3>
+				<p className="mt-2 text-muted-foreground">
+					The API didn&rsquo;t respond. Check back in a bit.
+				</p>
+				<a
+					href="https://github.com/roberteggl"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="mt-6 inline-flex h-11 items-center bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
+				>
+					Visit GitHub directly
+				</a>
 			</div>
 		)
 	}
 
 	return (
-		<div className="">
+		<div>
 			<GitHubStatsCards githubData={githubData} />
-
 			<GitHubLanguages githubData={githubData} />
-
 			<GitHubContributionCalendar githubData={githubData} />
-
-			<div className="flex justify-end mt-6 gap-3">
-				<div className="w-8 h-8 bg-tertiary border-[2px] border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]" />
-				<div className="w-12 h-8 -bg border-[2px] border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]" />
-				<div className="w-16 h-8 bg-tertiary/50 border-[2px] border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]" />
-			</div>
 		</div>
 	)
 }

@@ -1,73 +1,78 @@
-'use client'
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-
 interface SectionHeaderProps {
 	number: string
+	eyebrow?: string
 	title: string
+	description?: string
 	className?: string
 	mbSize?: string
+	align?: 'left' | 'center'
+	/** Light-on-accent treatment for sticky signal panels */
+	invert?: boolean
 }
 
 const SectionHeader = ({
 	number,
+	eyebrow,
 	title,
+	description,
 	className = '',
-	mbSize = 'mb-12'
+	mbSize = 'mb-12 md:mb-16',
+	align = 'left',
+	invert = false
 }: SectionHeaderProps) => {
-	const headerRef = useRef(null)
-	const isInView = useInView(headerRef, {
-		once: true,
-		amount: 0.1
-	})
+	const centered = align === 'center'
 
 	return (
-		<motion.h2
-			ref={headerRef}
-			className={`text-3xl md:text-4xl font-bold ${mbSize} relative flex items-center flex-wrap ${className}`}
-			initial={{ opacity: 0, y: 20 }}
-			animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-			transition={{
-				type: 'spring',
-				stiffness: 100,
-				damping: 20,
-				delay: 0.1
-			}}
-			style={{ willChange: 'transform, opacity' }}
-		>
-			<motion.span className="bg-neo-accent text-secondary-foreground px-2 mr-3 inline-flex items-center overflow-hidden relative">
-				<motion.span
-					className="inline-block"
-					initial={{ y: 30 }}
-					animate={isInView ? { y: 0 } : { y: 30 }}
-					transition={{
-						type: 'spring',
-						stiffness: 300,
-						damping: 15,
-						delay: 0.2
-					}}
-					style={{ willChange: 'transform' }}
+		<div className={`${mbSize} ${centered ? 'text-center' : ''} ${className}`}>
+			{eyebrow ? (
+				<div className={`mb-4 ${centered ? 'flex justify-center' : ''}`}>
+					<span
+						className={`font-mono text-[11px] uppercase tracking-[0.18em] ${
+							invert ? 'text-accent-foreground/70' : 'text-muted-foreground'
+						}`}
+					>
+						{eyebrow}
+					</span>
+				</div>
+			) : null}
+
+			<div
+				className={`flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-6 ${
+					centered ? 'sm:justify-center' : ''
+				}`}
+			>
+				<span
+					aria-hidden="true"
+					className={`select-none font-display text-6xl leading-none tracking-tighter md:text-7xl ${
+						invert ? 'text-accent-foreground/20' : 'text-foreground/10'
+					} ${centered ? 'sm:text-center' : ''}`}
 				>
 					{number}
-				</motion.span>
-				<motion.div
-					className="absolute inset-0 bg-tertiary"
-					initial={{ scaleY: 1, transformOrigin: 'top' }}
-					animate={isInView ? { scaleY: 0 } : { scaleY: 1 }}
-					transition={{ delay: 0.4, duration: 0.5 }}
-					style={{ willChange: 'transform' }}
-				/>
-			</motion.span>
-			<motion.span
-				className="inline-flex items-center break-words break-all md:break-normal"
-				initial={{ opacity: 0, x: -20 }}
-				animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-				transition={{ delay: 0.3, duration: 0.5 }}
-				style={{ willChange: 'transform, opacity' }}
-			>
-				{title}
-			</motion.span>
-		</motion.h2>
+				</span>
+
+				<div className={centered ? 'sm:text-left' : ''}>
+					<h2
+						className={`font-display text-4xl leading-[1.05] tracking-tight text-balance md:text-5xl ${
+							invert ? 'text-accent-foreground' : 'text-foreground'
+						}`}
+					>
+						{title}
+					</h2>
+
+					{description ? (
+						<p
+							className={`mt-4 max-w-2xl text-lg leading-relaxed ${
+								centered ? 'mx-auto sm:mx-0' : ''
+							} ${
+								invert ? 'text-accent-foreground/75' : 'text-muted-foreground'
+							}`}
+						>
+							{description}
+						</p>
+					) : null}
+				</div>
+			</div>
+		</div>
 	)
 }
 

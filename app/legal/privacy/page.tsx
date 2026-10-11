@@ -1,15 +1,5 @@
-import { Home } from 'lucide-react'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import SectionHeader from '@/components/section-header'
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
 import imprintData from '@/data/imprint'
 
 export const metadata: Metadata = {
@@ -19,28 +9,12 @@ export const metadata: Metadata = {
 
 const Privacy = () => {
 	return (
-		<div className="container mx-auto px-4 max-w-5xl py-20">
-			<Breadcrumb className="mb-8">
-				<BreadcrumbList className="font-mono">
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link
-								href="/"
-								className="flex items-center gap-1 hover:text-accent transition-colors duration-200"
-							>
-								<Home size={14} />
-								<span>Home</span>
-							</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbPage>Privacy</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
-
-			<SectionHeader number="01" title="Datenschutzerklärung" />
+		<div className="container-custom max-w-3xl pb-24 pt-28 md:pt-36">
+			<SectionHeader
+				number="01"
+				eyebrow="Legal"
+				title="Datenschutzerklärung."
+			/>
 
 			<h1 className="sr-only">Privacy Policy - Robert Eggl</h1>
 
@@ -52,8 +26,8 @@ const Privacy = () => {
 			</p>
 
 			<section className="mb-10">
-				<div className="neo-card p-6">
-					<div className="max-w-none font-mono legalsection">
+				<div className="luxe-card p-6 md:p-10">
+					<div className="max-w-none legalsection">
 						<h2>1. Datenschutz auf einen Blick</h2>
 						<h3>Allgemeine Hinweise</h3>
 						<p>
@@ -129,7 +103,7 @@ const Privacy = () => {
 								href="https://vercel.com/legal/privacy-policy"
 								target="_blank"
 								rel="noopener noreferrer"
-								className="text-tertiary underline"
+								className="text-accent underline"
 							>
 								Datenschutzerklärung
 							</a>{' '}
@@ -426,7 +400,7 @@ const Privacy = () => {
 								href="https://www.e-recht24.de"
 								target="_blank"
 								rel="noopener noreferrer"
-								className="text-tertiary underline"
+								className="text-accent underline"
 							>
 								https://www.e-recht24.de
 							</a>
