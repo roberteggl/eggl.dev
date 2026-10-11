@@ -39,7 +39,14 @@ export async function getGitHubData(): Promise<GitHubData> {
 		'neuland.app-native',
 		'neuland.app-backend',
 		'neuland-website',
-		'neuland.app-ical-service'
+		'campus-life-events',
+		'member-id',
+		'flux-infra',
+		'neuland-connect',
+		'neuland.app-docs',
+		'neuland-dashboard',
+		'app-backend-core',
+		'hr-portal'
 	]
 	const GITHUB_USERNAME = 'roberteggl'
 

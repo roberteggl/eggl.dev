@@ -13,7 +13,7 @@ export function ThemeToggle() {
 		return (
 			<span
 				aria-hidden="true"
-				className="inline-block h-9 w-9 rounded-none border border-line"
+				className="inline-block h-9 w-9 rounded-none border border-black/20 dark:border-white/25"
 			/>
 		)
 	}
@@ -25,7 +25,7 @@ export function ThemeToggle() {
 			type="button"
 			onClick={() => setTheme(isDark ? 'light' : 'dark')}
 			aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-			className="group inline-flex h-9 w-9 items-center justify-center rounded-none border border-line bg-card text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
+			className="group inline-flex h-9 w-9 items-center justify-center rounded-none border border-black/20 text-black transition-colors duration-150 hover:border-accent hover:text-accent dark:border-white/25 dark:text-white"
 		>
 			<span className="relative block h-[18px] w-[18px]">
 				<Sun

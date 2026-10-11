@@ -126,7 +126,7 @@ export default function SiteHeader() {
 					<button
 						type="button"
 						onClick={() => setIsMenuOpen((v) => !v)}
-						className="rounded-none border border-black/20 p-2.5 text-black transition-colors duration-150 hover:border-accent hover:text-accent dark:border-white/25 dark:text-white"
+						className="inline-flex h-9 w-9 items-center justify-center rounded-none border border-black/20 text-black transition-colors duration-150 hover:border-accent hover:text-accent dark:border-white/25 dark:text-white"
 						aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
 						aria-expanded={isMenuOpen}
 					>
