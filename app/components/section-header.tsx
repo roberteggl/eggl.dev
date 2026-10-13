@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 interface SectionHeaderProps {
 	number: string
@@ -16,7 +15,6 @@ interface SectionHeaderProps {
 }
 
 const ease = [0.22, 1, 0.36, 1] as const
-const cssEase = 'cubic-bezier(0.22, 1, 0.36, 1)'
 
 const SectionHeader = ({
 	number,
@@ -29,43 +27,47 @@ const SectionHeader = ({
 	invert = false
 }: SectionHeaderProps) => {
 	const centered = align === 'center'
-	const rootRef = useRef<HTMLDivElement>(null)
 	const reduceMotion = useReducedMotion()
-	const inView = useInView(rootRef, { once: true, amount: 0.4 })
-	const revealed = Boolean(reduceMotion || inView)
-
-	const numberColor = invert
-		? revealed
-			? 'text-accent-foreground/28'
-			: 'text-accent-foreground/15'
-		: revealed
-			? 'text-foreground/22'
-			: 'text-foreground/10'
 
 	const fadeUp = {
-		hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 },
+		hidden: reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 },
 		show: (delay: number) => ({
 			opacity: 1,
 			y: 0,
 			transition: {
-				duration: reduceMotion ? 0 : 0.6,
+				duration: reduceMotion ? 0 : 0.85,
 				ease,
 				delay: reduceMotion ? 0 : delay
 			}
 		})
 	}
 
+	const numberReveal = {
+		hidden: reduceMotion
+			? { opacity: invert ? 0.28 : 0.22, y: 0 }
+			: { opacity: invert ? 0.12 : 0.08, y: 12 },
+		show: {
+			opacity: invert ? 0.28 : 0.22,
+			y: 0,
+			transition: {
+				duration: reduceMotion ? 0 : 1.05,
+				ease,
+				delay: reduceMotion ? 0 : 0.04
+			}
+		}
+	}
+
 	return (
-		<div
-			ref={rootRef}
+		<motion.div
+			initial="hidden"
+			whileInView="show"
+			viewport={{ once: true, amount: 0.25 }}
 			className={`${mbSize} ${centered ? 'text-center' : ''} ${className}`}
 		>
 			{eyebrow ? (
 				<div className={`mb-4 ${centered ? 'flex justify-center' : ''}`}>
 					<motion.span
-						custom={0.07}
-						initial="hidden"
-						animate={revealed ? 'show' : 'hidden'}
+						custom={0}
 						variants={fadeUp}
 						className={`inline-block font-mono text-[11px] uppercase tracking-[0.18em] ${
 							invert ? 'text-accent-foreground/70' : 'text-muted-foreground'
@@ -81,24 +83,19 @@ const SectionHeader = ({
 					centered ? 'sm:justify-center' : ''
 				}`}
 			>
-				<span
+				<motion.span
 					aria-hidden="true"
-					style={{
-						transitionTimingFunction: cssEase,
-						transitionDuration: reduceMotion ? '0ms' : '900ms'
-					}}
-					className={`select-none font-display text-6xl leading-none tracking-tighter transition-colors md:text-7xl ${numberColor} ${
-						centered ? 'sm:text-center' : ''
-					}`}
+					variants={numberReveal}
+					className={`select-none font-display text-6xl leading-none tracking-tighter md:text-7xl ${
+						invert ? 'text-accent-foreground' : 'text-foreground'
+					} ${centered ? 'sm:text-center' : ''}`}
 				>
 					{number}
-				</span>
+				</motion.span>
 
 				<div className={centered ? 'sm:text-left' : ''}>
 					<motion.h2
-						custom={0.14}
-						initial="hidden"
-						animate={revealed ? 'show' : 'hidden'}
+						custom={eyebrow ? 0.1 : 0.05}
 						variants={fadeUp}
 						className={`font-display text-4xl leading-[1.05] tracking-tight text-balance md:text-5xl ${
 							invert ? 'text-accent-foreground' : 'text-foreground'
@@ -109,9 +106,7 @@ const SectionHeader = ({
 
 					{description ? (
 						<motion.p
-							custom={0.21}
-							initial="hidden"
-							animate={revealed ? 'show' : 'hidden'}
+							custom={eyebrow ? 0.18 : 0.12}
 							variants={fadeUp}
 							className={`mt-4 max-w-2xl text-lg leading-relaxed ${
 								centered ? 'mx-auto sm:mx-0' : ''
@@ -124,7 +119,7 @@ const SectionHeader = ({
 					) : null}
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
 
