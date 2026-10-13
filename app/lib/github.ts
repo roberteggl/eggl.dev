@@ -41,11 +41,11 @@ export async function getGitHubData(): Promise<GitHubData> {
 		'neuland-website',
 		'campus-life-events',
 		'member-id',
-		'flux-infra',
 		'neuland-connect',
 		'neuland.app-docs',
 		'neuland-dashboard',
 		'app-backend-core',
+		'app-backend-contracts',
 		'hr-portal'
 	]
 	const GITHUB_USERNAME = 'roberteggl'

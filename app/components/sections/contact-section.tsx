@@ -58,7 +58,7 @@ const ContactSection = () => {
 								href={channel.href}
 								target={channel.external ? '_blank' : undefined}
 								rel={channel.external ? 'noopener noreferrer' : undefined}
-								className="group flex h-full items-start gap-4 rounded-none border border-line bg-card p-5 transition-colors duration-200 hover:border-accent/50 md:p-6"
+								className="group flex h-full items-start gap-4 rounded-none border border-line bg-card p-5 hover:border-accent/50 md:p-6"
 							>
 								<span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none bg-accent text-accent-foreground">
 									<channel.icon size={20} strokeWidth={1.75} />
@@ -86,7 +86,7 @@ const ContactSection = () => {
 					<StaggerItem>
 						<Link
 							href="/keys"
-							className="group flex h-full items-start gap-4 rounded-none border border-dashed border-line bg-surface/50 p-5 transition-colors duration-200 hover:border-accent md:p-6"
+							className="group flex h-full items-start gap-4 rounded-none border border-dashed border-line bg-surface/50 p-5 hover:border-accent md:p-6"
 						>
 							<span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-line text-accent">
 								<KeyRound size={20} strokeWidth={1.75} />

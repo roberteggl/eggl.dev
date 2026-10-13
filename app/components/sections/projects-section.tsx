@@ -23,15 +23,8 @@ const ProjectRow = memo(({ project }: { project: Project }) => {
 				{project.category.toUpperCase()}
 			</span>
 			<span>
-				<span className="flex flex-wrap items-center gap-3">
-					<span className="font-display text-2xl tracking-tight text-foreground transition-colors group-hover:text-accent md:text-[28px]">
-						{project.title}
-					</span>
-					{project.featured ? (
-						<span className="inline-flex items-center border border-accent/40 bg-accent-soft px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">
-							Featured
-						</span>
-					) : null}
+				<span className="font-display text-2xl tracking-tight text-foreground transition-colors group-hover:text-accent md:text-[28px]">
+					{project.title}
 				</span>
 				<span className="mt-2.5 line-clamp-2 block max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
 					{project.description}
