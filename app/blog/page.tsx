@@ -12,14 +12,6 @@ export default function BlogPage() {
 		<div className="container-custom pb-24 pt-28 md:pt-36">
 			<header className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-12">
 				<div className="max-w-2xl">
-					<div className="mb-5 flex items-center gap-3">
-						<span className="inline-flex items-center border border-accent/40 bg-accent-soft px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-accent">
-							01
-						</span>
-						<span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-							Notes
-						</span>
-					</div>
 					<h1 className="font-display text-5xl tracking-tight md:text-6xl">
 						Blog.
 					</h1>

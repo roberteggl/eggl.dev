@@ -34,16 +34,8 @@ const HeroSection = () => {
 
 			<div
 				className="container-custom relative z-10 pb-14 md:pb-24"
-				style={{ paddingTop: 'calc(var(--navbar-height, 68px) + 2.5rem)' }}
+				style={{ paddingTop: 'calc(var(--navbar-height, 68px) + 4.5rem)' }}
 			>
-				<p className="mb-4 flex items-center gap-2.5 font-mono text-[13px] uppercase tracking-[0.18em] text-muted-foreground">
-					<span
-						aria-hidden="true"
-						className="inline-block size-1.5 bg-accent"
-					/>
-					Fullstack Developer · Germany
-				</p>
-
 				<h1 className="font-display text-[clamp(2.85rem,8vw,6.5rem)] font-medium leading-[0.95] tracking-[-0.04em] text-foreground">
 					Robert Eggl
 				</h1>
@@ -72,7 +64,7 @@ const HeroSection = () => {
 					))}
 				</ul>
 
-				<div className="mt-8 flex flex-wrap items-center gap-3 md:mt-10 md:gap-4">
+				<div className="mt-12 flex flex-wrap items-center gap-3 md:mt-14 md:gap-4">
 					<Button
 						type="button"
 						size="lg"
