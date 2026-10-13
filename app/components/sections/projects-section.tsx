@@ -49,8 +49,11 @@ const ProjectRow = memo(({ project }: { project: Project }) => {
 					width={480}
 					height={300}
 				/>
-				<span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-none border border-line bg-background text-foreground opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-					<ArrowUpRight size={17} />
+				<span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-none border border-line bg-background text-foreground opacity-0 transition-all duration-300 group-hover:opacity-100">
+					<ArrowUpRight
+						size={17}
+						className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+					/>
 				</span>
 			</span>
 		</Link>
@@ -97,10 +100,13 @@ const ProjectsSection = () => {
 				</Stagger>
 
 				<Reveal className="mt-10 flex flex-wrap items-center gap-4">
-					<Button asChild size="lg">
+					<Button asChild size="lg" className="group">
 						<Link href="/projects">
 							View all projects
-							<ArrowRight size={17} />
+							<ArrowRight
+								size={17}
+								className="transition-transform duration-300 group-hover:translate-x-1"
+							/>
 						</Link>
 					</Button>
 					<Button asChild variant="outline" size="lg">

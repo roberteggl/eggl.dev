@@ -63,7 +63,7 @@ const Footer = () => {
 										{l.label}
 										<ArrowUpRight
 											size={14}
-											className="opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"
+											className="opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
 										/>
 									</Link>
 								</li>
@@ -97,7 +97,7 @@ const Footer = () => {
 										{l.label}
 										<ArrowUpRight
 											size={14}
-											className="opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"
+											className="opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
 										/>
 									</a>
 								</li>

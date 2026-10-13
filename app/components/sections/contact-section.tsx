@@ -70,7 +70,7 @@ const ContactSection = () => {
 										</span>
 										<ArrowUpRight
 											size={17}
-											className="shrink-0 text-muted-foreground transition-colors duration-150 group-hover:text-accent"
+											className="shrink-0 text-muted-foreground transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
 										/>
 									</span>
 									<span className="mt-0.5 block truncate font-mono text-[13px] text-muted-foreground">
@@ -98,7 +98,7 @@ const ContactSection = () => {
 									</span>
 									<ArrowUpRight
 										size={17}
-										className="shrink-0 text-muted-foreground transition-colors duration-150 group-hover:text-accent"
+										className="shrink-0 text-muted-foreground transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
 									/>
 								</span>
 								<span className="mt-0.5 block font-mono text-[13px] text-muted-foreground">

@@ -182,10 +182,13 @@ const HeroSection = () => {
 						type="button"
 						size="lg"
 						onClick={(e) => handleHashLinkClick(e, 'projects')}
-						className="cursor-pointer"
+						className="group cursor-pointer"
 					>
 						View selected projects
-						<ArrowRight size={17} />
+						<ArrowRight
+							size={17}
+							className="transition-transform duration-300 group-hover:translate-x-1"
+						/>
 					</Button>
 					<Button asChild variant="outline" size="lg">
 						<Link href="/blog">Read the blog</Link>

@@ -1,6 +1,7 @@
 'use client'
 import { Github, Linkedin, Mail, Menu, X } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ThemeToggle } from './theme-toggle'
 
@@ -21,10 +22,34 @@ const SOCIALS = [
 	{ icon: Mail, href: 'mailto:info@eggl.dev', label: 'Email' }
 ]
 
+function isLinkActive(
+	link: (typeof NAV_LINKS)[number],
+	pathname: string,
+	hash: string
+) {
+	if (!link.isPage) {
+		return pathname === '/' && hash === '#contact'
+	}
+	return pathname === link.href || pathname.startsWith(`${link.href}/`)
+}
+
 export default function SiteHeader() {
+	const pathname = usePathname()
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [scrolled, setScrolled] = useState(false)
 	const [progress, setProgress] = useState(0)
+	const [hash, setHash] = useState('')
+
+	useEffect(() => {
+		const syncHash = () => setHash(window.location.hash)
+		syncHash()
+		window.addEventListener('hashchange', syncHash)
+		return () => window.removeEventListener('hashchange', syncHash)
+	}, [])
+
+	useEffect(() => {
+		setHash(typeof window !== 'undefined' ? window.location.hash : '')
+	}, [pathname])
 
 	useEffect(() => {
 		const onScroll = () => {
@@ -52,6 +77,21 @@ export default function SiteHeader() {
 		return () => window.removeEventListener('resize', setHeight)
 	}, [isMenuOpen])
 
+	const desktopLinkClass = (active: boolean) =>
+		`relative pb-1 font-mono text-[13px] uppercase tracking-[0.14em] transition-colors duration-150 hover:text-accent ${
+			active ? 'text-black dark:text-white' : 'text-black/70 dark:text-white/70'
+		}`
+
+	const hairlineClass = (active: boolean) =>
+		`pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left bg-accent transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+			active ? 'scale-x-100' : 'scale-x-0'
+		}`
+
+	const mobileLinkClass = (active: boolean) =>
+		`flex items-center justify-between border-b border-black/10 py-3.5 font-display text-2xl transition-colors duration-150 last:border-0 hover:text-accent dark:border-white/15 ${
+			active ? 'text-accent' : 'text-black dark:text-white'
+		}`
+
 	return (
 		<header
 			id="site-header"
@@ -76,25 +116,32 @@ export default function SiteHeader() {
 				</Link>
 
 				<nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
-					{NAV_LINKS.map((link) =>
-						link.isPage ? (
+					{NAV_LINKS.map((link) => {
+						const active = isLinkActive(link, pathname, hash)
+						const className = desktopLinkClass(active)
+
+						return link.isPage ? (
 							<Link
 								key={link.name}
 								href={link.href}
-								className="font-mono text-[13px] uppercase tracking-[0.14em] text-black/70 transition-colors duration-150 hover:text-accent dark:text-white/70"
+								aria-current={active ? 'page' : undefined}
+								className={className}
 							>
 								{link.name}
+								<span aria-hidden="true" className={hairlineClass(active)} />
 							</Link>
 						) : (
 							<a
 								key={link.name}
 								href={link.href}
-								className="font-mono text-[13px] uppercase tracking-[0.14em] text-black/70 transition-colors duration-150 hover:text-accent dark:text-white/70"
+								aria-current={active ? 'page' : undefined}
+								className={className}
 							>
 								{link.name}
+								<span aria-hidden="true" className={hairlineClass(active)} />
 							</a>
 						)
-					)}
+					})}
 
 					<span
 						aria-hidden="true"
@@ -147,13 +194,17 @@ export default function SiteHeader() {
 						className="container-custom flex flex-col gap-1 py-5"
 						aria-label="Mobile"
 					>
-						{NAV_LINKS.map((link, i) =>
-							link.isPage ? (
+						{NAV_LINKS.map((link, i) => {
+							const active = isLinkActive(link, pathname, hash)
+							const className = mobileLinkClass(active)
+
+							return link.isPage ? (
 								<Link
 									key={link.name}
 									href={link.href}
 									onClick={() => setIsMenuOpen(false)}
-									className="flex items-center justify-between border-b border-black/10 py-3.5 font-display text-2xl text-black transition-colors duration-150 last:border-0 hover:text-accent dark:border-white/15 dark:text-white"
+									aria-current={active ? 'page' : undefined}
+									className={className}
 								>
 									{link.name}
 									<span className="font-mono text-[11px] text-black/40 dark:text-white/40">
@@ -165,7 +216,8 @@ export default function SiteHeader() {
 									key={link.name}
 									href={link.href}
 									onClick={() => setIsMenuOpen(false)}
-									className="flex items-center justify-between border-b border-black/10 py-3.5 font-display text-2xl text-black transition-colors duration-150 last:border-0 hover:text-accent dark:border-white/15 dark:text-white"
+									aria-current={active ? 'page' : undefined}
+									className={className}
 								>
 									{link.name}
 									<span className="font-mono text-[11px] text-black/40 dark:text-white/40">
@@ -173,7 +225,7 @@ export default function SiteHeader() {
 									</span>
 								</a>
 							)
-						)}
+						})}
 						<div className="flex items-center gap-2 pt-3">
 							{SOCIALS.map((s) => (
 								<a
