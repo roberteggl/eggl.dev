@@ -126,9 +126,7 @@ export default async function BlogPostLayout({
 					__html: JSON.stringify(jsonLd).replace(/</g, '\\u003c')
 				}}
 			/>
-			<div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-				{children}
-			</div>
+			{children}
 		</>
 	)
 }

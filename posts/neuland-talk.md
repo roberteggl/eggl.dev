@@ -77,8 +77,6 @@ A few examples of what currently lives in our GitOps setup:
 - **Internal Tooling:** Uptime Kuma, Outline, Nextcloud and more
 - **External Services:** Neuland Website, Campus Life Events and more
 
-Curious about the exact setup? Check out the [Neuland GitOps repository](https://github.com/neuland-ingolstadt/flux-infra).
-
 ## Why Hetzner?
 
 Several people asked this during the event.  

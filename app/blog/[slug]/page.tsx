@@ -26,13 +26,8 @@ export default async function BlogPostPage({
 	})
 
 	return (
-		<article className="container-custom max-w-3xl pb-24 pt-32 md:pt-40">
+		<article className="container-custom max-w-5xl pb-24 pt-32 md:pt-40">
 			<header className="mb-10 border-b border-line pb-10">
-				<div className="mb-5 flex items-center gap-3">
-					<span className="inline-flex items-center border border-accent/40 bg-accent-soft px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-accent">
-						Essay
-					</span>
-				</div>
 				<h1 className="font-display text-4xl leading-[1.08] tracking-tight text-balance md:text-5xl">
 					{post.title}
 				</h1>
