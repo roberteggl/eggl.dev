@@ -34,14 +34,11 @@ function usePerspectiveGrid(canvasRef: RefObject<HTMLCanvasElement | null>) {
 		).matches
 
 		const resizeCanvas = () => {
-			const parent = canvas.parentElement
-			canvas.width = parent?.clientWidth || window.innerWidth
-			canvas.height = parent?.clientHeight || window.innerHeight
+			canvas.width = window.innerWidth
+			canvas.height = window.innerHeight
 		}
 
 		window.addEventListener('resize', resizeCanvas)
-		const ro = new ResizeObserver(resizeCanvas)
-		if (canvas.parentElement) ro.observe(canvas.parentElement)
 		resizeCanvas()
 
 		let animationId = 0
@@ -136,7 +133,6 @@ function usePerspectiveGrid(canvasRef: RefObject<HTMLCanvasElement | null>) {
 		return () => {
 			running = false
 			window.removeEventListener('resize', resizeCanvas)
-			ro.disconnect()
 			cancelAnimationFrame(animationId)
 			themeObserver.disconnect()
 		}
@@ -153,9 +149,8 @@ function useCirclesMesh(canvasRef: RefObject<HTMLCanvasElement | null>) {
 		if (!ctx) return
 
 		const resizeCanvas = () => {
-			const parent = canvas.parentElement
-			canvas.width = parent?.clientWidth || window.innerWidth
-			canvas.height = parent?.clientHeight || window.innerHeight
+			canvas.width = window.innerWidth
+			canvas.height = window.innerHeight
 			draw()
 		}
 
@@ -186,8 +181,6 @@ function useCirclesMesh(canvasRef: RefObject<HTMLCanvasElement | null>) {
 		}
 
 		window.addEventListener('resize', resizeCanvas)
-		const ro = new ResizeObserver(resizeCanvas)
-		if (canvas.parentElement) ro.observe(canvas.parentElement)
 		resizeCanvas()
 
 		const themeObserver = new MutationObserver(draw)
@@ -198,7 +191,6 @@ function useCirclesMesh(canvasRef: RefObject<HTMLCanvasElement | null>) {
 
 		return () => {
 			window.removeEventListener('resize', resizeCanvas)
-			ro.disconnect()
 			themeObserver.disconnect()
 		}
 	}, [canvasRef])
@@ -219,7 +211,7 @@ function PerspectiveCanvas() {
 	return (
 		<canvas
 			ref={canvasRef}
-			className="pointer-events-none absolute inset-0 h-full w-full"
+			className="pointer-events-none fixed inset-0 h-full w-full"
 		/>
 	)
 }
@@ -230,12 +222,12 @@ function CirclesCanvas() {
 	return (
 		<canvas
 			ref={canvasRef}
-			className="pointer-events-none absolute inset-0 h-full w-full"
+			className="pointer-events-none fixed inset-0 h-full w-full"
 		/>
 	)
 }
 
-/** Full-bleed accent panel with a mesh background that scrolls with the section. */
+/** Full-bleed accent panel with sticky canvas mesh clipped to the section. */
 export default function SignalField({
 	id,
 	className = '',
@@ -248,9 +240,22 @@ export default function SignalField({
 			id={id}
 			className={`relative scroll-mt-24 overflow-hidden ${className}`}
 		>
-			<div aria-hidden="true" className="absolute inset-0 z-0 w-full bg-accent">
+			<div
+				aria-hidden="true"
+				className="absolute inset-0 z-0 w-full bg-accent"
+				style={{ clipPath: 'inset(0)' }}
+			>
 				{mesh === 'circles' ? <CirclesCanvas /> : <PerspectiveCanvas />}
 			</div>
+			{/* Recessed cutout: soft ink falloff at the seam with the page */}
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-0 z-[1]"
+				style={{
+					boxShadow:
+						'inset 0 48px 64px -28px rgba(14, 18, 23, 0.28), inset 0 -48px 64px -28px rgba(14, 18, 23, 0.28), inset 32px 0 48px -36px rgba(14, 18, 23, 0.12), inset -32px 0 48px -36px rgba(14, 18, 23, 0.12)'
+				}}
+			/>
 			<div className={contentClassName}>{children}</div>
 		</section>
 	)
