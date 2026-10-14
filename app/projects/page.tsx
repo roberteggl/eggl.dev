@@ -4,13 +4,13 @@ import {
 	ArrowUpRight,
 	ExternalLink,
 	FileText,
-	Github,
 	Grid,
 	List
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { memo, useMemo, useState } from 'react'
+import { Github } from '@/components/icons/brand-icons'
 import {
 	Tooltip,
 	TooltipContent,

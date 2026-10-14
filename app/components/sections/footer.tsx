@@ -1,5 +1,6 @@
-import { ArrowUpRight, Github, Linkedin, Mail } from 'lucide-react'
+import { ArrowUpRight, Mail } from 'lucide-react'
 import Link from 'next/link'
+import { Github, Linkedin } from '@/components/icons/brand-icons'
 import { PERSON_TAGLINE } from '@/lib/structured-data'
 
 const Footer = () => {

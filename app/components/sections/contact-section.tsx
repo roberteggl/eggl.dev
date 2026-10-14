@@ -1,6 +1,7 @@
 'use client'
-import { ArrowUpRight, Github, KeyRound, Linkedin, Mail } from 'lucide-react'
+import { ArrowUpRight, KeyRound, Mail } from 'lucide-react'
 import Link from 'next/link'
+import { Github, Linkedin } from '../icons/brand-icons'
 import { Reveal, Stagger, StaggerItem } from '../reveal'
 import SectionHeader from '../section-header'
 import { Button } from '../ui/button'
