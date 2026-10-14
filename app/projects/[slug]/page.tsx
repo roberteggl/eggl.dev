@@ -1,13 +1,8 @@
-import {
-	ArrowLeft,
-	BookOpen,
-	ExternalLink,
-	FileText,
-	Github
-} from 'lucide-react'
+import { ArrowLeft, BookOpen, ExternalLink, FileText } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Github } from '@/components/icons/brand-icons'
 import {
 	getAllProjects,
 	getProjectBlogPath,

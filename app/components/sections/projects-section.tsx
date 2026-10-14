@@ -1,5 +1,5 @@
 'use client'
-import { ArrowRight, ArrowUpRight, Github } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { memo } from 'react'
@@ -9,6 +9,7 @@ import {
 	getProjectPath,
 	type Project
 } from '@/data/projects-data'
+import { Github } from '../icons/brand-icons'
 import { Reveal, Stagger, StaggerItem } from '../reveal'
 import SectionHeader from '../section-header'
 import { Button } from '../ui/button'

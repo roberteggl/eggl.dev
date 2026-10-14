@@ -1,8 +1,9 @@
 'use client'
-import { Github, Linkedin, Mail, Menu, X } from 'lucide-react'
+import { Mail, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { Github, Linkedin } from './icons/brand-icons'
 import { ThemeToggle } from './theme-toggle'
 
 const NAV_LINKS = [
