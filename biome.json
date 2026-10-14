@@ -25,7 +25,7 @@
 			"a11y": {
 				"noSvgWithoutTitle": "off"
 			},
-			"recommended": true,
+			"preset": "recommended",
 			"correctness": {
 				"useExhaustiveDependencies": "off",
 				"noUnusedImports": "error",
