@@ -32,10 +32,12 @@ export async function GET() {
 					? `${post.description}\n\n${contentPreview}${contentPreview.length === 250 ? '...' : ''}`
 					: `${contentPreview}${contentPreview.length === 250 ? '...' : ''}`
 
+				const postUrl = `https://eggl.dev/blog/${post.slug}`
+
 				return `    <item>
       <title><![CDATA[${post.title}]]></title>
-      <link>https:
-      <guid>https:
+      <link>${postUrl}</link>
+      <guid isPermaLink="true">${postUrl}</guid>
       <pubDate>${pubDate}</pubDate>
       <description><![CDATA[${fullDescription}]]></description>
       <author>Robert Eggl</author>
