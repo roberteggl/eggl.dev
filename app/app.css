@@ -225,7 +225,10 @@ h6 {
 	--soft-step: 100ms;
 }
 
-/* FluidVoice glass_heroWordsIn / glass_softIn */
+/* FluidVoice glass_heroWordsIn / glass_softIn.
+   Fill-mode must be `backwards` (not `both`/`forwards`): Safari
+   keeps a residual filter layer when forwards holds the end state,
+   which reads as a jump to slight blur then a snap to sharp. */
 @keyframes soft-hero-in {
 	from {
 		opacity: 0;
@@ -243,7 +246,7 @@ h6 {
 }
 
 .soft-hero {
-	animation: soft-hero-in 1.1s var(--reveal-ease) both;
+	animation: soft-hero-in 1.1s var(--reveal-ease) backwards;
 }
 .soft-hero-d1 {
 	animation-delay: 0.08s;
@@ -288,7 +291,7 @@ h6 {
 			.soft-target:not(:has(h2, h3, p))
 		)[data-in] {
 		animation: soft-in var(--soft-in) var(--soft-ease)
-			calc(var(--i, 0) * var(--soft-step)) both;
+			calc(var(--i, 0) * var(--soft-step)) backwards;
 	}
 }
 
