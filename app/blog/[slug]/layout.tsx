@@ -1,4 +1,4 @@
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs } from 'content-collections'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { PERSON_JOB_TITLE } from '@/lib/structured-data'

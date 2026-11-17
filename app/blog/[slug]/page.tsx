@@ -1,8 +1,8 @@
-import { allBlogs } from 'contentlayer/generated'
+import { MDXContent } from '@content-collections/mdx/react'
+import { allBlogs } from 'content-collections'
 import { ArrowLeft, BookOpen, Calendar, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { MDXContent } from './mdx-content'
 
 export const generateStaticParams = async () =>
 	allBlogs.map((p) => ({ slug: p.slug }))

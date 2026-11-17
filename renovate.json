@@ -26,10 +26,13 @@
 			"matchPackageNames": ["@biomejs/biome"]
 		},
 		{
-			"description": "Keep Contentlayer packages in sync",
+			"description": "Keep Content Collections packages in sync",
 			"matchManagers": ["bun"],
-			"groupName": "contentlayer",
-			"matchPackageNames": ["contentlayer2", "next-contentlayer2"]
+			"groupName": "content-collections",
+			"matchPackageNames": [
+				"/^@content-collections//",
+				"zod"
+			]
 		},
 		{
 			"description": "Group React runtime and type packages",

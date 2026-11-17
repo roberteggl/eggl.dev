@@ -1,5 +1,5 @@
 'use client'
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs } from 'content-collections'
 import { ArrowUpRight, Rss } from 'lucide-react'
 import Link from 'next/link'
 import PageHero from '@/components/page-hero'

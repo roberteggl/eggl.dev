@@ -1,4 +1,4 @@
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs } from 'content-collections'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -20,7 +20,6 @@ export async function GET() {
 				const pubDate = new Date(post.date).toUTCString()
 				// Get the first 250 characters of the post content (excluding frontmatter)
 				const contentPreview = post.body.raw
-					.replace(/^---[\s\S]*?---/, '') // Remove frontmatter
 					.trim()
 					.substring(0, 250)
 					.replace(/\n/g, ' ') // Replace newlines with spaces

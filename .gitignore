@@ -7,5 +7,5 @@ tsconfig.tsbuildinfo
 docker-compose.yml
 .next/
 
-# Contentlayer
-.contentlayer
+# Content Collections
+.content-collections

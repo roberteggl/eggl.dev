@@ -32,7 +32,7 @@ my-website/
 │   └── api/               # API routes (GitHub, RSS feed)
 ├── posts/                 # Markdown blog posts
 ├── public/                # Static assets
-└── contentlayer.config.ts # Content configuration
+└── content-collections.ts # Content configuration
 ```
 
 ## 🌐 Live Site

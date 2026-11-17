@@ -1,4 +1,4 @@
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs } from 'content-collections'
 import { JsonLd } from '@/components/json-ld'
 import { SectionDivider } from '@/components/section-divider'
 import AboutSection from '@/components/sections/about-section'

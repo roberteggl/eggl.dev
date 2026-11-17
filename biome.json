@@ -9,7 +9,7 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"app/**",
-			"contentlayer.config.ts",
+			"content-collections.ts",
 			"next.config.mjs",
 			"postcss.config.ts"
 		]

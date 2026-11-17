@@ -1,4 +1,4 @@
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs } from 'content-collections'
 import type { MetadataRoute } from 'next'
 import { getAllProjects } from '@/data/projects-data'
 
