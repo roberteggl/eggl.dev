@@ -45,7 +45,7 @@ const AboutSection = () => {
 					number="02"
 					eyebrow="About"
 					title="Developer & consultant."
-					description="Fullstack at SAP. Background in cloud, security, and AI — plus open source that people rely on."
+					description="Fullstack at SAP. Background in cloud, security, and AI, plus open source that people rely on."
 				/>
 
 				<div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
@@ -54,7 +54,7 @@ const AboutSection = () => {
 							<p>
 								I build and ship systems at{' '}
 								<span className="font-medium text-foreground">SAP</span> as a
-								Fullstack Developer and Business Process Consultant — bridging
+								Fullstack Developer and Business Process Consultant, bridging
 								architecture, delivery, and the processes they serve.
 							</p>
 							<p className="text-muted-foreground">

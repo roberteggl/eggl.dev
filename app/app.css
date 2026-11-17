@@ -72,14 +72,14 @@
 	--grid-line-color: 14 18 23 / 0.06;
 
 	--animate-ticker: ticker 42s linear infinite;
+}
 
-	@keyframes ticker {
-		from {
-			transform: translateX(0);
-		}
-		to {
-			transform: translateX(-50%);
-		}
+@keyframes ticker {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
 	}
 }
 

@@ -67,7 +67,7 @@ const CareerSection = () => {
 				number="04"
 				eyebrow="Proof"
 				title="GitHub activity."
-				description="Contributions, languages, and commit history — live."
+				description="Contributions, languages, and commit history, live."
 				invert
 				mbSize="mb-8 md:mb-10"
 			/>

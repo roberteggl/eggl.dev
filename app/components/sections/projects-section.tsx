@@ -119,7 +119,7 @@ const ProjectsSection = () => {
 						number="01"
 						eyebrow="Work"
 						title="Selected projects."
-						description="Shipped and in use — campus apps, open-source tooling, enterprise platforms."
+						description="Shipped and in use: campus apps, open-source tooling, enterprise platforms."
 						mbSize="mb-0"
 						className="min-w-[260px] flex-1"
 					/>

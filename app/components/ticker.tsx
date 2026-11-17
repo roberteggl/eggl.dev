@@ -6,7 +6,7 @@ interface TickerProps {
 	speedSeconds?: number
 }
 
-/** Quiet proof strip — mono uppercase, CSS animation, pauses on hover. */
+/** Quiet proof strip: mono uppercase, CSS marquee. */
 export default function Ticker({
 	items,
 	className = '',
@@ -14,10 +14,10 @@ export default function Ticker({
 }: TickerProps) {
 	return (
 		<div
-			className={`group relative overflow-hidden border-y border-line bg-background-dark/40 py-3.5 dark:bg-black/40 ${className}`}
+			className={`relative overflow-hidden border-y border-line bg-background-dark/40 py-3.5 dark:bg-black/40 ${className}`}
 		>
 			<div
-				className="flex w-max items-center motion-reduce:[animation:none] group-hover:[animation-play-state:paused]"
+				className="flex w-max items-center motion-reduce:[animation:none]"
 				style={{ animation: `ticker ${speedSeconds}s linear infinite` }}
 			>
 				{[0, 1].map((half) => (

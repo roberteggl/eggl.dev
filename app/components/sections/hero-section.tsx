@@ -7,20 +7,21 @@ import {
 } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import useSmoothScroll from '../../hooks/use-smooth-scroll'
 import { Button } from '../ui/button'
 
-const PROOF = [
-	{ value: '4k+', label: 'Campus users' },
-	{ value: 'SAP', label: 'Enterprise delivery' },
-	{ value: 'OSS', label: 'Shipped in production' }
+/** RMS envelope of “Robert Eggl” (macOS Anna TTS), 28 bars */
+const NAME_WAVEFORM = [
+	23, 24, 18, 18, 27, 38, 44, 42, 41, 41, 38, 25, 16, 13, 14, 42, 44, 38, 38,
+	34, 34, 31, 21, 10, 6, 14, 10, 10
 ] as const
 
 const HeroSection = () => {
 	const { handleHashLinkClick } = useSmoothScroll()
 	const reduceMotion = useReducedMotion()
 	const sectionRef = useRef<HTMLElement>(null)
+	const [wavePlaying, setWavePlaying] = useState(false)
 
 	const { scrollYProgress } = useScroll({
 		target: sectionRef,
@@ -52,45 +53,84 @@ const HeroSection = () => {
 				<div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_70%,rgba(14,18,23,0.06),transparent_50%)] dark:bg-[radial-gradient(ellipse_45%_35%_at_85%_75%,rgba(45,212,191,0.04),transparent_55%)]" />
 			</motion.div>
 
-			<div
-				aria-hidden="true"
-				className="pointer-events-none absolute inset-x-0 top-[18%] flex justify-center opacity-40 dark:opacity-50"
-			>
-				<svg
-					width="220"
-					height="48"
-					viewBox="0 0 220 48"
-					fill="none"
-					className="text-foreground"
-				>
-					{Array.from({ length: 28 }).map((_, i) => {
-						const h = 8 + ((i * 17) % 28) + (i % 3) * 4
-						return (
-							<rect
-								key={i}
-								x={i * 8}
-								y={(48 - h) / 2}
-								width="2"
-								height={h}
-								rx="0"
-								fill="currentColor"
-								opacity={0.25 + (i % 5) * 0.08}
-							/>
-						)
-					})}
-				</svg>
-			</div>
-
 			<motion.div
 				style={{ opacity: heroOpacity }}
 				className="container-custom relative z-10 flex flex-1 flex-col justify-center pb-16 pt-[calc(var(--navbar-height,68px)+3.5rem)] md:pb-24 md:pt-[calc(var(--navbar-height,68px)+5rem)]"
 			>
 				<div className="mx-auto max-w-4xl text-center">
+					<motion.div
+						aria-hidden="true"
+						title="Pronunciation of Robert Eggl"
+						onHoverStart={() => {
+							if (reduceMotion) return
+							setWavePlaying(false)
+							requestAnimationFrame(() => setWavePlaying(true))
+						}}
+						onHoverEnd={() => setWavePlaying(false)}
+						className="soft-hero soft-hero-d1 mx-auto mb-5 inline-flex p-2 opacity-45 dark:opacity-55 md:mb-6"
+					>
+						<svg
+							width="224"
+							height="48"
+							viewBox="0 0 224 48"
+							fill="none"
+							className="overflow-visible text-foreground"
+						>
+							{NAME_WAVEFORM.map((h, i) => {
+								const baseOpacity = 0.22 + (h / 44) * 0.35
+								const peak = Math.min(46, h * 1.35)
+								const dip = Math.max(6, h * 0.72)
+								return (
+									<motion.rect
+										key={i}
+										x={i * 8}
+										width="2"
+										rx="0"
+										fill="currentColor"
+										initial={false}
+										animate={
+											wavePlaying
+												? {
+														height: [h, peak, dip, h],
+														y: [
+															(48 - h) / 2,
+															(48 - peak) / 2,
+															(48 - dip) / 2,
+															(48 - h) / 2
+														],
+														opacity: [
+															baseOpacity,
+															Math.min(0.85, baseOpacity + 0.35),
+															baseOpacity + 0.1,
+															baseOpacity
+														]
+													}
+												: {
+														height: h,
+														y: (48 - h) / 2,
+														opacity: baseOpacity
+													}
+										}
+										transition={
+											wavePlaying
+												? {
+														duration: 0.55,
+														delay: i * 0.028,
+														ease: [0.22, 1, 0.36, 1]
+													}
+												: { duration: 0.25, ease: 'easeOut' }
+										}
+									/>
+								)
+							})}
+						</svg>
+					</motion.div>
+
 					<p className="soft-hero soft-hero-d1 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
 						Fullstack · SAP · Open source
 					</p>
 
-					<h1 className="soft-hero soft-hero-d2 mt-6 font-display text-[clamp(3.25rem,10vw,7rem)] font-medium leading-[0.92] tracking-[-0.045em] text-foreground">
+					<h1 className="soft-hero soft-hero-d2 mt-9 font-display text-[clamp(3.25rem,10vw,7rem)] font-medium leading-[0.92] tracking-[-0.045em] text-foreground md:mt-14 lg:mt-16">
 						Robert Eggl
 					</h1>
 
@@ -100,8 +140,8 @@ const HeroSection = () => {
 					</p>
 
 					<p className="soft-hero soft-hero-d4 mx-auto mt-5 max-w-lg text-base leading-relaxed text-muted-foreground md:text-[17px]">
-						Building across enterprise software, open source, and applied AI —
-						shipped, maintained, and in production.
+						Building across enterprise software, open source, and applied AI.
+						Shipped, maintained, and in production.
 					</p>
 
 					<div className="soft-hero soft-hero-d5 mt-10 flex flex-wrap items-center justify-center gap-3 md:mt-12 md:gap-4">
@@ -122,22 +162,6 @@ const HeroSection = () => {
 						</Button>
 					</div>
 				</div>
-
-				<ul className="soft-hero soft-hero-d5 mx-auto mt-16 grid w-full max-w-3xl grid-cols-3 gap-px border border-line bg-line md:mt-20">
-					{PROOF.map((item) => (
-						<li
-							key={item.label}
-							className="bg-background px-3 py-5 text-center md:px-6 md:py-7"
-						>
-							<p className="font-display text-xl tracking-tight text-foreground md:text-2xl">
-								{item.value}
-							</p>
-							<p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground md:text-[11px]">
-								{item.label}
-							</p>
-						</li>
-					))}
-				</ul>
 			</motion.div>
 
 			{!reduceMotion ? (
