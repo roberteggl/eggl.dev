@@ -211,57 +211,58 @@ h6 {
 }
 
 /* ----------------------------------------------------------------
-   Soft reveals — FluidVoice softIn / data-in pattern
-   IntersectionObserver sets [data-in]; CSS eases blur → sharp.
-   (view() timelines were unreliable here — stuck at end state)
+   Soft reveals — match FluidVoice's softIn / data-in contract.
+
+   Critical Safari detail: pending (not yet in view) elements must NOT
+   hold `filter: blur()` while you scroll past them — that paints pink
+   lines. FluidVoice keeps pending at opacity:0 only; blur lives only
+   inside the enter keyframe, then clears when the animation ends.
 ---------------------------------------------------------------- */
 :root {
 	--soft-ease: cubic-bezier(0.25, 0.04, 0.25, 1);
 	--reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
 	--soft-in: 1000ms;
-	--soft-step: 90ms;
+	--soft-step: 100ms;
 }
 
-/*
-  Soft reveals — opacity + translate only.
-  Do not animate `filter: blur()`: Safari/WebKit paints magenta/pink
-  horizontal lines when filtered layers composite during scroll.
-*/
+/* FluidVoice glass_heroWordsIn / glass_softIn */
 @keyframes soft-hero-in {
 	from {
 		opacity: 0;
+		filter: blur(12px);
 		transform: translateY(18px);
 	}
 }
 
 @keyframes soft-in {
 	from {
-		opacity: 0.14;
-		transform: translateY(16px);
+		opacity: 0;
+		filter: blur(10px);
+		transform: translateY(0.35em);
 	}
 }
 
-/* Hero load — one-shot */
 .soft-hero {
-	animation: soft-hero-in 1.05s var(--reveal-ease) both;
+	animation: soft-hero-in 1.1s var(--reveal-ease) both;
 }
 .soft-hero-d1 {
 	animation-delay: 0.08s;
 }
 .soft-hero-d2 {
-	animation-delay: 0.18s;
+	animation-delay: 0.15s;
 }
 .soft-hero-d3 {
-	animation-delay: 0.32s;
+	animation-delay: 0.28s;
 }
 .soft-hero-d4 {
-	animation-delay: 0.48s;
+	animation-delay: 0.42s;
 }
 .soft-hero-d5 {
-	animation-delay: 0.62s;
+	animation-delay: 0.55s;
 }
 
 @media (prefers-reduced-motion: no-preference) {
+	/* Pending: invisible, no filter (Safari-safe while scrolling) */
 	#main-content[data-soft]
 		section:not(.hero-section)
 		:is(
@@ -272,10 +273,10 @@ h6 {
 			li:not(:has(h3, p)),
 			.soft-target:not(:has(h2, h3, p))
 		):not([data-in]) {
-		opacity: 0.14;
-		transform: translateY(18px);
+		opacity: 0;
 	}
 
+	/* Enter: blur exists only for the duration of this keyframe */
 	#main-content[data-soft]
 		section:not(.hero-section)
 		:is(
@@ -305,6 +306,7 @@ h6 {
 		section:not(.hero-section)
 		:is(h2, h3, p, figcaption, li, .soft-target) {
 		opacity: 1;
+		filter: none;
 		transform: none;
 		animation: none;
 	}
