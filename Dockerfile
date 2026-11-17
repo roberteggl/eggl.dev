@@ -2,9 +2,9 @@ FROM oven/bun:latest AS deps
 WORKDIR /app
 
 COPY bun.lock package.json ./
-RUN bun install --frozen-lockfile 
+RUN bun install --frozen-lockfile
 
-FROM node:24-alpine AS builder
+FROM oven/bun:latest AS builder
 WORKDIR /app
 
 ARG NEXT_PUBLIC_ADDRESS
@@ -19,15 +19,15 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_PUBLIC_ADDRESS=$NEXT_PUBLIC_ADDRESS
 ENV NEXT_PUBLIC_PHONE=$NEXT_PUBLIC_PHONE
 ENV NEXT_PUBLIC_GIT_SHA=$NEXT_PUBLIC_GIT_SHA
-RUN realpath . 
 
-RUN npm run build:content
-RUN npm run build --turbopack
+RUN bun run build:content
+RUN bun run build
 
 FROM node:24-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
