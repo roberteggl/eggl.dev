@@ -7,21 +7,63 @@ import {
 } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useSmoothScroll from '../../hooks/use-smooth-scroll'
 import { Button } from '../ui/button'
 
-/** RMS envelope of “Robert Eggl” (macOS Anna TTS), 28 bars */
+/** Voice-like mark for “Robert Eggl” — shaped for character, not accuracy */
 const NAME_WAVEFORM = [
-	23, 24, 18, 18, 27, 38, 44, 42, 41, 41, 38, 25, 16, 13, 14, 42, 44, 38, 38,
-	34, 34, 31, 21, 10, 6, 14, 10, 10
+	8, 14, 22, 19, 28, 41, 46, 37, 44, 39, 31, 18, 11, 9, 15, 36, 45, 40, 47, 33,
+	38, 29, 16, 12, 21, 14, 9, 6
 ] as const
+
+const WAVE_EASE = [0.22, 1, 0.36, 1] as const
+const WAVE_INTRO_BASE_DELAY = 0.08
+const WAVE_INTRO_STAGGER = 0.03
+const WAVE_INTRO_DURATION = 0.65
+const WAVE_PLAY_STAGGER = 0.028
+const WAVE_PLAY_DURATION = 0.55
 
 const HeroSection = () => {
 	const { handleHashLinkClick } = useSmoothScroll()
 	const reduceMotion = useReducedMotion()
 	const sectionRef = useRef<HTMLElement>(null)
 	const [wavePlaying, setWavePlaying] = useState(false)
+	const [waveSettled, setWaveSettled] = useState(false)
+
+	useEffect(() => {
+		if (reduceMotion) {
+			setWaveSettled(true)
+			return
+		}
+
+		const timers: number[] = []
+		const riseEndMs =
+			(WAVE_INTRO_BASE_DELAY +
+				(NAME_WAVEFORM.length - 1) * WAVE_INTRO_STAGGER +
+				WAVE_INTRO_DURATION) *
+			1000
+		const playEndMs =
+			(WAVE_PLAY_DURATION +
+				(NAME_WAVEFORM.length - 1) * WAVE_PLAY_STAGGER) *
+			1000
+
+		timers.push(
+			window.setTimeout(() => {
+				setWavePlaying(true)
+				timers.push(
+					window.setTimeout(() => {
+						setWavePlaying(false)
+						setWaveSettled(true)
+					}, playEndMs)
+				)
+			}, riseEndMs)
+		)
+
+		return () => {
+			for (const id of timers) window.clearTimeout(id)
+		}
+	}, [reduceMotion])
 
 	const { scrollYProgress } = useScroll({
 		target: sectionRef,
@@ -62,12 +104,15 @@ const HeroSection = () => {
 						aria-hidden="true"
 						title="Pronunciation of Robert Eggl"
 						onHoverStart={() => {
-							if (reduceMotion) return
+							if (reduceMotion || !waveSettled) return
 							setWavePlaying(false)
 							requestAnimationFrame(() => setWavePlaying(true))
 						}}
-						onHoverEnd={() => setWavePlaying(false)}
-						className="soft-hero soft-hero-d1 mx-auto mb-5 inline-flex p-2 opacity-45 dark:opacity-55 md:mb-6"
+						onHoverEnd={() => {
+							if (!waveSettled) return
+							setWavePlaying(false)
+						}}
+						className="mx-auto mb-5 inline-flex p-2 opacity-45 dark:opacity-55 md:mb-7 lg:mb-12"
 					>
 						<svg
 							width="224"
@@ -77,9 +122,14 @@ const HeroSection = () => {
 							className="overflow-visible text-foreground"
 						>
 							{NAME_WAVEFORM.map((h, i) => {
-								const baseOpacity = 0.22 + (h / 44) * 0.35
-								const peak = Math.min(46, h * 1.35)
-								const dip = Math.max(6, h * 0.72)
+								const baseOpacity = 0.22 + (h / 47) * 0.38
+								const peak = Math.min(46, h * 1.32)
+								const dip = Math.max(5, h * 0.7)
+								const rest = {
+									height: h,
+									y: (48 - h) / 2,
+									opacity: baseOpacity
+								}
 								return (
 									<motion.rect
 										key={i}
@@ -87,7 +137,11 @@ const HeroSection = () => {
 										width="2"
 										rx="0"
 										fill="currentColor"
-										initial={false}
+										initial={
+											reduceMotion
+												? rest
+												: { height: 2, y: 23, opacity: 0 }
+										}
 										animate={
 											wavePlaying
 												? {
@@ -105,20 +159,24 @@ const HeroSection = () => {
 															baseOpacity
 														]
 													}
-												: {
-														height: h,
-														y: (48 - h) / 2,
-														opacity: baseOpacity
-													}
+												: rest
 										}
 										transition={
 											wavePlaying
 												? {
-														duration: 0.55,
-														delay: i * 0.028,
-														ease: [0.22, 1, 0.36, 1]
+														duration: WAVE_PLAY_DURATION,
+														delay: i * WAVE_PLAY_STAGGER,
+														ease: WAVE_EASE
 													}
-												: { duration: 0.25, ease: 'easeOut' }
+												: waveSettled
+													? { duration: 0.25, ease: 'easeOut' }
+													: {
+															duration: WAVE_INTRO_DURATION,
+															delay:
+																WAVE_INTRO_BASE_DELAY +
+																i * WAVE_INTRO_STAGGER,
+															ease: WAVE_EASE
+														}
 										}
 									/>
 								)
@@ -130,21 +188,22 @@ const HeroSection = () => {
 						Fullstack · SAP · Open source
 					</p>
 
-					<h1 className="soft-hero soft-hero-d2 mt-9 font-display text-[clamp(3.25rem,10vw,7rem)] font-medium leading-[0.92] tracking-[-0.045em] text-foreground md:mt-14 lg:mt-16">
+					{/* pb keeps g-descenders inside the box while filter:blur paints during soft-hero-in */}
+					<h1 className="soft-hero soft-hero-d2 mt-9 -mb-[0.22em] pb-[0.22em] font-display text-[clamp(3.25rem,10vw,7rem)] font-medium leading-[0.92] tracking-[-0.045em] text-foreground md:mt-14 lg:mt-20 xl:mt-24">
 						Robert Eggl
 					</h1>
 
-					<p className="soft-hero soft-hero-d3 mx-auto mt-7 max-w-2xl font-display text-[clamp(1.35rem,3.4vw,2.15rem)] font-medium leading-[1.2] tracking-[-0.03em]">
+					<p className="soft-hero soft-hero-d3 mx-auto mt-7 max-w-2xl font-display text-[clamp(1.35rem,3.4vw,2.15rem)] font-medium leading-[1.2] tracking-[-0.03em] lg:mt-10">
 						<span className="text-foreground">Systems people </span>
 						<span className="text-muted-foreground">actually use.</span>
 					</p>
 
-					<p className="soft-hero soft-hero-d4 mx-auto mt-5 max-w-lg text-base leading-relaxed text-muted-foreground md:text-[17px]">
+					<p className="soft-hero soft-hero-d4 mx-auto mt-5 max-w-lg text-base leading-relaxed text-muted-foreground md:text-[17px] lg:mt-6">
 						Building across enterprise software, open source, and applied AI.
 						Shipped, maintained, and in production.
 					</p>
 
-					<div className="soft-hero soft-hero-d5 mt-10 flex flex-wrap items-center justify-center gap-3 md:mt-12 md:gap-4">
+					<div className="soft-hero soft-hero-d5 mt-10 flex flex-wrap items-center justify-center gap-3 md:mt-12 md:gap-4 lg:mt-16 xl:mt-20">
 						<Button
 							type="button"
 							size="lg"
