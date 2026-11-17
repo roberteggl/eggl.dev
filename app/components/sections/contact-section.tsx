@@ -32,6 +32,10 @@ const CHANNELS = [
 	}
 ]
 
+/** Each cell owns its border + fill so soft-in staggers box-by-box with no grey flash */
+const CHANNEL_CELL =
+	'border border-line bg-background -mb-px last:mb-0 md:odd:-mr-px md:[&:nth-child(n+3)]:mb-0'
+
 const ContactSection = () => {
 	return (
 		<section id="contact" className="relative scroll-mt-24 overflow-hidden">
@@ -48,14 +52,14 @@ const ContactSection = () => {
 					align="center"
 				/>
 
-				<Stagger className="mx-auto mt-2 grid max-w-3xl gap-px border border-line bg-line md:grid-cols-2">
+				<Stagger className="mx-auto mt-2 grid max-w-3xl md:grid-cols-2">
 					{CHANNELS.map((channel, i) => (
-						<StaggerItem key={channel.label} index={i}>
+						<StaggerItem key={channel.label} index={i} className={CHANNEL_CELL}>
 							<a
 								href={channel.href}
 								target={channel.external ? '_blank' : undefined}
 								rel={channel.external ? 'noopener noreferrer' : undefined}
-								className="group flex h-full items-start gap-4 bg-background p-5 transition-colors hover:bg-surface md:p-6"
+								className="group flex h-full items-start gap-4 p-5 transition-colors hover:bg-surface md:p-6"
 							>
 								<span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-accent transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
 									<channel.icon size={18} strokeWidth={1.75} />
@@ -80,10 +84,10 @@ const ContactSection = () => {
 							</a>
 						</StaggerItem>
 					))}
-					<StaggerItem index={CHANNELS.length}>
+					<StaggerItem index={CHANNELS.length} className={CHANNEL_CELL}>
 						<Link
 							href="/keys"
-							className="group flex h-full items-start gap-4 bg-background p-5 transition-colors hover:bg-surface md:p-6"
+							className="group flex h-full items-start gap-4 p-5 transition-colors hover:bg-surface md:p-6"
 						>
 							<span className="flex h-11 w-11 shrink-0 items-center justify-center border border-dashed border-line text-accent">
 								<KeyRound size={18} strokeWidth={1.75} />
