@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import SectionHeader from '@/components/section-header'
+import PageHero from '@/components/page-hero'
 import imprintData from '@/data/imprint'
 
 export const metadata: Metadata = {
@@ -10,15 +10,13 @@ export const metadata: Metadata = {
 const Privacy = () => {
 	return (
 		<div className="container-custom max-w-3xl pb-24 pt-28 md:pt-36">
-			<SectionHeader
-				number="01"
+			<PageHero
 				eyebrow="Legal"
 				title="Datenschutzerklärung."
+				description="Hinweise zum Umgang mit personenbezogenen Daten auf dieser Website."
 			/>
 
-			<h1 className="sr-only">Privacy Policy - Robert Eggl</h1>
-
-			<p className="font-mono mb-6 mt-8">
+			<p className="mb-8 font-mono text-[13px] leading-relaxed text-muted-foreground">
 				Die Datenschutzerklärung ist auf Deutsch verfasst, da sie den
 				rechtlichen Anforderungen des Wohnsitzlandes entspricht und keine
 				kommerzielle Absicht besteht. Die übrigen Inhalte sind auf Englisch
@@ -26,7 +24,7 @@ const Privacy = () => {
 			</p>
 
 			<section className="mb-10">
-				<div className="luxe-card p-6 md:p-10">
+				<div className="border border-line bg-surface p-6 md:p-10">
 					<div className="max-w-none legalsection">
 						<h2>1. Datenschutz auf einen Blick</h2>
 						<h3>Allgemeine Hinweise</h3>

@@ -6,7 +6,7 @@ interface TickerProps {
 	speedSeconds?: number
 }
 
-/** Signal ticker band. Mono uppercase, CSS animation, pauses on hover. */
+/** Quiet proof strip — mono uppercase, CSS animation, pauses on hover. */
 export default function Ticker({
 	items,
 	className = '',
@@ -14,7 +14,7 @@ export default function Ticker({
 }: TickerProps) {
 	return (
 		<div
-			className={`group relative overflow-hidden border-y border-foreground/15 bg-surface-2 py-4 ${className}`}
+			className={`group relative overflow-hidden border-y border-line bg-background-dark/40 py-3.5 dark:bg-black/40 ${className}`}
 		>
 			<div
 				className="flex w-max items-center motion-reduce:[animation:none] group-hover:[animation-play-state:paused]"
@@ -29,9 +29,9 @@ export default function Ticker({
 						{items.map((item, i) => (
 							<span
 								key={`${half}-${i}`}
-								className="flex items-center whitespace-nowrap font-mono text-xs uppercase tracking-[0.22em] text-foreground/70"
+								className="flex items-center whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
 							>
-								<span className="mx-5 text-accent" aria-hidden="true">
+								<span className="mx-5 text-accent/70" aria-hidden="true">
 									◈
 								</span>
 								{item}

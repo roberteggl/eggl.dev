@@ -55,7 +55,7 @@ export default function KeyInfoSection({
 	]
 
 	return (
-		<div className={`luxe-card p-6 md:p-8 ${className}`}>
+		<div className={`border border-line bg-surface p-6 md:p-8 ${className}`}>
 			<h3 className="font-display text-2xl tracking-tight">{title}</h3>
 			<div className="mt-2 flex items-center gap-2">
 				<span

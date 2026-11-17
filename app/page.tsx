@@ -7,7 +7,7 @@ import ContactSection from '@/components/sections/contact-section'
 import EducationSection from '@/components/sections/education-section'
 import HeroSection from '@/components/sections/hero-section'
 import ProjectsSection from '@/components/sections/projects-section'
-import SkillsSection from '@/components/sections/skills-section'
+import SoftPage from '@/components/soft-page'
 import Ticker from '@/components/ticker'
 import { getGitHubData } from '@/lib/github'
 import { createProfilePageJsonLd } from '@/lib/structured-data'
@@ -53,19 +53,17 @@ export default async function HomePage() {
 
 	return (
 		<>
+			<SoftPage />
 			<JsonLd data={profilePageJsonLd} />
 			<HeroSection />
 			<Ticker items={TICKER_ITEMS} />
-			<AboutSection />
-			<SectionDivider />
-			<SkillsSection />
-			<SectionDivider />
 			<ProjectsSection />
+			<SectionDivider />
+			<AboutSection />
 			<SectionDivider />
 			<EducationSection />
 			<SectionDivider />
 			<CareerSection />
-			<SectionDivider />
 			<ContactSection />
 		</>
 	)

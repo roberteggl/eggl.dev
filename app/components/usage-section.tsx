@@ -22,7 +22,7 @@ export default function UsageSection({ className = '' }: UsageSectionProps) {
 	]
 
 	return (
-		<div className={`luxe-card p-6 md:p-8 ${className}`}>
+		<div className={`border border-line bg-surface p-6 md:p-8 ${className}`}>
 			<h3 className="font-display text-2xl tracking-tight">Usage</h3>
 			<p className="mt-1.5 text-sm text-muted-foreground">
 				Three steps to secure communication.

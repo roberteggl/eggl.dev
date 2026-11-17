@@ -73,9 +73,10 @@ export default function RootLayout({
 				/>
 				<meta
 					name="theme-color"
-					content="#0B0D10"
+					content="#050607"
 					media="(prefers-color-scheme: dark)"
 				/>
+				<meta name="theme-color" content="#050607" />
 				<link rel="me" href="https://social.tchncs.de/@roberteggl" />
 				<meta name="fediverse:creator" content="@roberteggl@social.tchncs.de" />
 				<link rel="canonical" href="https://eggl.dev" />

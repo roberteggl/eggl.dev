@@ -96,10 +96,10 @@ export default function SiteHeader() {
 	return (
 		<header
 			id="site-header"
-			className={`fixed inset-x-0 top-0 z-50 border-b bg-white text-black dark:bg-black dark:text-white ${
+			className={`fixed inset-x-0 top-0 z-50 border-b text-black dark:text-white ${
 				scrolled
-					? 'border-black/15 dark:border-white/20'
-					: 'border-black/10 dark:border-white/15'
+					? 'border-black/15 bg-white/85 backdrop-blur-xl dark:border-white/12 dark:bg-black/70'
+					: 'border-black/10 bg-white/70 backdrop-blur-md dark:border-white/10 dark:bg-black/40'
 			}`}
 		>
 			<div className="container-custom flex h-[68px] items-center justify-between">
@@ -190,7 +190,7 @@ export default function SiteHeader() {
 			/>
 
 			{isMenuOpen ? (
-				<div className="border-b border-black/10 bg-white md:hidden dark:border-white/15 dark:bg-black">
+				<div className="border-b border-black/10 bg-white/95 backdrop-blur-xl md:hidden dark:border-white/12 dark:bg-black/90">
 					<nav
 						className="container-custom flex flex-col gap-1 py-5"
 						aria-label="Mobile"

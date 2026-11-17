@@ -76,7 +76,7 @@ export default function BlogLayout({
 					__html: JSON.stringify(jsonLd).replace(/</g, '\\u003c')
 				}}
 			/>
-			<div className="w-full max-w-7xl mx-auto">{children}</div>
+			{children}
 		</>
 	)
 }

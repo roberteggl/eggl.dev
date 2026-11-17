@@ -37,44 +37,40 @@ const ContactSection = () => {
 		<section id="contact" className="relative scroll-mt-24 overflow-hidden">
 			<div
 				aria-hidden="true"
-				className="absolute inset-0"
-				style={{
-					background:
-						'radial-gradient(ellipse 55% 40% at 50% 100%, var(--color-accent-soft), transparent 70%)'
-				}}
+				className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_50%_100%,rgba(45,212,191,0.1),transparent_70%)]"
 			/>
-			<div className="container-custom relative py-20 md:py-28">
+			<div className="container-custom relative py-24 md:py-32">
 				<SectionHeader
-					number="06"
+					number="05"
 					eyebrow="Contact"
-					title="Get in touch."
-					description="Open to new opportunities and collaborations."
+					title="Let's talk."
+					description="Open to thoughtful collaborations and new opportunities."
 					align="center"
 				/>
 
-				<Stagger className="mx-auto grid max-w-3xl gap-4 md:grid-cols-2">
-					{CHANNELS.map((channel) => (
-						<StaggerItem key={channel.label}>
+				<Stagger className="mx-auto mt-2 grid max-w-3xl gap-px border border-line bg-line md:grid-cols-2">
+					{CHANNELS.map((channel, i) => (
+						<StaggerItem key={channel.label} index={i}>
 							<a
 								href={channel.href}
 								target={channel.external ? '_blank' : undefined}
 								rel={channel.external ? 'noopener noreferrer' : undefined}
-								className="group flex h-full items-start gap-4 rounded-none border border-line bg-card p-5 hover:border-accent/50 md:p-6"
+								className="group flex h-full items-start gap-4 bg-background p-5 transition-colors hover:bg-surface md:p-6"
 							>
-								<span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none bg-accent text-accent-foreground">
-									<channel.icon size={20} strokeWidth={1.75} />
+								<span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-accent transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
+									<channel.icon size={18} strokeWidth={1.75} />
 								</span>
 								<span className="min-w-0 flex-1">
 									<span className="flex items-center justify-between gap-2">
-										<span className="block text-[17px] font-semibold text-foreground">
+										<span className="block text-[16px] font-medium text-foreground">
 											{channel.label}
 										</span>
 										<ArrowUpRight
-											size={17}
+											size={16}
 											className="shrink-0 text-muted-foreground transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
 										/>
 									</span>
-									<span className="mt-0.5 block truncate font-mono text-[13px] text-muted-foreground">
+									<span className="mt-0.5 block truncate font-mono text-[12px] text-muted-foreground">
 										{channel.value}
 									</span>
 									<span className="mt-1 block text-[13px] text-muted-foreground">
@@ -84,25 +80,25 @@ const ContactSection = () => {
 							</a>
 						</StaggerItem>
 					))}
-					<StaggerItem>
+					<StaggerItem index={CHANNELS.length}>
 						<Link
 							href="/keys"
-							className="group flex h-full items-start gap-4 rounded-none border border-dashed border-line bg-surface/50 p-5 hover:border-accent md:p-6"
+							className="group flex h-full items-start gap-4 bg-background p-5 transition-colors hover:bg-surface md:p-6"
 						>
-							<span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-line text-accent">
-								<KeyRound size={20} strokeWidth={1.75} />
+							<span className="flex h-11 w-11 shrink-0 items-center justify-center border border-dashed border-line text-accent">
+								<KeyRound size={18} strokeWidth={1.75} />
 							</span>
 							<span className="min-w-0 flex-1">
 								<span className="flex items-center justify-between gap-2">
-									<span className="block text-[17px] font-semibold text-foreground">
+									<span className="block text-[16px] font-medium text-foreground">
 										GPG keys
 									</span>
 									<ArrowUpRight
-										size={17}
+										size={16}
 										className="shrink-0 text-muted-foreground transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
 									/>
 								</span>
-								<span className="mt-0.5 block font-mono text-[13px] text-muted-foreground">
+								<span className="mt-0.5 block font-mono text-[12px] text-muted-foreground">
 									eggl.dev/keys
 								</span>
 								<span className="mt-1 block text-[13px] text-muted-foreground">

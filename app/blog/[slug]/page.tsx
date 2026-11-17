@@ -26,29 +26,32 @@ export default async function BlogPostPage({
 	})
 
 	return (
-		<article className="container-custom max-w-5xl pb-24 pt-32 md:pt-40">
-			<header className="mb-10 border-b border-line pb-10">
-				<h1 className="font-display text-4xl leading-[1.08] tracking-tight text-balance md:text-5xl">
+		<article className="container-custom max-w-3xl pb-24 pt-28 md:pt-36">
+			<header className="mb-12 border-b border-line pb-10">
+				<p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+					Essay
+				</p>
+				<h1 className="font-display text-[clamp(2.25rem,5vw,3.5rem)] font-medium leading-[1.05] tracking-[-0.035em] text-balance text-foreground">
 					{post.title}
 				</h1>
 
-				<div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[13px] text-muted-foreground">
+				<div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
 					<span className="inline-flex items-center gap-1.5">
-						<Calendar size={14} className="text-accent" />
+						<Calendar size={13} className="text-accent" />
 						{formattedDate}
 					</span>
 					<span className="inline-flex items-center gap-1.5">
-						<Clock size={14} className="text-accent" />
+						<Clock size={13} className="text-accent" />
 						{readingTime} min read
 					</span>
 					<span className="inline-flex items-center gap-1.5">
-						<BookOpen size={14} className="text-accent" />
+						<BookOpen size={13} className="text-accent" />
 						{wordCount} words
 					</span>
 				</div>
 
 				{post.description && (
-					<p className="mt-6 border-l-2 border-accent pl-5 text-lg leading-relaxed text-foreground/75 md:text-xl">
+					<p className="mt-6 border-l border-accent/60 pl-5 text-lg leading-relaxed text-muted-foreground md:text-xl">
 						{post.description}
 					</p>
 				)}

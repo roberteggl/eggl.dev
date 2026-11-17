@@ -50,7 +50,7 @@ const EducationSection = () => {
 		<section id="experience" className="relative scroll-mt-24">
 			<div className="container-custom py-20 md:py-28">
 				<SectionHeader
-					number="04"
+					number="03"
 					eyebrow="Journey"
 					title="Experience & education."
 					description="From AI research to enterprise delivery."
@@ -62,8 +62,8 @@ const EducationSection = () => {
 						aria-hidden="true"
 						className="absolute bottom-[9px] left-[7px] top-[9px] w-px bg-line"
 					/>
-					{TIMELINE.map((item) => (
-						<StaggerItem key={item.role}>
+					{TIMELINE.map((item, i) => (
+						<StaggerItem key={item.role} index={i}>
 							<article className="relative pl-10 md:grid md:grid-cols-[190px_1fr] md:gap-8 md:pl-12">
 								{/* dot: 15px box at left-0, center (7.5px) sits exactly on the spine */}
 								<span

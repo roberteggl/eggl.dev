@@ -1,37 +1,63 @@
+'use client'
+
 import type * as React from 'react'
 
-interface RevealProps {
+export const revealEase = [0.22, 1, 0.36, 1] as const
+
+/** Structural wrapper — blur is handled by CSS view() / SoftPage. */
+export function Reveal({
+	children,
+	className,
+	as: Tag = 'div'
+}: {
 	children: React.ReactNode
 	delay?: number
 	y?: number
+	blur?: number
 	className?: string
 	once?: boolean
 	as?: 'div' | 'span' | 'li'
+}) {
+	return <Tag className={className}>{children}</Tag>
 }
 
-/** Static wrapper — entrance motion removed for snappy feel. */
-export function Reveal({ children, className }: RevealProps) {
-	return <div className={className}>{children}</div>
-}
-
-interface StaggerProps {
-	children: React.ReactNode
-	className?: string
-	delay?: number
-}
-
-export function Stagger({ children, className }: StaggerProps) {
-	return <div className={className}>{children}</div>
-}
-
-export function StaggerItem({
+export function Stagger({
 	children,
 	className
 }: {
 	children: React.ReactNode
 	className?: string
+	delay?: number
+	stagger?: number
+	once?: boolean
 }) {
-	return <div className={className}>{children}</div>
+	return (
+		<div className={className} data-rise="">
+			{children}
+		</div>
+	)
+}
+
+export function StaggerItem({
+	children,
+	className,
+	index = 0
+}: {
+	children: React.ReactNode
+	className?: string
+	y?: number
+	blur?: number
+	index?: number
+}) {
+	return (
+		<div
+			className={`soft-target ${className ?? ''}`}
+			data-rise-item=""
+			style={{ ['--i' as string]: index }}
+		>
+			{children}
+		</div>
+	)
 }
 
 export function LineGrow({ className = '' }: { className?: string }) {

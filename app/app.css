@@ -84,52 +84,53 @@
 }
 
 .dark {
-	--color-background: #0b0d10;
-	--color-background-dark: #07080a;
-	--color-surface: #14181e;
-	--color-surface-2: #1c222b;
-	--color-foreground: #e8edf2;
-	--color-muted: #2a323c;
-	--color-muted-foreground: #8b97a5;
-	--color-border: rgba(232, 237, 242, 0.16);
-	--color-line: rgba(232, 237, 242, 0.16);
-	--color-input: rgba(232, 237, 242, 0.2);
+	/* cinematic near-black — depth via bloom, not flat gray panels */
+	--color-background: #050607;
+	--color-background-dark: #000000;
+	--color-surface: #0e1114;
+	--color-surface-2: #151a1f;
+	--color-foreground: #f2f5f7;
+	--color-muted: #1c2229;
+	--color-muted-foreground: #8b949e;
+	--color-border: rgba(242, 245, 247, 0.12);
+	--color-line: rgba(242, 245, 247, 0.12);
+	--color-input: rgba(242, 245, 247, 0.16);
 	--color-ring: #2dd4bf;
 
-	--color-primary: #e8edf2;
-	--color-primary-foreground: #0e1217;
+	--color-primary: #f2f5f7;
+	--color-primary-foreground: #050607;
 
 	--color-secondary: #2dd4bf;
-	--color-secondary-foreground: #0e1217;
+	--color-secondary-foreground: #050607;
 
-	--color-tertiary: #1c222b;
-	--color-tertiary-foreground: #e8edf2;
+	--color-tertiary: #151a1f;
+	--color-tertiary-foreground: #f2f5f7;
 
 	--color-accent: #2dd4bf;
-	--color-accent-foreground: #0e1217;
+	--color-accent-foreground: #050607;
 	--color-accent-light: #5eead4;
-	--color-accent-background: #132422;
-	--color-accent-soft: rgba(45, 212, 191, 0.14);
+	--color-accent-background: #0c1a18;
+	--color-accent-soft: rgba(45, 212, 191, 0.12);
 
-	--color-card: #14181e;
-	--color-card-foreground: #e8edf2;
+	--color-card: #0e1114;
+	--color-card-foreground: #f2f5f7;
 
-	--color-neo-border: rgba(232, 237, 242, 0.16);
-	--color-neo-foreground: #e8edf2;
-	--color-neo-background: #0b0d10;
+	--color-neo-border: rgba(242, 245, 247, 0.12);
+	--color-neo-foreground: #f2f5f7;
+	--color-neo-background: #050607;
 	--color-neo-accent: #2dd4bf;
 
 	--shadow-signal: none;
 	--shadow-signal-sm: none;
 	--shadow-luxe:
-		0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px -24px rgba(0, 0, 0, 0.65);
+		0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 48px -28px rgba(0, 0, 0, 0.75);
 	--shadow-luxe-sm:
-		0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.55);
+		0 1px 2px rgba(0, 0, 0, 0.45), 0 12px 28px -18px rgba(0, 0, 0, 0.6);
 	--shadow-neo: none;
 	--shadow-neo-lg: none;
 	--shadow-neo-thin: none;
 
-	--grid-line-color: 232 237 242 / 0.06;
+	--grid-line-color: 242 245 247 / 0.045;
 }
 
 html {
@@ -206,6 +207,109 @@ h6 {
 		animation-duration: 0.01ms;
 		transition-duration: 0.01ms;
 		scroll-behavior: auto;
+	}
+}
+
+/* ----------------------------------------------------------------
+   Soft reveals — FluidVoice softIn / data-in pattern
+   IntersectionObserver sets [data-in]; CSS eases blur → sharp.
+   (view() timelines were unreliable here — stuck at end state)
+---------------------------------------------------------------- */
+:root {
+	--soft-ease: cubic-bezier(0.25, 0.04, 0.25, 1);
+	--reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+	--soft-in: 1000ms;
+	--soft-step: 90ms;
+}
+
+@keyframes soft-hero-in {
+	from {
+		opacity: 0;
+		filter: blur(12px);
+		transform: translateY(18px);
+	}
+}
+
+@keyframes soft-in {
+	from {
+		opacity: 0.12;
+		filter: blur(10px);
+		transform: translateY(16px);
+	}
+}
+
+/* Hero load — one-shot */
+.soft-hero {
+	animation: soft-hero-in 1.05s var(--reveal-ease) both;
+}
+.soft-hero-d1 {
+	animation-delay: 0.08s;
+}
+.soft-hero-d2 {
+	animation-delay: 0.18s;
+}
+.soft-hero-d3 {
+	animation-delay: 0.32s;
+}
+.soft-hero-d4 {
+	animation-delay: 0.48s;
+}
+.soft-hero-d5 {
+	animation-delay: 0.62s;
+}
+
+/*
+  Pending state: blurred until SoftPage stamps data-in.
+  Only under [data-soft] so no-JS / pre-hydrate stays readable.
+*/
+@media (prefers-reduced-motion: no-preference) {
+	#main-content[data-soft]
+		section:not(.hero-section)
+		:is(
+			h2,
+			h3,
+			p,
+			figcaption,
+			li:not(:has(h3, p)),
+			.soft-target:not(:has(h2, h3, p))
+		):not([data-in]) {
+		opacity: 0.12;
+		filter: blur(8px);
+		transform: translateY(18px);
+	}
+
+	#main-content[data-soft]
+		section:not(.hero-section)
+		:is(
+			h2,
+			h3,
+			p,
+			figcaption,
+			li:not(:has(h3, p)),
+			.soft-target:not(:has(h2, h3, p))
+		)[data-in] {
+		animation: soft-in var(--soft-in) var(--soft-ease)
+			calc(var(--i, 0) * var(--soft-step)) both;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.soft-hero,
+	.soft-hero-d1,
+	.soft-hero-d2,
+	.soft-hero-d3,
+	.soft-hero-d4,
+	.soft-hero-d5 {
+		animation: none;
+	}
+
+	#main-content[data-soft]
+		section:not(.hero-section)
+		:is(h2, h3, p, figcaption, li, .soft-target) {
+		opacity: 1;
+		filter: none;
+		transform: none;
+		animation: none;
 	}
 }
 

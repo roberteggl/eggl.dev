@@ -64,10 +64,10 @@ const CareerSection = () => {
 	return (
 		<SignalField id="activity">
 			<SectionHeader
-				number="05"
-				eyebrow="Activity"
+				number="04"
+				eyebrow="Proof"
 				title="GitHub activity."
-				description="Contributions, languages, commit history, live from GitHub."
+				description="Contributions, languages, and commit history — live."
 				invert
 				mbSize="mb-8 md:mb-10"
 			/>

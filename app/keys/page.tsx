@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import KeyCard from '@/components/keys/key-card'
-import SectionHeader from '@/components/section-header'
+import PageHero from '@/components/page-hero'
 import UsageSection from '@/components/usage-section'
 import { GPG_KEYS } from '@/data/gpg-key'
 
@@ -15,15 +15,12 @@ export default function Keys() {
 	const replacedKeys = GPG_KEYS.filter((key) => key.status === 'replaced')
 
 	return (
-		<main className="container-custom max-w-5xl pb-24 pt-28 md:pt-36">
-			<SectionHeader
-				number="01"
+		<div className="container-custom max-w-5xl pb-24 pt-28 md:pt-36">
+			<PageHero
 				eyebrow="Trust"
 				title="GPG keys."
 				description="Verify signatures and send encrypted messages. Fingerprints are the source of truth."
 			/>
-
-			<h1 className="sr-only">GPG Keys - Robert Eggl</h1>
 
 			<div className="space-y-8">
 				{activeKeys.map((keyInfo) => (
@@ -32,28 +29,32 @@ export default function Keys() {
 			</div>
 
 			{replacedKeys.length > 0 && (
-				<>
-					<SectionHeader
-						number="02"
-						eyebrow="Archive"
-						title="Previous keys."
-						mbSize="mb-8 mt-20"
-					/>
-					<div className="space-y-8 opacity-80">
+				<section className="mt-20">
+					<p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+						Archive
+					</p>
+					<h2 className="font-display text-3xl tracking-tight text-foreground md:text-4xl">
+						Previous keys.
+					</h2>
+					<div className="mt-8 space-y-8 opacity-80">
 						{replacedKeys.map((keyInfo) => (
 							<KeyCard key={keyInfo.id} keyInfo={keyInfo} />
 						))}
 					</div>
-				</>
+				</section>
 			)}
 
-			<SectionHeader
-				number="03"
-				eyebrow="Guide"
-				title="How to use them."
-				mbSize="mb-8 mt-20"
-			/>
-			<UsageSection />
-		</main>
+			<section className="mt-20">
+				<p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+					Guide
+				</p>
+				<h2 className="font-display text-3xl tracking-tight text-foreground md:text-4xl">
+					How to use them.
+				</h2>
+				<div className="mt-8">
+					<UsageSection />
+				</div>
+			</section>
+		</div>
 	)
 }

@@ -8,11 +8,11 @@ const Footer = () => {
 	const gitSha = process.env.NEXT_PUBLIC_GIT_SHA ?? 'development'
 
 	return (
-		<footer className="relative z-10 border-t border-line bg-surface/50">
+		<footer className="relative z-10 border-t border-line bg-background-dark/50">
 			<div className="container-custom py-14 md:py-20">
 				<div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
 					<div>
-						<p className="font-display text-3xl tracking-tight text-foreground">
+						<p className="font-display text-3xl font-medium tracking-tight text-foreground">
 							Robert Eggl
 						</p>
 						<p className="mt-3 max-w-sm text-[15px] leading-relaxed text-muted-foreground">

@@ -11,6 +11,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { memo, useMemo, useState } from 'react'
 import { Github } from '@/components/icons/brand-icons'
+import PageHero from '@/components/page-hero'
 import {
 	Tooltip,
 	TooltipContent,
@@ -249,37 +250,33 @@ const ProjectsPage = () => {
 	return (
 		<TooltipProvider delayDuration={150}>
 			<div className="container-custom pb-24 pt-28 md:pt-36">
-				<header className="mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-line pb-10">
-					<div className="max-w-2xl">
-						<h1 className="font-display text-5xl tracking-tight md:text-6xl">
-							Projects.
-						</h1>
-						<p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-							{filteredProjects.length} of {projects.length}: campus apps to
-							infrastructure tooling.
-						</p>
-					</div>
-					<div className="flex items-center gap-1 border border-line p-1">
-						<button
-							type="button"
-							onClick={() => setViewMode('list')}
-							aria-label="List view"
-							aria-pressed={viewMode === 'list'}
-							className={`rounded-none p-2.5 transition-colors duration-150 ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
-						>
-							<List size={16} />
-						</button>
-						<button
-							type="button"
-							onClick={() => setViewMode('grid')}
-							aria-label="Grid view"
-							aria-pressed={viewMode === 'grid'}
-							className={`rounded-none p-2.5 transition-colors duration-150 ${viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
-						>
-							<Grid size={16} />
-						</button>
-					</div>
-				</header>
+				<PageHero
+					eyebrow="Work"
+					title="Projects."
+					description={`${filteredProjects.length} of ${projects.length}: campus apps to infrastructure tooling.`}
+					action={
+						<div className="flex items-center gap-1 border border-line p-1">
+							<button
+								type="button"
+								onClick={() => setViewMode('list')}
+								aria-label="List view"
+								aria-pressed={viewMode === 'list'}
+								className={`rounded-none p-2.5 transition-colors duration-150 ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+							>
+								<List size={16} />
+							</button>
+							<button
+								type="button"
+								onClick={() => setViewMode('grid')}
+								aria-label="Grid view"
+								aria-pressed={viewMode === 'grid'}
+								className={`rounded-none p-2.5 transition-colors duration-150 ${viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+							>
+								<Grid size={16} />
+							</button>
+						</div>
+					}
+				/>
 
 				<div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 					<div className="flex flex-wrap gap-2">
@@ -324,7 +321,7 @@ const ProjectsPage = () => {
 				)}
 
 				{filteredProjects.length === 0 && (
-					<div className="signal-card mx-auto mt-8 max-w-md p-12 text-center">
+					<div className="mx-auto mt-8 max-w-md border border-line bg-surface px-8 py-14 text-center">
 						<p className="text-muted-foreground">
 							No projects found matching your criteria.
 						</p>
