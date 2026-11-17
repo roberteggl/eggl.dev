@@ -44,8 +44,7 @@ const HeroSection = () => {
 				WAVE_INTRO_DURATION) *
 			1000
 		const playEndMs =
-			(WAVE_PLAY_DURATION +
-				(NAME_WAVEFORM.length - 1) * WAVE_PLAY_STAGGER) *
+			(WAVE_PLAY_DURATION + (NAME_WAVEFORM.length - 1) * WAVE_PLAY_STAGGER) *
 			1000
 
 		timers.push(
@@ -138,9 +137,7 @@ const HeroSection = () => {
 										rx="0"
 										fill="currentColor"
 										initial={
-											reduceMotion
-												? rest
-												: { height: 2, y: 23, opacity: 0 }
+											reduceMotion ? rest : { height: 2, y: 23, opacity: 0 }
 										}
 										animate={
 											wavePlaying
@@ -173,8 +170,7 @@ const HeroSection = () => {
 													: {
 															duration: WAVE_INTRO_DURATION,
 															delay:
-																WAVE_INTRO_BASE_DELAY +
-																i * WAVE_INTRO_STAGGER,
+																WAVE_INTRO_BASE_DELAY + i * WAVE_INTRO_STAGGER,
 															ease: WAVE_EASE
 														}
 										}
