@@ -50,7 +50,6 @@ const HeroSection = () => {
 			>
 				<div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_20%,rgba(45,212,191,0.12),transparent_60%)] dark:bg-[radial-gradient(ellipse_70%_55%_at_50%_18%,rgba(45,212,191,0.1),transparent_58%)]" />
 				<div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_70%,rgba(14,18,23,0.06),transparent_50%)] dark:bg-[radial-gradient(ellipse_45%_35%_at_85%_75%,rgba(45,212,191,0.04),transparent_55%)]" />
-				<div className="absolute inset-0 opacity-[0.035] grain dark:opacity-[0.06]" />
 			</motion.div>
 
 			<div

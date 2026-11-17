@@ -222,18 +222,21 @@ h6 {
 	--soft-step: 90ms;
 }
 
+/*
+  Soft reveals — opacity + translate only.
+  Do not animate `filter: blur()`: Safari/WebKit paints magenta/pink
+  horizontal lines when filtered layers composite during scroll.
+*/
 @keyframes soft-hero-in {
 	from {
 		opacity: 0;
-		filter: blur(12px);
 		transform: translateY(18px);
 	}
 }
 
 @keyframes soft-in {
 	from {
-		opacity: 0.12;
-		filter: blur(10px);
+		opacity: 0.14;
 		transform: translateY(16px);
 	}
 }
@@ -258,10 +261,6 @@ h6 {
 	animation-delay: 0.62s;
 }
 
-/*
-  Pending state: blurred until SoftPage stamps data-in.
-  Only under [data-soft] so no-JS / pre-hydrate stays readable.
-*/
 @media (prefers-reduced-motion: no-preference) {
 	#main-content[data-soft]
 		section:not(.hero-section)
@@ -273,8 +272,7 @@ h6 {
 			li:not(:has(h3, p)),
 			.soft-target:not(:has(h2, h3, p))
 		):not([data-in]) {
-		opacity: 0.12;
-		filter: blur(8px);
+		opacity: 0.14;
 		transform: translateY(18px);
 	}
 
@@ -307,7 +305,6 @@ h6 {
 		section:not(.hero-section)
 		:is(h2, h3, p, figcaption, li, .soft-target) {
 		opacity: 1;
-		filter: none;
 		transform: none;
 		animation: none;
 	}
