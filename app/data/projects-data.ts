@@ -42,7 +42,7 @@ export const projects: Project[] = [
 		slug: 'neuland-next',
 		title: 'Neuland Next',
 		description:
-			"A university app for TH Ingolstadt, built with React Native and Expo. As the project's founder and lead developer, I was responsible for the majority of the app's development. The app has about 4000 active users and is used by students to manage their courses, grades and schedules.",
+			"A university app for TH Ingolstadt, built with React Native and Expo. As the project's founder and lead developer, I was responsible for the majority of the app's development. The app has about 7000 active users and is used by students to manage their courses, grades and schedules.",
 		technologies: ['React Native', 'Expo', 'TypeScript', 'CI/CD'],
 		github: 'https://github.com/neuland-ingolstadt/neuland.app-native',
 		demo: 'https://neuland.app',
