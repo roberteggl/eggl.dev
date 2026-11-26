@@ -24,13 +24,35 @@ function projectCard(project: Project) {
 		description: project.description,
 		technologies: project.technologies,
 		category: project.category,
+		// Homepage highlights only — not a quality ranking.
 		featured: Boolean(project.featured),
+		showOnMain: Boolean(project.showOnMain),
 		path: getProjectPath(project),
 		github: project.github ?? null,
 		demo: project.demo ?? null,
 		docs: project.docs ?? null,
 		blogPath: project.blog ? `/blog/${project.blog}` : null
 	}
+}
+
+/** YYYY-MM-DD in Europe/Berlin (Robert’s timezone). */
+function berlinDateString(date = new Date()) {
+	return new Intl.DateTimeFormat('en-CA', {
+		timeZone: 'Europe/Berlin',
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit'
+	}).format(date)
+}
+
+/** Shift a YYYY-MM-DD calendar date by whole days (no timezone drift). */
+function shiftIsoDate(isoDate: string, dayDelta: number) {
+	const [year, month, day] = isoDate.split('-').map(Number)
+	const utc = new Date(Date.UTC(year, month - 1, day + dayDelta))
+	const y = utc.getUTCFullYear()
+	const m = String(utc.getUTCMonth() + 1).padStart(2, '0')
+	const d = String(utc.getUTCDate()).padStart(2, '0')
+	return `${y}-${m}-${d}`
 }
 
 function normalize(value: string) {
@@ -148,14 +170,36 @@ async function getGithubStats() {
 		data.stats.stars === 0 &&
 		data.stats.contributions === 0
 
+	const today = berlinDateString()
+	const byDate = new Map(
+		data.contributions.map((day) => [day.date, day.count] as const)
+	)
+
+	const todayCount = byDate.get(today) ?? 0
+	const recentDays = Array.from({ length: 14 }, (_, index) => {
+		const date = shiftIsoDate(today, -index)
+		return { date, count: byDate.get(date) ?? 0 }
+	})
+	const lastActive = data.contributions.filter((day) => day.count > 0).at(-1)
+
 	return {
 		username: 'roberteggl',
 		profileUrl: 'https://github.com/roberteggl',
+		timezone: 'Europe/Berlin',
+		today: {
+			date: today,
+			contributionCount: todayCount,
+			active: todayCount > 0
+		},
+		recentDays,
+		lastActiveDay: lastActive
+			? { date: lastActive.date, contributionCount: lastActive.count }
+			: null,
 		stats: data.stats,
 		available: !empty,
 		note: empty
 			? 'Live GitHub stats are unavailable right now (token missing or API empty). Still share the GitHub profile URL.'
-			: null
+			: 'Contribution counts are public GitHub calendar totals for that day (commits/PRs/reviews/issues across repos). They do not name which repos. Do not invent repo-level activity.'
 	}
 }
 
@@ -235,7 +279,7 @@ export const agentFunctionTools: FunctionTool[] = [
 		type: 'function',
 		name: 'get_github_stats',
 		description:
-			'Fetch live GitHub stats for roberteggl (followers, stars, contributions, PRs, top languages).',
+			'Fetch live GitHub data for roberteggl: today’s contribution count (Europe/Berlin), last 14 days of the contribution calendar, last active day, plus followers, stars, yearly contributions, PRs, and top languages. Use for “what is he working on today / recently / GitHub activity”.',
 		strict: true,
 		parameters: {
 			type: 'object',

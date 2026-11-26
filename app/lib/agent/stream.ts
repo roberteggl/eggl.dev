@@ -3,7 +3,7 @@ import { ResponsesToolRunner } from 'openai/helpers/responses-tool-runner'
 import type { ResponseInput } from 'openai/resources/responses/responses'
 import type { ChatClientEvent } from '@/lib/agent/events'
 import { toolLabel } from '@/lib/agent/events'
-import { AGENT_INSTRUCTIONS, AGENT_MODEL } from '@/lib/agent/prompt'
+import { AGENT_MODEL, getAgentInstructions } from '@/lib/agent/prompt'
 import {
 	agentFunctionTools,
 	executeAgentTool,
@@ -86,7 +86,7 @@ export function createAgentEventStream(
 					client,
 					{
 						model: AGENT_MODEL,
-						instructions: AGENT_INSTRUCTIONS,
+						instructions: getAgentInstructions(),
 						input,
 						reasoning: { effort: 'low' },
 						// Only our function tools — never hosted web_search or other built-ins.
