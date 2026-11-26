@@ -9,7 +9,7 @@ export interface Project {
 	demo?: string
 	docs?: string
 	blog?: string
-	image: string
+	image?: string
 	category: ProjectCategory
 	featured?: boolean
 	showOnMain?: boolean
@@ -18,8 +18,8 @@ export interface Project {
 export const getProjectImageSrc = (image: string) =>
 	image.startsWith('/') ? image : `/${image}`
 
-export const getProjectImageUrl = (image: string) =>
-	`https://eggl.dev${getProjectImageSrc(image)}`
+export const getProjectImageUrl = (image?: string) =>
+	image ? `https://eggl.dev${getProjectImageSrc(image)}` : undefined
 
 export const PROJECT_CATEGORY_COLORS: Record<ProjectCategory, string> = {
 	mobile: 'border-line bg-surface-2/60 text-muted-foreground',
@@ -243,6 +243,38 @@ export const projects: Project[] = [
 		technologies: ['Home Assistant', 'Python', 'GraphQL'],
 		image: '/images/ha.webp',
 		github: 'https://github.com/roberteggl/hacs-thi-mensa',
+		category: 'tool',
+		showOnMain: false
+	},
+	{
+		slug: 'metiundo-home-assistant',
+		title: 'Metiundo Home Assistant',
+		description:
+			'A Home Assistant custom integration for Metiundo smart meters. It pulls historical grid import and export readings from the Metiundo API, exposes Energy Dashboard-compatible sensors, and can apply a working price for import cost statistics - with UI setup, options flow, and HACS-friendly releases.',
+		technologies: [
+			'Python',
+			'Home Assistant',
+			'HACS',
+			'Energy Monitoring',
+			'Smart Meter'
+		],
+		github: 'https://github.com/roberteggl/metiundo-home-assistant',
+		category: 'tool',
+		showOnMain: false
+	},
+	{
+		slug: 'bundletool-action',
+		title: 'Bundletool Action',
+		description:
+			'A GitHub Action that converts Android App Bundles (.aab) into APKs with Google bundletool. It handles version-pinned downloads and caching, universal APK and .apks generation, optional keystore signing, and device-specific APK extraction for CI pipelines.',
+		technologies: [
+			'TypeScript',
+			'GitHub Actions',
+			'Android',
+			'bundletool',
+			'CI/CD'
+		],
+		github: 'https://github.com/roberteggl/bundletool-action',
 		category: 'tool',
 		showOnMain: false
 	},

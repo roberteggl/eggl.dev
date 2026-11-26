@@ -25,20 +25,24 @@ const FeaturedProject = memo(({ project }: { project: Project }) => {
 					aria-hidden="true"
 					className="absolute bottom-0 left-0 top-0 z-20 w-px origin-top scale-y-0 bg-accent transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100"
 				/>
-				<div className="relative aspect-[16/10] md:aspect-[21/9]">
-					<Image
-						src={getProjectImageSrc(project.image)}
-						alt={`${project.title} project screenshot`}
-						fill
-						priority
-						sizes="(max-width: 768px) 100vw, 1152px"
-						className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-					/>
-					<div
-						aria-hidden="true"
-						className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent dark:from-background dark:via-background/70"
-					/>
-				</div>
+				{project.image ? (
+					<div className="relative aspect-[16/10] md:aspect-[21/9]">
+						<Image
+							src={getProjectImageSrc(project.image)}
+							alt={`${project.title} project screenshot`}
+							fill
+							priority
+							sizes="(max-width: 768px) 100vw, 1152px"
+							className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+						/>
+						<div
+							aria-hidden="true"
+							className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent dark:from-background dark:via-background/70"
+						/>
+					</div>
+				) : (
+					<div className="aspect-[16/10] bg-surface-2 md:aspect-[21/9]" />
+				)}
 
 				<div className="absolute inset-x-0 bottom-0 p-6 md:p-10 lg:p-12">
 					<p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
@@ -92,16 +96,18 @@ const ProjectRow = memo(({ project }: { project: Project }) => {
 					))}
 				</span>
 			</span>
-			<span className="relative hidden overflow-hidden md:block">
-				<Image
-					src={getProjectImageSrc(project.image)}
-					alt={`${project.title} project screenshot`}
-					className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-105"
-					loading="lazy"
-					width={440}
-					height={275}
-				/>
-			</span>
+			{project.image ? (
+				<span className="relative hidden overflow-hidden md:block">
+					<Image
+						src={getProjectImageSrc(project.image)}
+						alt={`${project.title} project screenshot`}
+						className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+						loading="lazy"
+						width={440}
+						height={275}
+					/>
+				</span>
+			) : null}
 		</Link>
 	)
 })

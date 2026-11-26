@@ -68,16 +68,20 @@ const ProjectRow = memo(
 							))}
 						</span>
 					</span>
-					<span className="relative hidden overflow-hidden md:block">
-						<Image
-							src={getProjectImageSrc(project.image)}
-							alt=""
-							className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-							width={320}
-							height={200}
-							loading="lazy"
-						/>
-					</span>
+					{project.image ? (
+						<span className="relative hidden overflow-hidden md:block">
+							<Image
+								src={getProjectImageSrc(project.image)}
+								alt=""
+								className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+								width={320}
+								height={200}
+								loading="lazy"
+							/>
+						</span>
+					) : (
+						<span className="hidden md:block" aria-hidden="true" />
+					)}
 				</Link>
 			</li>
 		)

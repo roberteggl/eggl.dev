@@ -42,20 +42,22 @@ export async function generateMetadata({
 			type: 'article',
 			url: `https://eggl.dev/projects/${project.slug}`,
 			siteName: 'Robert Eggl',
-			images: [
-				{
-					url: imageUrl,
-					width: 1200,
-					height: 630,
-					alt: `${project.title} screenshot`
-				}
-			]
+			...(imageUrl && {
+				images: [
+					{
+						url: imageUrl,
+						width: 1200,
+						height: 630,
+						alt: `${project.title} screenshot`
+					}
+				]
+			})
 		},
 		twitter: {
-			card: 'summary_large_image',
+			card: imageUrl ? 'summary_large_image' : 'summary',
 			title: project.title,
 			description: project.description,
-			images: [imageUrl]
+			...(imageUrl && { images: [imageUrl] })
 		}
 	}
 }
@@ -71,7 +73,9 @@ const generateJsonLd = (
 	operatingSystem: 'Web',
 	url:
 		project.demo ?? project.docs ?? `https://eggl.dev/projects/${project.slug}`,
-	image: getProjectImageUrl(project.image),
+	...(getProjectImageUrl(project.image) && {
+		image: getProjectImageUrl(project.image)
+	}),
 	author: {
 		'@type': 'Person',
 		name: 'Robert Eggl',

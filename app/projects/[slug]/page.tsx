@@ -45,28 +45,43 @@ export default async function ProjectPage({
 				All projects
 			</Link>
 
-			<div className="relative overflow-hidden border border-line bg-surface">
-				<Image
-					src={getProjectImageSrc(project.image)}
-					alt={`${project.title} project screenshot`}
-					className="aspect-video w-full object-cover"
-					width={1200}
-					height={675}
-					priority
-				/>
-				<div className="absolute left-4 top-4 flex flex-wrap gap-2">
+			{project.image ? (
+				<div className="relative overflow-hidden border border-line bg-surface">
+					<Image
+						src={getProjectImageSrc(project.image)}
+						alt={`${project.title} project screenshot`}
+						className="aspect-video w-full object-cover"
+						width={1200}
+						height={675}
+						priority
+					/>
+					<div className="absolute left-4 top-4 flex flex-wrap gap-2">
+						<span
+							className={`rounded-[2px] border px-3 py-1 font-mono text-[11px] uppercase tracking-wider backdrop-blur ${PROJECT_CATEGORY_COLORS[project.category]}`}
+						>
+							{PROJECT_CATEGORY_LABELS[project.category]}
+						</span>
+						{project.featured && (
+							<span className="rounded-[2px] border border-accent/40 bg-background/90 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent backdrop-blur">
+								Featured
+							</span>
+						)}
+					</div>
+				</div>
+			) : (
+				<div className="mb-2 flex flex-wrap gap-2">
 					<span
-						className={`rounded-[2px] border px-3 py-1 font-mono text-[11px] uppercase tracking-wider backdrop-blur ${PROJECT_CATEGORY_COLORS[project.category]}`}
+						className={`rounded-[2px] border px-3 py-1 font-mono text-[11px] uppercase tracking-wider ${PROJECT_CATEGORY_COLORS[project.category]}`}
 					>
 						{PROJECT_CATEGORY_LABELS[project.category]}
 					</span>
 					{project.featured && (
-						<span className="rounded-[2px] border border-accent/40 bg-background/90 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent backdrop-blur">
+						<span className="rounded-[2px] border border-accent/40 bg-accent-soft px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent">
 							Featured
 						</span>
 					)}
 				</div>
-			</div>
+			)}
 
 			<header className="mb-10 mt-10 border-b border-line pb-10">
 				<p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -146,16 +161,18 @@ export default async function ProjectPage({
 								href={getProjectPath(relatedProject)}
 								className="group flex gap-3 rounded-[8px] border border-line bg-surface p-4 transition-colors hover:border-accent/50"
 							>
-								<div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-[6px] border border-line">
-									<Image
-										src={getProjectImageSrc(relatedProject.image)}
-										alt={`${relatedProject.title} project screenshot`}
-										className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-										width={80}
-										height={56}
-										loading="lazy"
-									/>
-								</div>
+								{relatedProject.image ? (
+									<div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-[6px] border border-line">
+										<Image
+											src={getProjectImageSrc(relatedProject.image)}
+											alt={`${relatedProject.title} project screenshot`}
+											className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+											width={80}
+											height={56}
+											loading="lazy"
+										/>
+									</div>
+								) : null}
 								<div className="min-w-0 flex-1">
 									<h3 className="truncate text-[15px] font-semibold transition-colors group-hover:text-accent">
 										{relatedProject.title}
