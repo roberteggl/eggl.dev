@@ -183,6 +183,19 @@ h6 {
 	border-radius: 6px;
 }
 
+[data-slot='command-dialog'] :focus,
+[data-slot='command-dialog'] :focus-visible,
+[data-slot='dialog-content']:has([data-slot='command']) :focus,
+[data-slot='dialog-content']:has([data-slot='command']) :focus-visible,
+[data-slot='command-input']:focus,
+[data-slot='command-input']:focus-visible,
+[data-slot='command-item']:focus,
+[data-slot='command-item']:focus-visible {
+	outline: none !important;
+	outline-offset: 0 !important;
+	box-shadow: none !important;
+}
+
 .agent-chat-input:focus,
 .agent-chat-input:focus-visible {
 	outline: none;
