@@ -73,11 +73,20 @@ export default function AgentChatTeaser() {
 	const [replying, setReplying] = useState(false)
 	const [activeTools, setActiveTools] = useState<ToolChip[]>([])
 	const [chatEnded, setChatEnded] = useState(false)
+	const [desktop, setDesktop] = useState(false)
 	const inputRef = useRef<HTMLInputElement>(null)
 	const launcherRef = useRef<HTMLButtonElement>(null)
 	const logEndRef = useRef<HTMLDivElement>(null)
 	const agentLineIdRef = useRef<string | null>(null)
 	const chatEndedRef = useRef(false)
+
+	useEffect(() => {
+		const media = window.matchMedia('(min-width: 768px)')
+		const sync = () => setDesktop(media.matches)
+		sync()
+		media.addEventListener('change', sync)
+		return () => media.removeEventListener('change', sync)
+	}, [])
 
 	useEffect(() => {
 		if (!open || chatEnded) return
@@ -249,10 +258,9 @@ export default function AgentChatTeaser() {
 					chatEndedRef.current = true
 					setChatEnded(true)
 					setDraft('')
-					// Drop any model closing text — UI shows a fixed ended state.
 					patchAgentLine((line) => ({
 						...line,
-						text: ''
+						text: line.text.trim() || event.message
 					}))
 					return
 				}
@@ -321,9 +329,9 @@ export default function AgentChatTeaser() {
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						transition={{ duration: 0.22, ease: panelEase }}
+						transition={{ duration: 0.28, ease: panelEase }}
 						onClick={() => setExpanded(false)}
-						className="pointer-events-auto fixed inset-0 z-40 bg-background/25 backdrop-blur-[2px]"
+						className="pointer-events-auto fixed inset-0 z-40 bg-background/40 backdrop-blur-[3px] md:bg-background/30"
 					/>
 				) : null}
 			</AnimatePresence>
@@ -338,44 +346,93 @@ export default function AgentChatTeaser() {
 							aria-modal={expanded}
 							aria-labelledby={`${panelId}-title`}
 							initial={{ opacity: 0, y: 18, scale: 0.97 }}
-							animate={{
-								opacity: 1,
-								y: 0,
-								scale: 1,
-								width: expanded
-									? 'min(calc(100vw - 1.25rem), 42rem)'
-									: 'min(calc(100vw - 2.5rem), 22rem)',
-								height: expanded
-									? 'min(85dvh, 44rem)'
-									: 'min(70dvh, 32rem)'
-							}}
+							animate={
+								expanded
+									? {
+											opacity: 1,
+											y: 0,
+											x: 0,
+											scale: 1,
+											width: desktop ? '33.333333vw' : '100vw',
+											height: '100dvh'
+										}
+									: {
+											opacity: 1,
+											y: 0,
+											x: 0,
+											scale: 1,
+											width: 'min(calc(100vw - 2.5rem), 22rem)',
+											height: 'min(70dvh, 32rem)'
+										}
+							}
 							exit={{ opacity: 0, y: 14, scale: 0.98 }}
-							transition={{ duration: 0.34, ease: panelEase }}
-							className="pointer-events-auto origin-bottom-right"
+							transition={{ duration: 0.42, ease: panelEase }}
+							className={cn(
+								'pointer-events-auto',
+								expanded
+									? 'fixed inset-y-0 right-0 z-50 origin-right'
+									: 'origin-bottom-right'
+							)}
 						>
-							<div className="flex h-full flex-col overflow-hidden rounded-[1.35rem] border border-border/60 bg-card/85 shadow-[0_24px_60px_-28px_rgba(14,18,23,0.5)] backdrop-blur-2xl dark:border-border/50 dark:bg-card/80 dark:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)]">
+							<div
+								className={cn(
+									'relative flex h-full w-full flex-col overflow-hidden border border-border/60 bg-card/85 backdrop-blur-2xl dark:border-border/50 dark:bg-card/80',
+									expanded
+										? 'rounded-none border-y-0 border-r-0 shadow-[-32px_0_80px_-28px_rgba(14,18,23,0.45)] md:rounded-l-[1.75rem] md:border-y md:border-l dark:shadow-[-40px_0_90px_-20px_rgba(0,0,0,0.7)]'
+										: 'rounded-[1.35rem] shadow-[0_24px_60px_-28px_rgba(14,18,23,0.5)] dark:shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)]'
+								)}
+							>
+								{expanded ? (
+									<>
+										<div
+											aria-hidden
+											className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(120%_80%_at_100%_0%,color-mix(in_oklab,var(--color-accent)_18%,transparent),transparent_70%)]"
+										/>
+										<div
+											aria-hidden
+											className="pointer-events-none absolute inset-y-8 left-0 w-px bg-gradient-to-b from-transparent via-accent/40 to-transparent"
+										/>
+									</>
+								) : null}
 								<div
 									className={cn(
-										'flex shrink-0 items-start justify-between gap-3 border-b border-border/50',
-										expanded ? 'px-5 py-4' : 'px-4 py-3.5'
+										'relative flex shrink-0 items-start justify-between gap-3 border-b border-border/50',
+										expanded ? 'px-6 py-5 md:px-7 md:py-6' : 'px-4 py-3.5'
 									)}
 								>
 									<div className="flex min-w-0 items-center gap-3">
-										<span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent ring-1 ring-accent/15">
-											<Sparkles size={16} strokeWidth={1.75} aria-hidden />
+										<span
+											className={cn(
+												'inline-flex shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent ring-1 ring-accent/15',
+												expanded ? 'size-11' : 'size-9'
+											)}
+										>
+											<Sparkles
+												size={expanded ? 18 : 16}
+												strokeWidth={1.75}
+												aria-hidden
+											/>
 										</span>
 										<div className="min-w-0">
 											<p
 												id={`${panelId}-title`}
-												className="text-[15px] font-medium tracking-tight text-foreground"
+												className={cn(
+													'font-medium tracking-tight text-foreground',
+													expanded ? 'text-[17px]' : 'text-[15px]'
+												)}
 											>
 												Eggl Agent
 											</p>
-											<p className="mt-0.5 text-[12px] text-muted-foreground">
+											<p
+												className={cn(
+													'mt-0.5 text-muted-foreground',
+													expanded ? 'text-[13px]' : 'text-[12px]'
+												)}
+											>
 												{chatEnded
 													? 'Chat ended'
 													: expanded
-														? 'Expanded view'
+														? 'Full conversation dock'
 														: 'Projects, posts, and how Robert builds'}
 											</p>
 										</div>
@@ -418,8 +475,8 @@ export default function AgentChatTeaser() {
 
 								<div
 									className={cn(
-										'min-h-0 flex-1 overflow-y-auto',
-										expanded ? 'px-5 py-5' : 'px-4 py-4'
+										'relative min-h-0 flex-1 overflow-y-auto',
+										expanded ? 'px-6 py-6 md:px-7 md:py-7' : 'px-4 py-4'
 									)}
 								>
 									<div
@@ -428,7 +485,7 @@ export default function AgentChatTeaser() {
 										aria-relevant="additions"
 										className={cn(
 											'flex flex-col',
-											expanded ? 'gap-3.5' : 'gap-2.5'
+											expanded ? 'gap-4' : 'gap-2.5'
 										)}
 									>
 										{lines.map((line) => (
@@ -436,7 +493,7 @@ export default function AgentChatTeaser() {
 												key={line.id}
 												className={cn(
 													'flex flex-col gap-1.5',
-													expanded ? 'max-w-[88%]' : 'max-w-[92%]',
+													expanded ? 'max-w-[90%]' : 'max-w-[92%]',
 													line.role === 'agent' ? 'self-start' : 'self-end'
 												)}
 											>
@@ -479,7 +536,7 @@ export default function AgentChatTeaser() {
 														className={cn(
 															'rounded-2xl leading-relaxed',
 															expanded
-																? 'px-4 py-2.5 text-[14px]'
+																? 'px-4 py-3 text-[15px]'
 																: 'px-3.5 py-2 text-[13px]',
 															line.role === 'agent'
 																? 'rounded-bl-md bg-surface-2/90 text-foreground'
@@ -526,8 +583,8 @@ export default function AgentChatTeaser() {
 
 								<div
 									className={cn(
-										'shrink-0 border-t border-border/50',
-										expanded ? 'p-4' : 'p-3'
+										'relative shrink-0 border-t border-border/50',
+										expanded ? 'p-5 md:p-6' : 'p-3'
 									)}
 								>
 									{chatEnded ? (
@@ -559,7 +616,7 @@ export default function AgentChatTeaser() {
 												className={cn(
 													'agent-chat-input min-w-0 flex-1 rounded-full border border-border/70 bg-background/70 text-foreground placeholder:text-muted-foreground disabled:opacity-60',
 													expanded
-														? 'h-11 px-5 text-[14px]'
+														? 'h-12 px-5 text-[15px]'
 														: 'h-10 px-4 text-[13px]'
 												)}
 											/>
@@ -569,7 +626,7 @@ export default function AgentChatTeaser() {
 												aria-label="Send message"
 												className={cn(
 													'inline-flex shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground transition-opacity disabled:opacity-40',
-													expanded ? 'size-11' : 'size-10'
+													expanded ? 'size-12' : 'size-10'
 												)}
 											>
 												<Send size={15} strokeWidth={1.75} />
@@ -598,10 +655,13 @@ export default function AgentChatTeaser() {
 					type="button"
 					aria-expanded={open}
 					aria-controls={panelId}
+					aria-hidden={expanded}
+					tabIndex={expanded ? -1 : undefined}
 					aria-label={open ? 'Close agent chat' : 'Open agent chat'}
 					onClick={() => (open ? close() : openPanel())}
 					className={cn(
 						'pointer-events-auto inline-flex size-12 items-center justify-center rounded-full shadow-[0_12px_28px_-14px_rgba(14,18,23,0.55)] transition-colors',
+						expanded && 'invisible pointer-events-none',
 						open
 							? 'border border-border/70 bg-card text-foreground hover:bg-surface-2'
 							: 'bg-accent text-accent-foreground hover:bg-accent-light'
