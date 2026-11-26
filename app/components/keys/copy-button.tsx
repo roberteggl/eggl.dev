@@ -30,13 +30,14 @@ export default function CopyButton({
 		<button
 			type="button"
 			onClick={handleCopy}
-			className={`rounded-none border border-line bg-card p-1.5 text-foreground/60 transition-colors duration-200 hover:border-accent hover:text-accent md:p-2 ${className}`}
+			className={`inline-flex items-center justify-center border border-line bg-background p-2 text-muted-foreground transition-colors duration-150 hover:border-accent hover:text-accent ${className}`}
 			title={title}
+			aria-label={title}
 		>
 			{copied ? (
-				<Check size={16} className="md:w-[18px] md:h-[18px]" />
+				<Check size={16} strokeWidth={1.75} />
 			) : (
-				<Copy size={16} className="md:w-[18px] md:h-[18px]" />
+				<Copy size={16} strokeWidth={1.75} />
 			)}
 		</button>
 	)

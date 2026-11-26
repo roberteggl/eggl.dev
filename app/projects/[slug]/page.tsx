@@ -33,7 +33,7 @@ export default async function ProjectPage({
 	const blogPath = getProjectBlogPath(project)
 
 	return (
-		<article className="container-custom max-w-4xl pb-24 pt-28 md:pt-36">
+		<article className="container-custom max-w-5xl pb-24 pt-28 md:pt-36">
 			<Link
 				href="/projects"
 				className="group mb-10 inline-flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-accent"

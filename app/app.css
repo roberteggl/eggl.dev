@@ -403,11 +403,11 @@ h6 {
 }
 
 @utility container-editorial {
-	@apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+	@apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
 }
 
 @utility container-custom {
-	@apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+	@apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
 }
 
 @utility section {

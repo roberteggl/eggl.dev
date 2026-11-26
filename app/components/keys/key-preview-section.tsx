@@ -3,36 +3,36 @@ import { getKeyPreview } from '@/data/gpg-key'
 
 interface KeyPreviewSectionProps {
 	keyContent: string
-	title?: string
 	copyTitle?: string
 	className?: string
 }
 
 export default function KeyPreviewSection({
 	keyContent,
-	title = 'Public Key',
 	copyTitle = 'Copy full key to clipboard',
 	className = ''
 }: KeyPreviewSectionProps) {
 	return (
-		<div
-			className={`flex flex-col border border-line bg-surface p-6 md:p-8 ${className}`}
-		>
-			<h3 className="font-display text-2xl tracking-tight">{title}</h3>
-			<p className="mt-1.5 text-sm text-muted-foreground">
-				Use the copy button to grab the full key.
+		<div className={`flex flex-col ${className}`}>
+			<div className="flex items-end justify-between gap-4">
+				<div>
+					<p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+						Block
+					</p>
+					<h3 className="mt-2 font-display text-2xl tracking-tight md:text-[1.75rem]">
+						ASCII armor
+					</h3>
+				</div>
+				<CopyButton text={keyContent} title={copyTitle} />
+			</div>
+
+			<p className="mt-2 text-sm text-muted-foreground">
+				Preview of the public key. Copy grabs the full block.
 			</p>
 
-			<div className="relative mt-5 flex-1 rounded-none border border-line bg-surface-2/60">
-				<pre className="max-h-72 overflow-auto whitespace-pre-wrap break-all p-4 font-mono text-xs leading-relaxed text-foreground/80">
-					{getKeyPreview(keyContent)}
-				</pre>
-				<CopyButton
-					text={keyContent}
-					title={copyTitle}
-					className="absolute right-3 top-3"
-				/>
-			</div>
+			<pre className="mt-5 max-h-80 flex-1 overflow-auto bg-surface/60 p-4 font-mono text-[12px] leading-relaxed text-foreground/80 md:p-5">
+				{getKeyPreview(keyContent)}
+			</pre>
 		</div>
 	)
 }

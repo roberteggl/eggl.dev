@@ -19,7 +19,7 @@ const FeaturedProject = memo(({ project }: { project: Project }) => {
 		<Reveal y={16} className="mt-12 md:mt-16">
 			<Link
 				href={getProjectPath(project)}
-				className="group relative block overflow-hidden border border-line bg-surface transition-colors duration-300 hover:border-accent/45"
+				className="group relative block overflow-hidden border border-transparent bg-surface transition-colors duration-300 hover:border-accent/45"
 			>
 				<span
 					aria-hidden="true"
@@ -69,9 +69,9 @@ const ProjectRow = memo(({ project }: { project: Project }) => {
 	return (
 		<Link
 			href={getProjectPath(project)}
-			className="soft-target group grid gap-6 border-t border-line py-8 transition-colors duration-300 last:border-b hover:bg-surface/40 md:grid-cols-[1fr_200px] md:gap-10 md:px-5 lg:grid-cols-[88px_1fr_220px] lg:items-center"
+			className="soft-target group grid gap-6 border-t border-line py-8 transition-colors duration-300 last:border-b hover:bg-surface/40 md:grid-cols-[1fr_200px] md:items-start md:gap-10 md:px-5 lg:grid-cols-[88px_1fr_220px]"
 		>
-			<span className="hidden font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground lg:block">
+			<span className="hidden font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground lg:block lg:pt-1">
 				{project.category}
 			</span>
 			<span>
@@ -92,7 +92,7 @@ const ProjectRow = memo(({ project }: { project: Project }) => {
 					))}
 				</span>
 			</span>
-			<span className="relative hidden overflow-hidden border border-line md:block">
+			<span className="relative hidden overflow-hidden md:block">
 				<Image
 					src={getProjectImageSrc(project.image)}
 					alt={`${project.title} project screenshot`}

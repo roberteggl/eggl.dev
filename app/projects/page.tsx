@@ -1,301 +1,158 @@
 'use client'
-import {
-	ArrowLeft,
-	ArrowUpRight,
-	ExternalLink,
-	FileText,
-	Grid,
-	List
-} from 'lucide-react'
+
+import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { memo, useMemo, useState } from 'react'
-import { Github } from '@/components/icons/brand-icons'
 import PageHero from '@/components/page-hero'
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger
-} from '@/components/ui/tooltip'
 import {
 	getAllProjects,
 	getProjectImageSrc,
 	getProjectPath,
-	PROJECT_CATEGORY_COLORS,
-	type Project
+	type Project,
+	type ProjectCategory
 } from '@/data/projects-data'
 
-const ActionLinks = ({ project }: { project: Project }) => {
-	const cls =
-		'inline-flex items-center gap-1.5 rounded-none border border-line px-3 py-1.5 text-[13px] font-medium text-foreground/80 transition-colors duration-150 hover:border-accent hover:text-accent'
-	return (
-		<>
-			{project.github && (
-				<a
-					href={project.github}
-					target="_blank"
-					rel="noopener noreferrer"
-					className={cls}
-					aria-label={`GitHub repository for ${project.title}`}
-					onClick={(e) => e.stopPropagation()}
-				>
-					<Github size={14} />
-					Code
-				</a>
-			)}
-			{project.demo && (
-				<a
-					href={project.demo}
-					target="_blank"
-					rel="noopener noreferrer"
-					className={cls}
-					aria-label={`Live demo for ${project.title}`}
-					onClick={(e) => e.stopPropagation()}
-				>
-					<ExternalLink size={14} />
-					Demo
-				</a>
-			)}
-			{project.docs && (
-				<a
-					href={project.docs}
-					target="_blank"
-					rel="noopener noreferrer"
-					className={cls}
-					aria-label={`Documentation for ${project.title}`}
-					onClick={(e) => e.stopPropagation()}
-				>
-					<FileText size={14} />
-					Docs
-				</a>
-			)}
-		</>
-	)
-}
+const CATEGORIES: { id: 'all' | ProjectCategory; label: string }[] = [
+	{ id: 'all', label: 'All' },
+	{ id: 'mobile', label: 'Mobile' },
+	{ id: 'web', label: 'Web' },
+	{ id: 'api', label: 'APIs' },
+	{ id: 'tool', label: 'Tools' },
+	{ id: 'fullstack', label: 'Full Stack' }
+]
 
-const ProjectRow = memo(({ project }: { project: Project }) => (
-	<Link
-		href={getProjectPath(project)}
-		className="group grid gap-5 border-t border-line py-7 transition-colors duration-150 last:border-b hover:bg-surface/40 md:grid-cols-[5.5rem_1fr_14rem] md:items-center md:gap-8 md:px-2 lg:grid-cols-[6rem_1fr_16rem]"
-	>
-		<span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-			{project.category}
-		</span>
-		<span className="min-w-0">
-			<span className="flex flex-wrap items-center gap-2.5">
-				<span className="font-display text-xl tracking-tight text-foreground transition-colors duration-150 group-hover:text-accent md:text-2xl">
-					{project.title}
-				</span>
-				{project.featured ? (
-					<span className="border border-accent/40 bg-accent-soft px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">
-						Featured
-					</span>
-				) : null}
-			</span>
-			<span className="mt-2 line-clamp-2 block max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-				{project.description}
-			</span>
-			<span className="mt-3 flex flex-wrap gap-1.5">
-				{project.technologies.slice(0, 5).map((tech) => (
-					<span key={tech} className="signal-chip">
-						{tech}
-					</span>
-				))}
-			</span>
-		</span>
-		<span className="relative hidden overflow-hidden border border-line md:block">
-			<Image
-				src={getProjectImageSrc(project.image)}
-				alt=""
-				className="aspect-[16/10] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-				width={320}
-				height={200}
-				loading="lazy"
-			/>
-			<span className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center border border-line bg-background text-foreground opacity-0 transition-opacity duration-150 group-hover:opacity-100">
-				<ArrowUpRight size={15} />
-			</span>
-		</span>
-	</Link>
-))
-ProjectRow.displayName = 'ProjectRow'
+const ProjectRow = memo(
+	({ project, index }: { project: Project; index: number }) => {
+		const n = String(index + 1).padStart(2, '0')
 
-const ProjectGridCard = memo(({ project }: { project: Project }) => (
-	<article className="signal-card signal-card-hover group flex h-full flex-col overflow-hidden">
-		<Link
-			href={getProjectPath(project)}
-			className="relative block overflow-hidden"
-		>
-			<Image
-				src={getProjectImageSrc(project.image)}
-				alt={`${project.title} project screenshot`}
-				className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-				width={800}
-				height={450}
-				loading="lazy"
-			/>
-			<div className="absolute left-3 top-3 flex gap-2">
-				<span
-					className={`rounded-[2px] border px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider backdrop-blur ${PROJECT_CATEGORY_COLORS[project.category]}`}
-				>
-					{project.category}
-				</span>
-				{project.featured && (
-					<span className="rounded-[2px] border border-accent/40 bg-background/90 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent backdrop-blur">
-						Featured
-					</span>
-				)}
-			</div>
-		</Link>
-		<div className="flex flex-1 flex-col p-5">
-			<Link href={getProjectPath(project)}>
-				<h3 className="font-display text-xl tracking-tight transition-colors duration-150 group-hover:text-accent">
-					{project.title}
-				</h3>
-			</Link>
-			<p className="mb-4 mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-				{project.description}
-			</p>
-			<div className="mb-4 flex flex-wrap gap-1.5">
-				{project.technologies.slice(0, 3).map((tech) => (
-					<span key={tech} className="signal-chip">
-						{tech}
-					</span>
-				))}
-				{project.technologies.length > 3 && (
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<span className="signal-chip cursor-default">
-								+{project.technologies.length - 3}
-							</span>
-						</TooltipTrigger>
-						<TooltipContent side="top">
-							<div className="flex flex-wrap gap-1.5">
-								{project.technologies.slice(3).map((tech) => (
-									<span key={tech} className="font-mono text-xs">
-										{tech}
-									</span>
-								))}
-							</div>
-						</TooltipContent>
-					</Tooltip>
-				)}
-			</div>
-			<div className="mt-auto flex flex-wrap gap-2">
+		return (
+			<li className="border-b border-line">
 				<Link
 					href={getProjectPath(project)}
-					className="inline-flex items-center gap-1.5 rounded-none border border-line px-3 py-1.5 text-[13px] font-medium text-foreground/80 transition-colors duration-150 hover:border-accent hover:text-accent"
+					className="group relative grid gap-4 py-7 pl-5 transition-colors duration-150 hover:bg-surface/30 md:grid-cols-[3.5rem_6.5rem_1fr_12rem] md:items-center md:gap-8 md:py-8 lg:grid-cols-[3.5rem_7rem_1fr_14rem]"
 				>
-					<ArrowUpRight size={14} />
-					Details
+					<span
+						aria-hidden="true"
+						className="absolute bottom-0 left-0 top-0 w-px origin-top scale-y-0 bg-accent transition-transform duration-300 group-hover:scale-y-100"
+					/>
+					<span className="hidden font-mono text-[11px] text-accent md:block">
+						{n}
+					</span>
+					<span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+						{project.category}
+					</span>
+					<span className="min-w-0">
+						<span className="flex flex-wrap items-center gap-2.5">
+							<span className="font-display text-xl tracking-tight text-foreground transition-colors duration-150 group-hover:text-accent md:text-2xl">
+								{project.title}
+							</span>
+							{project.featured ? (
+								<span className="border border-accent/40 bg-accent-soft px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">
+									Featured
+								</span>
+							) : null}
+						</span>
+						<span className="mt-2 line-clamp-2 block max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+							{project.description}
+						</span>
+						<span className="mt-3 flex flex-wrap gap-1.5">
+							{project.technologies.slice(0, 4).map((tech) => (
+								<span
+									key={tech}
+									className="rounded-[2px] border border-line px-2.5 py-1 font-mono text-[11px] text-muted-foreground"
+								>
+									{tech}
+								</span>
+							))}
+						</span>
+					</span>
+					<span className="relative hidden overflow-hidden md:block">
+						<Image
+							src={getProjectImageSrc(project.image)}
+							alt=""
+							className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+							width={320}
+							height={200}
+							loading="lazy"
+						/>
+					</span>
 				</Link>
-				<ActionLinks project={project} />
-			</div>
-		</div>
-	</article>
-))
-ProjectGridCard.displayName = 'ProjectGridCard'
+			</li>
+		)
+	}
+)
+ProjectRow.displayName = 'ProjectRow'
 
-const ProjectsPage = () => {
-	const [selectedCategory, setSelectedCategory] = useState<string>('all')
-	const [viewMode, setViewMode] = useState<'grid' | 'list'>('list')
+export default function ProjectsPage() {
+	const [selectedCategory, setSelectedCategory] = useState<
+		'all' | ProjectCategory
+	>('all')
 	const [searchTerm, setSearchTerm] = useState('')
 
 	const projects = getAllProjects()
 
-	const categories = [
-		{ id: 'all', label: 'All', count: projects.length },
-		{
-			id: 'mobile',
-			label: 'Mobile',
-			count: projects.filter((p) => p.category === 'mobile').length
-		},
-		{
-			id: 'web',
-			label: 'Web',
-			count: projects.filter((p) => p.category === 'web').length
-		},
-		{
-			id: 'api',
-			label: 'APIs',
-			count: projects.filter((p) => p.category === 'api').length
-		},
-		{
-			id: 'tool',
-			label: 'Tools',
-			count: projects.filter((p) => p.category === 'tool').length
-		},
-		{
-			id: 'fullstack',
-			label: 'Full Stack',
-			count: projects.filter((p) => p.category === 'fullstack').length
+	const categoryCounts = useMemo(() => {
+		const counts: Record<string, number> = { all: projects.length }
+		for (const project of projects) {
+			counts[project.category] = (counts[project.category] ?? 0) + 1
 		}
-	]
+		return counts
+	}, [projects])
 
 	const filteredProjects = useMemo(() => {
+		const query = searchTerm.trim().toLowerCase()
 		return projects.filter((project) => {
 			const matchesCategory =
 				selectedCategory === 'all' || project.category === selectedCategory
 			const matchesSearch =
-				project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				project.technologies.some((tech) =>
-					tech.toLowerCase().includes(searchTerm.toLowerCase())
-				)
+				!query ||
+				project.title.toLowerCase().includes(query) ||
+				project.description.toLowerCase().includes(query) ||
+				project.technologies.some((tech) => tech.toLowerCase().includes(query))
 			return matchesCategory && matchesSearch
 		})
 	}, [selectedCategory, searchTerm, projects])
 
 	return (
-		<TooltipProvider delayDuration={150}>
-			<div className="container-custom pb-24 pt-28 md:pt-36">
+		<div className="relative overflow-hidden">
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(45,212,191,0.08),transparent_55%)]"
+			/>
+
+			<div className="container-custom relative pb-24 pt-28 md:pt-36">
 				<PageHero
 					eyebrow="Work"
 					title="Projects."
-					description={`${filteredProjects.length} of ${projects.length}: campus apps to infrastructure tooling.`}
-					action={
-						<div className="flex items-center gap-1 border border-line p-1">
-							<button
-								type="button"
-								onClick={() => setViewMode('list')}
-								aria-label="List view"
-								aria-pressed={viewMode === 'list'}
-								className={`rounded-none p-2.5 transition-colors duration-150 ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
-							>
-								<List size={16} />
-							</button>
-							<button
-								type="button"
-								onClick={() => setViewMode('grid')}
-								aria-label="Grid view"
-								aria-pressed={viewMode === 'grid'}
-								className={`rounded-none p-2.5 transition-colors duration-150 ${viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
-							>
-								<Grid size={16} />
-							</button>
-						</div>
-					}
+					description={`${filteredProjects.length} of ${projects.length} — campus apps to infrastructure tooling.`}
 				/>
 
-				<div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-					<div className="flex flex-wrap gap-2">
-						{categories.map((category) => (
-							<button
-								type="button"
-								key={category.id}
-								onClick={() => setSelectedCategory(category.id)}
-								className={`rounded-none border px-3.5 py-2 font-mono text-[12px] uppercase tracking-[0.12em] transition-colors duration-150 ${
-									selectedCategory === category.id
-										? 'border-accent bg-accent text-accent-foreground'
-										: 'border-line text-muted-foreground hover:border-accent/50 hover:text-foreground'
-								}`}
-							>
-								{category.label}
-								<span className="ml-1.5 opacity-60">{category.count}</span>
-							</button>
-						))}
-					</div>
+				<div className="mb-10 flex flex-col gap-5 border-b border-line pb-8 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">
+					<nav
+						aria-label="Filter by category"
+						className="flex flex-wrap gap-x-5 gap-y-2"
+					>
+						{CATEGORIES.map((category) => {
+							const active = selectedCategory === category.id
+							const count = categoryCounts[category.id] ?? 0
+							return (
+								<button
+									type="button"
+									key={category.id}
+									onClick={() => setSelectedCategory(category.id)}
+									className={`font-mono text-[12px] uppercase tracking-[0.14em] transition-colors duration-150 ${
+										active
+											? 'text-accent'
+											: 'text-muted-foreground hover:text-foreground'
+									}`}
+								>
+									{category.label}
+									<span className="ml-1.5 opacity-50">{count}</span>
+								</button>
+							)
+						})}
+					</nav>
 					<input
 						type="search"
 						value={searchTerm}
@@ -306,24 +163,19 @@ const ProjectsPage = () => {
 					/>
 				</div>
 
-				{viewMode === 'list' ? (
-					<div>
-						{filteredProjects.map((project) => (
-							<ProjectRow key={project.slug} project={project} />
+				{filteredProjects.length > 0 ? (
+					<ul>
+						{filteredProjects.map((project, index) => (
+							<ProjectRow key={project.slug} project={project} index={index} />
 						))}
-					</div>
+					</ul>
 				) : (
-					<div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-						{filteredProjects.map((project) => (
-							<ProjectGridCard key={project.slug} project={project} />
-						))}
-					</div>
-				)}
-
-				{filteredProjects.length === 0 && (
-					<div className="mx-auto mt-8 max-w-md border border-line bg-surface px-8 py-14 text-center">
-						<p className="text-muted-foreground">
-							No projects found matching your criteria.
+					<div className="py-14">
+						<h3 className="font-display text-xl tracking-tight">
+							No projects found
+						</h3>
+						<p className="mt-2 text-muted-foreground">
+							Nothing matches those filters.
 						</p>
 						<button
 							type="button"
@@ -331,16 +183,17 @@ const ProjectsPage = () => {
 								setSelectedCategory('all')
 								setSearchTerm('')
 							}}
-							className="mt-5 inline-flex h-11 items-center gap-2 rounded-none bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors duration-150 hover:bg-accent hover:text-accent-foreground"
+							className="group mt-6 inline-flex items-center gap-2 border-b border-accent/40 pb-0.5 font-mono text-[13px] uppercase tracking-[0.16em] text-accent transition-colors hover:border-accent"
 						>
-							<ArrowLeft size={15} />
+							<ArrowLeft
+								size={15}
+								className="transition-transform duration-300 group-hover:-translate-x-1"
+							/>
 							Clear filters
 						</button>
 					</div>
 				)}
 			</div>
-		</TooltipProvider>
+		</div>
 	)
 }
-
-export default ProjectsPage

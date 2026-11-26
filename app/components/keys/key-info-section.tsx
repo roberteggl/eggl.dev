@@ -3,13 +3,11 @@ import type { GPGKeyInfo } from '@/data/gpg-key'
 
 interface KeyInfoSectionProps {
 	keyInfo: GPGKeyInfo
-	title?: string
 	className?: string
 }
 
 export default function KeyInfoSection({
 	keyInfo,
-	title = 'Key Information',
 	className = ''
 }: KeyInfoSectionProps) {
 	const rows = [
@@ -48,18 +46,20 @@ export default function KeyInfoSection({
 			label: 'Validity',
 			content: (
 				<span className="font-mono text-sm text-muted-foreground">
-					{keyInfo.validity.from} to {keyInfo.validity.to}
+					{keyInfo.validity.from} → {keyInfo.validity.to}
 				</span>
 			)
 		}
 	]
 
 	return (
-		<div className={`border border-line bg-surface p-6 md:p-8 ${className}`}>
-			<h3 className="font-display text-2xl tracking-tight">{title}</h3>
-			<div className="mt-2 flex items-center gap-2">
+		<div className={className}>
+			<div className="flex flex-wrap items-center gap-3">
+				<h3 className="font-display text-2xl tracking-tight md:text-[1.75rem]">
+					Public key
+				</h3>
 				<span
-					className={`inline-flex items-center rounded-none border px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider ${
+					className={`inline-flex items-center border px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider ${
 						keyInfo.status === 'active'
 							? 'border-accent/40 bg-accent-soft text-accent'
 							: 'border-line text-muted-foreground'
@@ -69,27 +69,27 @@ export default function KeyInfoSection({
 				</span>
 			</div>
 
-			<div className="mt-6 divide-y divide-line border-y border-line">
+			<div className="mt-8 space-y-6">
 				{rows.map((row) => (
-					<div key={row.label} className="flex items-start gap-4 py-4">
-						<span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none border border-line bg-surface-2 text-accent">
-							<row.icon size={17} strokeWidth={1.75} />
+					<div key={row.label} className="flex items-start gap-4">
+						<span className="flex h-10 w-10 shrink-0 items-center justify-center text-accent">
+							<row.icon size={18} strokeWidth={1.75} />
 						</span>
 						<div className="min-w-0 flex-1">
 							<p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
 								{row.label}
 							</p>
-							<div className="mt-1">{row.content}</div>
+							<div className="mt-1.5">{row.content}</div>
 						</div>
 					</div>
 				))}
 			</div>
 
-			{keyInfo.description && (
+			{keyInfo.description ? (
 				<p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
 					{keyInfo.description}
 				</p>
-			)}
+			) : null}
 		</div>
 	)
 }

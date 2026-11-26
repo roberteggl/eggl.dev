@@ -26,7 +26,7 @@ export default async function BlogPostPage({
 	})
 
 	return (
-		<article className="container-custom max-w-3xl pb-24 pt-28 md:pt-36">
+		<article className="container-custom max-w-5xl pb-24 pt-28 md:pt-36">
 			<header className="mb-12 border-b border-line pb-10">
 				<p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
 					Essay

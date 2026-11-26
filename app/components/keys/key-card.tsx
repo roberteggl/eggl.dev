@@ -10,7 +10,7 @@ interface KeyCardProps {
 export default function KeyCard({ keyInfo, className = '' }: KeyCardProps) {
 	return (
 		<div
-			className={`grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-16 ${className}`}
+			className={`grid gap-12 md:grid-cols-2 md:gap-16 lg:gap-20 ${className}`}
 		>
 			<KeyInfoSection keyInfo={keyInfo} />
 			<KeyPreviewSection keyContent={keyInfo.key} />

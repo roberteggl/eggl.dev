@@ -1,3 +1,4 @@
+import { Download } from 'lucide-react'
 import type { Metadata } from 'next'
 import KeyCard from '@/components/keys/key-card'
 import PageHero from '@/components/page-hero'
@@ -7,54 +8,53 @@ import { GPG_KEYS } from '@/data/gpg-key'
 export const metadata: Metadata = {
 	title: 'GPG Keys - Robert Eggl',
 	description:
-		"Robert Eggl's GPG public keys for secure communication and verification."
+		"Robert Eggl's GPG public key for secure communication and verification."
 }
 
 export default function Keys() {
-	const activeKeys = GPG_KEYS.filter((key) => key.status === 'active')
-	const replacedKeys = GPG_KEYS.filter((key) => key.status === 'replaced')
-
 	return (
-		<div className="container-custom max-w-5xl pb-24 pt-28 md:pt-36">
-			<PageHero
-				eyebrow="Trust"
-				title="GPG keys."
-				description="Verify signatures and send encrypted messages. Fingerprints are the source of truth."
+		<div className="relative overflow-hidden">
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(45,212,191,0.08),transparent_55%)]"
 			/>
 
-			<div className="space-y-8">
-				{activeKeys.map((keyInfo) => (
-					<KeyCard key={keyInfo.id} keyInfo={keyInfo} />
-				))}
-			</div>
+			<div className="container-custom relative pb-24 pt-28 md:pt-36">
+				<PageHero
+					eyebrow="Trust"
+					title="GPG key."
+					description="Verify signatures and send encrypted messages. The fingerprint is the source of truth."
+					action={
+						<a
+							href="/api/keys.asc"
+							className="inline-flex items-center gap-2 border border-line px-4 py-2.5 font-mono text-[12px] uppercase tracking-[0.14em] text-muted-foreground transition-colors duration-150 hover:border-accent hover:text-accent"
+							title="Download public key"
+							aria-label="Download public key"
+						>
+							<Download size={15} strokeWidth={1.75} />
+							Download
+						</a>
+					}
+				/>
 
-			{replacedKeys.length > 0 && (
-				<section className="mt-20">
-					<p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-						Archive
-					</p>
-					<h2 className="font-display text-3xl tracking-tight text-foreground md:text-4xl">
-						Previous keys.
-					</h2>
-					<div className="mt-8 space-y-8 opacity-80">
-						{replacedKeys.map((keyInfo) => (
-							<KeyCard key={keyInfo.id} keyInfo={keyInfo} />
-						))}
-					</div>
-				</section>
-			)}
+				<div className="space-y-16 md:space-y-20">
+					{GPG_KEYS.map((keyInfo) => (
+						<KeyCard key={keyInfo.id} keyInfo={keyInfo} />
+					))}
 
-			<section className="mt-20">
-				<p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-					Guide
-				</p>
-				<h2 className="font-display text-3xl tracking-tight text-foreground md:text-4xl">
-					How to use them.
-				</h2>
-				<div className="mt-8">
-					<UsageSection />
+					<section className="border-t border-line pt-16 md:pt-20">
+						<p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+							Guide
+						</p>
+						<h2 className="font-display text-3xl tracking-tight text-foreground md:text-4xl">
+							How to use it.
+						</h2>
+						<div className="mt-8">
+							<UsageSection />
+						</div>
+					</section>
 				</div>
-			</section>
+			</div>
 		</div>
 	)
 }
