@@ -16,7 +16,7 @@ This repo is a single Next.js 16 (App Router, Turbopack, React Compiler) persona
 - **Content Collections must be generated before type-checking.** `bun run build:content` generates `.content-collections/generated`, which `/api/feed` and blog pages import. Run it before `bunx tsc --noEmit`. The Next.js plugin (`withContentCollections`) builds content automatically during `bun run dev` / `bun run build`.
 - **Lint/format uses Biome**, not ESLint: `bun run lint` (lint), `bun run fmt` (check + autofix). CI runs `bunx biome ci .`.
 - **CI equivalent checks** (`.github/workflows/ci.yml`): `bun install --frozen-lockfile` → `bun run build:content` → `bunx tsc --noEmit` → `bunx biome ci .`.
-- **Env vars are all optional** with graceful fallbacks. `GITHUB_STATS_TOKEN` powers the live GitHub stats widget (`/api/github`); without it the route returns empty data and logs a warning, but the app still runs fine.
+- **Env vars are all optional** with graceful fallbacks. `GITHUB_STATS_TOKEN` powers the live GitHub stats widget (`/api/github`); without it the route returns empty data and logs a warning, but the app still runs fine. `OPENAI_API_KEY` powers the Eggl Agent chat (`/api/chat` + floating widget); without it the chat UI is hidden and the route returns 503.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

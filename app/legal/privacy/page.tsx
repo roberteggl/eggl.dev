@@ -63,21 +63,24 @@ const Privacy = () => {
 					<p>
 						Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese
 						mitteilen. Hierbei kann es sich z. B. um Daten handeln, die Sie in
-						ein Kontaktformular eingeben. Andere Daten werden automatisch oder
-						nach Ihrer Einwilligung beim Besuch der Website durch unsere
-						IT-Systeme erfasst. Das sind vor allem technische Daten (z. B.
-						Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs). Die
-						Erfassung dieser Daten erfolgt automatisch, sobald Sie diese Website
-						betreten.
+						ein Kontaktformular eingeben oder – sofern der Eggl Agent aktiviert
+						ist – in den optionalen KI-Chat eingeben. Andere Daten werden
+						automatisch oder nach Ihrer Einwilligung beim Besuch der Website
+						durch unsere IT-Systeme erfasst. Das sind vor allem technische Daten
+						(z. B. Internetbrowser, Betriebssystem oder Uhrzeit des
+						Seitenaufrufs). Die Erfassung dieser Daten erfolgt automatisch,
+						sobald Sie diese Website betreten.
 					</p>
 					<h4>Wofür nutzen wir Ihre Daten?</h4>
 					<p>
 						Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung
 						der Website zu gewährleisten. Andere Daten können zur Analyse Ihres
-						Nutzerverhaltens verwendet werden. Sofern über die Website Verträge
-						geschlossen oder angebahnt werden können, werden die übermittelten
-						Daten auch für Vertragsangebote, Bestellungen oder sonstige
-						Auftragsanfragen verarbeitet.
+						Nutzerverhaltens verwendet werden. Nachrichten im optionalen Eggl
+						Agent werden verarbeitet, um Ihre Anfrage zum Portfolio zu
+						beantworten (siehe Abschnitt „Eggl Agent (KI-Chat)“). Sofern über
+						die Website Verträge geschlossen oder angebahnt werden können,
+						werden die übermittelten Daten auch für Vertragsangebote,
+						Bestellungen oder sonstige Auftragsanfragen verarbeitet.
 					</p>
 					<h4>Welche Rechte haben Sie bezüglich Ihrer Daten?</h4>
 					<p>
@@ -401,6 +404,61 @@ const Privacy = () => {
 						Ihres Anliegens). Zwingende gesetzliche Bestimmungen – insbesondere
 						gesetzliche Aufbewahrungsfristen – bleiben unberührt.
 					</p>
+
+					<h3>Eggl Agent (KI-Chat)</h3>
+					<p>
+						Sofern der Eggl Agent auf dieser Website eingeblendet ist, können
+						Sie optional über einen Chat Fragen zu Projekten, Blogbeiträgen,
+						öffentlichen Profilen und Kontaktmöglichkeiten stellen. Die Nutzung
+						des Chats ist freiwillig; ohne Nutzung werden keine Chatnachrichten
+						übermittelt.
+					</p>
+					<p>
+						Beim Senden einer Nachricht werden der Nachrichteninhalt, ggf. der
+						bisherige Chatverlauf dieser Sitzung (nur im Browser gehalten) sowie
+						technische Verbindungsdaten (insbesondere IP-Adresse zur
+						Missbrauchsprävention / Rate-Limiting) an unseren Server übermittelt
+						und zur Antwortgenerierung an OpenAI, Inc. (USA) weitergegeben. Es
+						findet keine allgemeine Websuche durch den Agenten statt; der Agent
+						darf nur festgelegte Funktionen auf Inhalte dieser Website bzw.
+						öffentliche GitHub-Statistiken nutzen.
+					</p>
+					<p>
+						Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+						Interesse an einer interaktiven, hilfreichen Darstellung des
+						Portfolios und an der Abwehr von Missbrauch). Soweit besondere
+						personenbezogene Daten in den Chat eingegeben werden, geschieht dies
+						auf eigene Verantwortung der nutzenden Person; bitte keine
+						Passwörter, API-Schlüssel oder sonstigen Geheimnisse eingeben.
+					</p>
+					<p>
+						Wir speichern Chatverläufe nicht dauerhaft in einer eigenen
+						Datenbank. Der Verlauf verbleibt lokal in Ihrem Browser für die
+						Sitzung. Kurzzeitig können technische Logdaten (z. B. Fehler- oder
+						Sicherheitslogs) und IP-bezogene Rate-Limit-Zähler anfallen und nach
+						Zweckentfall gelöscht bzw. überschrieben werden. OpenAI kann die zur
+						API-Verarbeitung übermittelten Inhalte nach den eigenen Vertrags-
+						und Datenschutzbestimmungen verarbeiten; Details und Hinweise zur
+						internationalen Datenübermittlung entnehmen Sie der{' '}
+						<a
+							href="https://openai.com/policies/privacy-policy"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Datenschutzerklärung von OpenAI
+						</a>
+						. Eine Übermittlung in die USA kann erfolgen; soweit erforderlich,
+						stützt sich dies auf geeignete Garantien bzw. die vertraglichen
+						Regelungen mit dem Anbieter.
+					</p>
+					<p>
+						Sie können den Chat jederzeit schließen und die Nutzung beenden.
+						Gegen eine Verarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO
+						können Sie Widerspruch einlegen (Art. 21 DSGVO); nutzen Sie den Chat
+						in diesem Fall bitte nicht weiter und kontaktieren Sie uns unter den
+						oben genannten Kontaktdaten.
+					</p>
+
 					<p>
 						Quelle:{' '}
 						<a
