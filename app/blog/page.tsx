@@ -1,6 +1,7 @@
 import { allBlogs } from 'content-collections'
 import { ArrowUpRight, Rss } from 'lucide-react'
 import Link from 'next/link'
+import BlogYearIndex from '@/components/blog-year-index'
 import PageHero from '@/components/page-hero'
 
 function readingTime(raw: string) {
@@ -22,12 +23,25 @@ export default function BlogPage() {
 	)
 	const [featured, ...rest] = posts
 
+	const yearCounts = new Map<number, number>()
+	for (const post of posts) {
+		const year = new Date(post.date).getFullYear()
+		yearCounts.set(year, (yearCounts.get(year) ?? 0) + 1)
+	}
+	const years = [...yearCounts.entries()]
+		.map(([year, count]) => ({ year, count }))
+		.sort((a, b) => b.year - a.year)
+
+	let lastYear = featured ? new Date(featured.date).getFullYear() : null
+
 	return (
 		<div className="relative overflow-hidden">
 			<div
 				aria-hidden="true"
 				className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(45,212,191,0.08),transparent_55%)]"
 			/>
+
+			<BlogYearIndex years={years} />
 
 			<div className="container-custom relative pb-24 pt-28 md:pt-36">
 				<PageHero
@@ -50,8 +64,9 @@ export default function BlogPage() {
 				{featured ? (
 					<>
 						<Link
+							id={`year-${new Date(featured.date).getFullYear()}`}
 							href={`/blog/${featured.slug}`}
-							className="group relative block py-2 pl-5 transition-colors duration-200"
+							className="group relative block scroll-mt-28 py-2 pl-5 transition-colors duration-200"
 						>
 							<span
 								aria-hidden="true"
@@ -99,9 +114,16 @@ export default function BlogPage() {
 									const { day, month, year } = formatDate(post.date)
 									const mins = readingTime(post.body.raw)
 									const n = String(index + 1).padStart(2, '0')
+									const yearAnchor =
+										year !== lastYear ? `year-${year}` : undefined
+									if (year !== lastYear) lastYear = year
 
 									return (
-										<li key={post._id} className="border-b border-line">
+										<li
+											key={post._id}
+											id={yearAnchor}
+											className={`border-b border-line ${yearAnchor ? 'scroll-mt-28' : ''}`}
+										>
 											<Link
 												href={`/blog/${post.slug}`}
 												className="group relative grid gap-3 py-7 pl-5 transition-colors duration-150 hover:bg-surface/30 sm:grid-cols-[3.5rem_7.5rem_1fr_auto] sm:items-baseline sm:gap-6 md:gap-8 md:py-8"

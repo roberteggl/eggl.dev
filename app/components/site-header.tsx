@@ -8,12 +8,7 @@ import { Github, Linkedin } from './icons/brand-icons'
 import { ThemeToggle } from './theme-toggle'
 
 const NAV_LINKS = [
-	{
-		name: 'Projects',
-		href: '/projects',
-		isPage: true,
-		sectionId: 'projects' as const
-	},
+	{ name: 'Projects', href: '/projects', isPage: true },
 	{ name: 'Blog', href: '/blog', isPage: true },
 	{ name: 'Keys', href: '/keys', isPage: true },
 	{
@@ -39,9 +34,6 @@ function isLinkActive(
 	pathname: string,
 	hash: string
 ) {
-	if (link.sectionId && pathname === '/') {
-		return hash === `#${link.sectionId}`
-	}
 	if (!link.isPage) {
 		return pathname === '/' && hash === '#contact'
 	}
@@ -146,7 +138,7 @@ export default function SiteHeader() {
 						const active = isLinkActive(link, pathname, hash)
 						const className = desktopLinkClass(active)
 						const sectionId = link.sectionId
-						const onSectionClick = sectionId
+						const onContactClick = sectionId
 							? (e: { preventDefault: () => void }) => {
 									scrollToSectionOnHome(e, sectionId)
 								}
@@ -155,10 +147,7 @@ export default function SiteHeader() {
 						return link.isPage ? (
 							<Link
 								key={link.name}
-								href={
-									pathname === '/' && sectionId ? `/#${sectionId}` : link.href
-								}
-								onClick={onSectionClick}
+								href={link.href}
 								aria-current={active ? 'page' : undefined}
 								className={className}
 							>
@@ -169,7 +158,7 @@ export default function SiteHeader() {
 							<a
 								key={link.name}
 								href={link.href}
-								onClick={onSectionClick}
+								onClick={onContactClick}
 								aria-current={active ? 'page' : undefined}
 								className={className}
 							>
@@ -234,20 +223,12 @@ export default function SiteHeader() {
 							const active = isLinkActive(link, pathname, hash)
 							const className = mobileLinkClass(active)
 							const sectionId = link.sectionId
-							const onSectionClick = (e: { preventDefault: () => void }) => {
-								if (sectionId && scrollToSectionOnHome(e, sectionId)) {
-									return
-								}
-								setIsMenuOpen(false)
-							}
 
 							return link.isPage ? (
 								<Link
 									key={link.name}
-									href={
-										pathname === '/' && sectionId ? `/#${sectionId}` : link.href
-									}
-									onClick={onSectionClick}
+									href={link.href}
+									onClick={() => setIsMenuOpen(false)}
 									aria-current={active ? 'page' : undefined}
 									className={className}
 								>
@@ -260,7 +241,12 @@ export default function SiteHeader() {
 								<a
 									key={link.name}
 									href={link.href}
-									onClick={onSectionClick}
+									onClick={(e) => {
+										if (sectionId && scrollToSectionOnHome(e, sectionId)) {
+											return
+										}
+										setIsMenuOpen(false)
+									}}
 									aria-current={active ? 'page' : undefined}
 									className={className}
 								>

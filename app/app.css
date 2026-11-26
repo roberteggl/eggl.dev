@@ -183,6 +183,20 @@ h6 {
 	border-radius: 0;
 }
 
+.agent-chat-input:focus,
+.agent-chat-input:focus-visible {
+	outline: none;
+	outline-offset: 0;
+	border-radius: 9999px;
+	border-color: color-mix(
+		in oklab,
+		var(--color-accent) 35%,
+		var(--color-border)
+	);
+	box-shadow: 0 0 0 1px
+		color-mix(in oklab, var(--color-accent) 25%, transparent);
+}
+
 ::-webkit-scrollbar {
 	width: 10px;
 }
@@ -454,16 +468,22 @@ h6 {
 
 @utility legalsection {
 	& h2 {
-		@apply font-display text-2xl mt-10 mb-4;
+		@apply font-display text-2xl md:text-3xl tracking-tight mt-14 mb-5 text-foreground first:mt-0;
 	}
 	& h3 {
-		@apply text-xl font-semibold mt-8 mb-3;
+		@apply text-lg font-medium tracking-tight mt-10 mb-3 text-foreground;
 	}
 	& h4 {
-		@apply text-lg font-semibold mt-6 mb-2;
+		@apply font-mono text-[13px] uppercase tracking-[0.12em] mt-8 mb-2 text-muted-foreground;
 	}
 	& p {
-		@apply mb-4 text-base leading-relaxed text-foreground/85;
+		@apply mb-5 text-[15px] leading-[1.8] text-foreground/85 md:text-base;
+	}
+	& ul {
+		@apply mb-5 list-disc list-outside ml-5 space-y-2 text-[15px] leading-relaxed text-foreground/85;
+	}
+	& a {
+		@apply text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent;
 	}
 }
 @utility list-disc {

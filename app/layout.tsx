@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './app.css'
 import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import AgentChatTeaser from './components/agent-chat-teaser'
 import { JsonLd } from './components/json-ld'
 import PageTransition from './components/page-transition'
 import Footer from './components/sections/footer'
@@ -104,6 +105,7 @@ export default function RootLayout({
 						<PageTransition>{children}</PageTransition>
 					</main>
 					<Footer />
+					<AgentChatTeaser />
 				</Provider>
 			</body>
 		</html>

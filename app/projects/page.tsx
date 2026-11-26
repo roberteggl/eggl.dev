@@ -3,8 +3,9 @@
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { memo, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import PageHero from '@/components/page-hero'
+import ProjectsCategoryIndex from '@/components/projects-category-index'
 import {
 	getAllProjects,
 	getProjectImageSrc,
@@ -114,11 +115,46 @@ export default function ProjectsPage() {
 		})
 	}, [selectedCategory, searchTerm, projects])
 
+	const categoryOptions = useMemo(
+		() =>
+			CATEGORIES.map((category) => ({
+				...category,
+				count: categoryCounts[category.id] ?? 0
+			})),
+		[categoryCounts]
+	)
+
+	const [railVisible, setRailVisible] = useState(false)
+
+	useEffect(() => {
+		const sync = () => {
+			const list = document.getElementById('projects-list')
+			if (!list) return
+			const marker = window.innerHeight * 0.32
+			setRailVisible(list.getBoundingClientRect().top <= marker + 80)
+		}
+
+		sync()
+		window.addEventListener('scroll', sync, { passive: true })
+		window.addEventListener('resize', sync)
+		return () => {
+			window.removeEventListener('scroll', sync)
+			window.removeEventListener('resize', sync)
+		}
+	}, [])
+
 	return (
 		<div className="relative overflow-hidden">
 			<div
 				aria-hidden="true"
 				className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(45,212,191,0.08),transparent_55%)]"
+			/>
+
+			<ProjectsCategoryIndex
+				categories={categoryOptions}
+				selected={selectedCategory}
+				onSelect={setSelectedCategory}
+				visible={railVisible}
 			/>
 
 			<div className="container-custom relative pb-24 pt-28 md:pt-36">
@@ -128,10 +164,11 @@ export default function ProjectsPage() {
 					description={`${filteredProjects.length} of ${projects.length} — campus apps to infrastructure tooling.`}
 				/>
 
-				<div className="mb-10 flex flex-col gap-5 border-b border-line pb-8 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">
+				<div className="mb-10 flex flex-col gap-5 border-b border-line pb-8 lg:mb-12 xl:mb-10 xl:flex-row xl:items-end xl:justify-end xl:border-b-0 xl:pb-0">
+					{/* Top filters for < xl; side rail owns filtering at xl+ */}
 					<nav
 						aria-label="Filter by category"
-						className="flex flex-wrap gap-x-5 gap-y-2"
+						className="flex flex-wrap gap-x-5 gap-y-2 xl:hidden"
 					>
 						{CATEGORIES.map((category) => {
 							const active = selectedCategory === category.id
@@ -159,40 +196,46 @@ export default function ProjectsPage() {
 						onChange={(e) => setSearchTerm(e.target.value)}
 						placeholder="Search…"
 						aria-label="Search projects"
-						className="search-input w-full lg:max-w-xs"
+						className="search-input w-full xl:max-w-xs"
 					/>
 				</div>
 
-				{filteredProjects.length > 0 ? (
-					<ul>
-						{filteredProjects.map((project, index) => (
-							<ProjectRow key={project.slug} project={project} index={index} />
-						))}
-					</ul>
-				) : (
-					<div className="py-14">
-						<h3 className="font-display text-xl tracking-tight">
-							No projects found
-						</h3>
-						<p className="mt-2 text-muted-foreground">
-							Nothing matches those filters.
-						</p>
-						<button
-							type="button"
-							onClick={() => {
-								setSelectedCategory('all')
-								setSearchTerm('')
-							}}
-							className="group mt-6 inline-flex items-center gap-2 border-b border-accent/40 pb-0.5 font-mono text-[13px] uppercase tracking-[0.16em] text-accent transition-colors hover:border-accent"
-						>
-							<ArrowLeft
-								size={15}
-								className="transition-transform duration-300 group-hover:-translate-x-1"
-							/>
-							Clear filters
-						</button>
-					</div>
-				)}
+				<div id="projects-list">
+					{filteredProjects.length > 0 ? (
+						<ul>
+							{filteredProjects.map((project, index) => (
+								<ProjectRow
+									key={project.slug}
+									project={project}
+									index={index}
+								/>
+							))}
+						</ul>
+					) : (
+						<div className="py-14">
+							<h3 className="font-display text-xl tracking-tight">
+								No projects found
+							</h3>
+							<p className="mt-2 text-muted-foreground">
+								Nothing matches those filters.
+							</p>
+							<button
+								type="button"
+								onClick={() => {
+									setSelectedCategory('all')
+									setSearchTerm('')
+								}}
+								className="group mt-6 inline-flex items-center gap-2 border-b border-accent/40 pb-0.5 font-mono text-[13px] uppercase tracking-[0.16em] text-accent transition-colors hover:border-accent"
+							>
+								<ArrowLeft
+									size={15}
+									className="transition-transform duration-300 group-hover:-translate-x-1"
+								/>
+								Clear filters
+							</button>
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	)
