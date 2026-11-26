@@ -229,7 +229,19 @@ const HeroSection = () => {
 						<span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
 							Scroll
 						</span>
-						<span className="h-8 w-px origin-top bg-foreground/30" />
+						<motion.span
+							className="h-8 w-px origin-top bg-foreground/30"
+							animate={{
+								scaleY: [0.28, 1, 0.28],
+								opacity: [0.35, 0.85, 0.35]
+							}}
+							transition={{
+								duration: 1.85,
+								repeat: Number.POSITIVE_INFINITY,
+								ease: 'easeInOut',
+								delay: 1.15
+							}}
+						/>
 					</div>
 				</motion.div>
 			) : null}

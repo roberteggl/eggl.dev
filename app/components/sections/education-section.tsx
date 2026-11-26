@@ -64,7 +64,7 @@ const EducationSection = () => {
 					/>
 					{TIMELINE.map((item, i) => (
 						<StaggerItem key={item.role} index={i}>
-							<article className="relative pl-10 md:grid md:grid-cols-[190px_1fr] md:gap-8 md:pl-12">
+							<article className="group relative pl-10 md:grid md:grid-cols-[190px_1fr] md:gap-8 md:pl-12">
 								{/* dot: 15px box at left-0, center (7.5px) sits exactly on the spine */}
 								<span
 									aria-hidden="true"
@@ -76,7 +76,9 @@ const EducationSection = () => {
 								>
 									<span
 										className={`size-[5px] transition-colors duration-300 ${
-											item.current ? 'bg-accent' : 'bg-line'
+											item.current
+												? 'bg-accent'
+												: 'bg-line group-hover:bg-accent'
 										}`}
 									/>
 								</span>

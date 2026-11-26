@@ -1,6 +1,7 @@
 import { allBlogs } from 'content-collections'
 import { JsonLd } from '@/components/json-ld'
 import { SectionDivider } from '@/components/section-divider'
+import SectionIndex from '@/components/section-index'
 import AboutSection from '@/components/sections/about-section'
 import CareerSection from '@/components/sections/career-section'
 import ContactSection from '@/components/sections/contact-section'
@@ -55,6 +56,7 @@ export default async function HomePage() {
 		<>
 			<SoftPage />
 			<JsonLd data={profilePageJsonLd} />
+			<SectionIndex />
 			<HeroSection />
 			<Ticker items={TICKER_ITEMS} />
 			<ProjectsSection />
