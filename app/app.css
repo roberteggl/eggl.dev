@@ -28,7 +28,7 @@
 	--color-muted: #d4dae2;
 	--color-muted-foreground: #5a6572;
 	--color-border: #c9d0d8;
-	--color-line: #c9d0d8;
+	--color-line: rgba(14, 18, 23, 0.08);
 	--color-input: #c9d0d8;
 	--color-ring: #0f766e;
 
@@ -93,7 +93,7 @@
 	--color-muted: #1c2229;
 	--color-muted-foreground: #8b949e;
 	--color-border: rgba(242, 245, 247, 0.12);
-	--color-line: rgba(242, 245, 247, 0.12);
+	--color-line: rgba(242, 245, 247, 0.07);
 	--color-input: rgba(242, 245, 247, 0.16);
 	--color-ring: #2dd4bf;
 
@@ -183,17 +183,17 @@ h6 {
 	border-radius: 6px;
 }
 
-[data-slot='command-dialog'] :focus,
-[data-slot='command-dialog'] :focus-visible,
-[data-slot='dialog-content']:has([data-slot='command']) :focus,
-[data-slot='dialog-content']:has([data-slot='command']) :focus-visible,
-[data-slot='command-input']:focus,
-[data-slot='command-input']:focus-visible,
-[data-slot='command-item']:focus,
-[data-slot='command-item']:focus-visible {
-	outline: none !important;
-	outline-offset: 0 !important;
-	box-shadow: none !important;
+[data-slot="command-dialog"] :focus,
+[data-slot="command-dialog"] :focus-visible,
+[data-slot="dialog-content"]:has([data-slot="command"]) :focus,
+[data-slot="dialog-content"]:has([data-slot="command"]) :focus-visible,
+[data-slot="command-input"]:focus,
+[data-slot="command-input"]:focus-visible,
+[data-slot="command-item"]:focus,
+[data-slot="command-item"]:focus-visible {
+	outline: none;
+	outline-offset: 0;
+	box-shadow: none;
 }
 
 .agent-chat-input:focus,

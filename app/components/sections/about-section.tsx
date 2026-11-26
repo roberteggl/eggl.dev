@@ -87,7 +87,7 @@ const AboutSection = () => {
 						</Link>
 					</Reveal>
 
-					<Stagger className="divide-y divide-line border-y border-line">
+					<Stagger className="divide-y divide-line">
 						{FOCUS_AREAS.map((area, i) => (
 							<StaggerItem key={area.index} index={i}>
 								<div className="group relative flex gap-5 py-6 transition-all duration-200 hover:pl-2">

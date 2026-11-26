@@ -168,11 +168,11 @@ export default function ProjectsPage() {
 					description={`${filteredProjects.length} of ${projects.length} — campus apps to infrastructure tooling.`}
 				/>
 
-				<div className="mb-10 flex flex-col gap-5 border-b border-line pb-8 lg:mb-12 xl:mb-10 xl:flex-row xl:items-end xl:justify-end xl:border-b-0 xl:pb-0">
-					{/* Top filters for < xl; side rail owns filtering at xl+ */}
+				<div className="mb-10 flex flex-col gap-5 border-b border-line pb-8 lg:mb-12 2xl:mb-10 2xl:flex-row 2xl:items-end 2xl:justify-end 2xl:border-b-0 2xl:pb-0">
+					{/* Top filters for < 2xl; side rail owns filtering at 2xl+ */}
 					<nav
 						aria-label="Filter by category"
-						className="flex flex-wrap gap-x-5 gap-y-2 xl:hidden"
+						className="flex flex-wrap gap-x-5 gap-y-2 2xl:hidden"
 					>
 						{CATEGORIES.map((category) => {
 							const active = selectedCategory === category.id
@@ -200,7 +200,7 @@ export default function ProjectsPage() {
 						onChange={(e) => setSearchTerm(e.target.value)}
 						placeholder="Search…"
 						aria-label="Search projects"
-						className="search-input w-full xl:max-w-xs"
+						className="search-input w-full 2xl:max-w-xs"
 					/>
 				</div>
 

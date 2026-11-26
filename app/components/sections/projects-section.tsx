@@ -19,39 +19,39 @@ const FeaturedProject = memo(({ project }: { project: Project }) => {
 		<Reveal y={16} className="mt-12 md:mt-16">
 			<Link
 				href={getProjectPath(project)}
-				className="group relative block overflow-hidden border border-transparent bg-surface transition-colors duration-300 hover:border-accent/45"
+				className="group relative grid overflow-hidden border border-transparent bg-surface transition-colors duration-300 hover:border-accent/45 2xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] 2xl:items-center 2xl:bg-transparent"
 			>
 				<span
 					aria-hidden="true"
 					className="absolute bottom-0 left-0 top-0 z-20 w-px origin-top scale-y-0 bg-accent transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100"
 				/>
 				{project.image ? (
-					<div className="relative aspect-[16/10] md:aspect-[21/9]">
+					<div className="relative aspect-[16/10] bg-surface-2 md:aspect-[21/9] 2xl:order-2 2xl:aspect-[2560/1500]">
 						<Image
 							src={getProjectImageSrc(project.image)}
 							alt={`${project.title} project screenshot`}
 							fill
 							priority
-							sizes="(max-width: 768px) 100vw, 1152px"
-							className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+							sizes="(max-width: 768px) 100vw, (max-width: 1536px) 1152px, 640px"
+							className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03] 2xl:object-contain 2xl:object-center"
 						/>
 						<div
 							aria-hidden="true"
-							className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent dark:from-background dark:via-background/70"
+							className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent dark:from-background dark:via-background/70 2xl:hidden"
 						/>
 					</div>
 				) : (
-					<div className="aspect-[16/10] bg-surface-2 md:aspect-[21/9]" />
+					<div className="aspect-[16/10] bg-surface-2 md:aspect-[21/9] 2xl:order-2 2xl:aspect-[2560/1500]" />
 				)}
 
-				<div className="absolute inset-x-0 bottom-0 p-6 md:p-10 lg:p-12">
+				<div className="absolute inset-x-0 bottom-0 z-10 p-6 md:p-10 lg:p-12 2xl:relative 2xl:inset-auto 2xl:order-1 2xl:p-10 2xl:pr-4">
 					<p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
 						Featured · {project.category}
 					</p>
-					<h3 className="mt-3 max-w-2xl font-display text-3xl tracking-tight text-foreground md:text-4xl lg:text-5xl">
+					<h3 className="mt-3 max-w-2xl font-display text-3xl tracking-tight text-foreground md:text-4xl 2xl:text-[2.75rem] 2xl:leading-[1.05]">
 						{project.title}
 					</h3>
-					<p className="mt-3 max-w-xl text-[15px] leading-relaxed text-foreground/75 md:text-base">
+					<p className="mt-3 max-w-xl text-[15px] leading-relaxed text-foreground/75 md:text-base 2xl:text-muted-foreground">
 						{project.description}
 					</p>
 					<span className="mt-6 inline-flex items-center gap-2 font-mono text-[13px] uppercase tracking-[0.16em] text-foreground transition-colors group-hover:text-accent">

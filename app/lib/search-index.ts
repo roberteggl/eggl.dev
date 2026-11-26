@@ -1,5 +1,5 @@
-import { allBlogs } from 'content-collections'
 import { defaultFilter } from 'cmdk'
+import { allBlogs } from 'content-collections'
 import {
 	getAllProjects,
 	PROJECT_CATEGORY_LABELS,

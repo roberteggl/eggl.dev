@@ -59,7 +59,7 @@ const BlogYearIndex = ({ years }: BlogYearIndexProps) => {
 		<nav
 			aria-label="Posts by year"
 			aria-hidden={!visible}
-			className={`pointer-events-none fixed left-5 top-1/2 z-40 hidden -translate-y-1/2 transition-opacity duration-300 xl:block 2xl:left-8 ${
+			className={`pointer-events-none fixed left-8 top-1/2 z-40 hidden -translate-y-1/2 transition-opacity duration-300 2xl:block ${
 				visible ? 'opacity-100' : 'opacity-0'
 			}`}
 		>

@@ -1,6 +1,5 @@
 import { allBlogs } from 'content-collections'
 import { JsonLd } from '@/components/json-ld'
-import { SectionDivider } from '@/components/section-divider'
 import SectionIndex from '@/components/section-index'
 import AboutSection from '@/components/sections/about-section'
 import CareerSection from '@/components/sections/career-section'
@@ -60,11 +59,8 @@ export default async function HomePage() {
 			<HeroSection />
 			<Ticker items={TICKER_ITEMS} />
 			<ProjectsSection />
-			<SectionDivider />
 			<AboutSection />
-			<SectionDivider />
 			<EducationSection />
-			<SectionDivider />
 			<CareerSection />
 			<ContactSection />
 		</>
