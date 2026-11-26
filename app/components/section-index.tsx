@@ -79,7 +79,9 @@ const SectionIndex = () => {
 								<span
 									aria-hidden="true"
 									className={`absolute bottom-1.5 left-0 top-1.5 w-px origin-center bg-accent transition-transform duration-300 ${
-										isActive ? 'scale-y-100' : 'scale-y-0 group-hover:scale-y-50'
+										isActive
+											? 'scale-y-100'
+											: 'scale-y-0 group-hover:scale-y-50'
 									}`}
 								/>
 								<span className="font-mono text-[11px] tracking-[0.16em]">

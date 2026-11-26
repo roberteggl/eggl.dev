@@ -29,6 +29,11 @@ export const useSmoothScroll = () => {
 	) => {
 		e.preventDefault()
 		scrollToElement(id)
+		const nextHash = `#${id}`
+		if (window.location.hash !== nextHash) {
+			window.history.replaceState(null, '', nextHash)
+			window.dispatchEvent(new Event('hashchange'))
+		}
 	}
 
 	return {

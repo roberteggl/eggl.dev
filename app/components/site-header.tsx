@@ -3,14 +3,25 @@ import { Mail, Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import useSmoothScroll from '../hooks/use-smooth-scroll'
 import { Github, Linkedin } from './icons/brand-icons'
 import { ThemeToggle } from './theme-toggle'
 
 const NAV_LINKS = [
-	{ name: 'Projects', href: '/projects', isPage: true },
+	{
+		name: 'Projects',
+		href: '/projects',
+		isPage: true,
+		sectionId: 'projects' as const
+	},
 	{ name: 'Blog', href: '/blog', isPage: true },
 	{ name: 'Keys', href: '/keys', isPage: true },
-	{ name: 'Contact', href: '/#contact', isPage: false }
+	{
+		name: 'Contact',
+		href: '/#contact',
+		isPage: false,
+		sectionId: 'contact' as const
+	}
 ]
 
 const SOCIALS = [
@@ -28,6 +39,9 @@ function isLinkActive(
 	pathname: string,
 	hash: string
 ) {
+	if (link.sectionId && pathname === '/') {
+		return hash === `#${link.sectionId}`
+	}
 	if (!link.isPage) {
 		return pathname === '/' && hash === '#contact'
 	}
@@ -36,10 +50,21 @@ function isLinkActive(
 
 export default function SiteHeader() {
 	const pathname = usePathname()
+	const { handleHashLinkClick } = useSmoothScroll()
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const [scrolled, setScrolled] = useState(false)
 	const [progress, setProgress] = useState(0)
 	const [hash, setHash] = useState('')
+
+	const scrollToSectionOnHome = (
+		e: { preventDefault: () => void },
+		sectionId: string
+	) => {
+		if (pathname !== '/') return false
+		handleHashLinkClick(e, sectionId)
+		setIsMenuOpen(false)
+		return true
+	}
 
 	useEffect(() => {
 		const syncHash = () => setHash(window.location.hash)
@@ -120,11 +145,20 @@ export default function SiteHeader() {
 					{NAV_LINKS.map((link) => {
 						const active = isLinkActive(link, pathname, hash)
 						const className = desktopLinkClass(active)
+						const sectionId = link.sectionId
+						const onSectionClick = sectionId
+							? (e: { preventDefault: () => void }) => {
+									scrollToSectionOnHome(e, sectionId)
+								}
+							: undefined
 
 						return link.isPage ? (
 							<Link
 								key={link.name}
-								href={link.href}
+								href={
+									pathname === '/' && sectionId ? `/#${sectionId}` : link.href
+								}
+								onClick={onSectionClick}
 								aria-current={active ? 'page' : undefined}
 								className={className}
 							>
@@ -135,6 +169,7 @@ export default function SiteHeader() {
 							<a
 								key={link.name}
 								href={link.href}
+								onClick={onSectionClick}
 								aria-current={active ? 'page' : undefined}
 								className={className}
 							>
@@ -198,12 +233,21 @@ export default function SiteHeader() {
 						{NAV_LINKS.map((link, i) => {
 							const active = isLinkActive(link, pathname, hash)
 							const className = mobileLinkClass(active)
+							const sectionId = link.sectionId
+							const onSectionClick = (e: { preventDefault: () => void }) => {
+								if (sectionId && scrollToSectionOnHome(e, sectionId)) {
+									return
+								}
+								setIsMenuOpen(false)
+							}
 
 							return link.isPage ? (
 								<Link
 									key={link.name}
-									href={link.href}
-									onClick={() => setIsMenuOpen(false)}
+									href={
+										pathname === '/' && sectionId ? `/#${sectionId}` : link.href
+									}
+									onClick={onSectionClick}
 									aria-current={active ? 'page' : undefined}
 									className={className}
 								>
@@ -216,7 +260,7 @@ export default function SiteHeader() {
 								<a
 									key={link.name}
 									href={link.href}
-									onClick={() => setIsMenuOpen(false)}
+									onClick={onSectionClick}
 									aria-current={active ? 'page' : undefined}
 									className={className}
 								>

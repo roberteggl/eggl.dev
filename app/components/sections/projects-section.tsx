@@ -19,8 +19,12 @@ const FeaturedProject = memo(({ project }: { project: Project }) => {
 		<Reveal y={16} className="mt-12 md:mt-16">
 			<Link
 				href={getProjectPath(project)}
-				className="group relative block overflow-hidden border border-line bg-surface"
+				className="group relative block overflow-hidden border border-line bg-surface transition-colors duration-300 hover:border-accent/45"
 			>
+				<span
+					aria-hidden="true"
+					className="absolute bottom-0 left-0 top-0 z-20 w-px origin-top scale-y-0 bg-accent transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100"
+				/>
 				<div className="relative aspect-[16/10] md:aspect-[21/9]">
 					<Image
 						src={getProjectImageSrc(project.image)}
