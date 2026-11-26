@@ -9,3 +9,6 @@ docker-compose.yml
 
 # Content Collections
 .content-collections
+
+# Local planning notes
+docs/chat-agent-plan.md
