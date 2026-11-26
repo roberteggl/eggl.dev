@@ -35,7 +35,10 @@ export type ChatClientEvent =
 export const TOOL_LABELS: Record<string, string> = {
 	search_site: 'Searching the site…',
 	get_project: 'Opening project…',
+	list_projects: 'Listing projects…',
 	get_blog_post: 'Reading post…',
+	list_blog_posts: 'Listing posts…',
+	get_career_and_education: 'Checking career…',
 	get_github_stats: 'Fetching GitHub…',
 	get_contact_and_socials: 'Looking up contact…',
 	navigate_to_page: 'Opening page…',

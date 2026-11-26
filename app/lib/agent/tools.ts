@@ -1,8 +1,11 @@
 import { allBlogs } from 'content-collections'
 import type { FunctionTool } from 'openai/resources/responses/responses'
+import { getCareerTimeline, getCurrentRole } from '@/data/career-data'
 import { imprintData } from '@/data/imprint'
 import {
 	getAllProjects,
+	getFeaturedProjects,
+	getMainPageProjects,
 	getProjectBySlug,
 	getProjectPath,
 	type Project
@@ -135,6 +138,44 @@ async function getProject(args: Record<string, unknown>) {
 	return { found: true, project: projectCard(project) }
 }
 
+function projectRank(project: Project) {
+	if (project.showOnMain) return 0
+	if (project.featured) return 1
+	return 2
+}
+
+async function listProjects(args: Record<string, unknown>) {
+	const limit = Math.min(30, Math.max(1, Number(args.limit ?? 12) || 12))
+	const scope = String(args.scope ?? 'all')
+		.trim()
+		.toLowerCase()
+
+	let pool = getAllProjects()
+	if (scope === 'main') {
+		pool = getMainPageProjects()
+	} else if (scope === 'featured') {
+		pool = getFeaturedProjects()
+	}
+
+	const projects = [...pool]
+		.sort((a, b) => {
+			const rank = projectRank(a) - projectRank(b)
+			if (rank !== 0) return rank
+			return a.title.localeCompare(b.title)
+		})
+		.slice(0, limit)
+		.map(projectCard)
+
+	return {
+		scope: scope === 'main' || scope === 'featured' ? scope : 'all',
+		count: projects.length,
+		totalAvailable: pool.length,
+		projectsIndexPath: '/projects',
+		projects,
+		note: 'Ordered: homepage (showOnMain), then featured, then the rest. Not a quality ranking.'
+	}
+}
+
 async function getBlogPost(args: Record<string, unknown>) {
 	const slug = String(args.slug ?? '').trim()
 	const post = allBlogs.find((item) => item.slug === slug)
@@ -160,6 +201,54 @@ async function getBlogPost(args: Record<string, unknown>) {
 			path: `/blog/${post.slug}`,
 			excerpt: excerpt(post.body.raw)
 		}
+	}
+}
+
+async function listBlogPosts(args: Record<string, unknown>) {
+	const limit = Math.min(20, Math.max(1, Number(args.limit ?? 5) || 5))
+	const posts = [...allBlogs]
+		.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+		.slice(0, limit)
+		.map((post) => ({
+			slug: post.slug,
+			title: post.title,
+			date: post.date,
+			description: post.description ?? null,
+			path: `/blog/${post.slug}`
+		}))
+
+	return {
+		count: posts.length,
+		totalAvailable: allBlogs.length,
+		blogIndexPath: '/blog',
+		posts
+	}
+}
+
+async function getCareerAndEducation() {
+	const timeline = getCareerTimeline().map((entry) => ({
+		period: entry.period,
+		role: entry.role,
+		org: entry.org,
+		description: entry.description,
+		points: entry.points,
+		kind: entry.kind,
+		current: entry.current
+	}))
+	const current = getCurrentRole()
+
+	return {
+		currentRole: current
+			? {
+					role: current.role,
+					org: current.org,
+					period: current.period,
+					description: current.description
+				}
+			: null,
+		timeline,
+		journeyPath: '/#experience',
+		note: 'Public career and education from the site Journey section. Link visitors to /#experience for the full timeline.'
 	}
 }
 
@@ -221,7 +310,7 @@ export const agentFunctionTools: FunctionTool[] = [
 		type: 'function',
 		name: 'search_site',
 		description:
-			'Search Robert’s projects and blog posts by keyword (tech, title, topic). Prefer this for open-ended questions.',
+			'Search Robert’s projects and blog posts by keyword (tech, title, topic). Prefer list_projects / list_blog_posts when there is no specific keyword.',
 		strict: true,
 		parameters: {
 			type: 'object',
@@ -259,6 +348,29 @@ export const agentFunctionTools: FunctionTool[] = [
 	},
 	{
 		type: 'function',
+		name: 'list_projects',
+		description:
+			'List Robert’s projects as a catalog (no keyword needed). Use for “show projects / what has he built / featured work”. Prefer over search_site when there is no specific tech/topic query.',
+		strict: true,
+		parameters: {
+			type: 'object',
+			properties: {
+				scope: {
+					type: 'string',
+					description:
+						'Which set to list: "all" (default), "main" (homepage showOnMain), or "featured".'
+				},
+				limit: {
+					type: 'number',
+					description: 'Max projects to return (1–30). Default 12.'
+				}
+			},
+			required: ['scope', 'limit'],
+			additionalProperties: false
+		}
+	},
+	{
+		type: 'function',
 		name: 'get_blog_post',
 		description:
 			'Get a blog post summary and short excerpt by slug (e.g. github-deployment-bridge).',
@@ -272,6 +384,37 @@ export const agentFunctionTools: FunctionTool[] = [
 				}
 			},
 			required: ['slug'],
+			additionalProperties: false
+		}
+	},
+	{
+		type: 'function',
+		name: 'list_blog_posts',
+		description:
+			'List recent blog posts newest-first (no keyword needed). Use for “latest posts / what has he written”.',
+		strict: true,
+		parameters: {
+			type: 'object',
+			properties: {
+				limit: {
+					type: 'number',
+					description: 'Max posts to return (1–20). Default 5.'
+				}
+			},
+			required: ['limit'],
+			additionalProperties: false
+		}
+	},
+	{
+		type: 'function',
+		name: 'get_career_and_education',
+		description:
+			'Return Robert’s public career and education timeline (current SAP role, degrees, orgs). Use for “where does he work / study / background / experience”.',
+		strict: true,
+		parameters: {
+			type: 'object',
+			properties: {},
+			required: [],
 			additionalProperties: false
 		}
 	},
@@ -349,7 +492,10 @@ export const agentFunctionTools: FunctionTool[] = [
 const ALLOWED_TOOLS = new Set([
 	'search_site',
 	'get_project',
+	'list_projects',
 	'get_blog_post',
+	'list_blog_posts',
+	'get_career_and_education',
 	'get_github_stats',
 	'get_contact_and_socials',
 	'navigate_to_page',
@@ -516,8 +662,17 @@ export async function executeAgentTool(
 			case 'get_project':
 				result = await getProject(args)
 				break
+			case 'list_projects':
+				result = await listProjects(args)
+				break
 			case 'get_blog_post':
 				result = await getBlogPost(args)
+				break
+			case 'list_blog_posts':
+				result = await listBlogPosts(args)
+				break
+			case 'get_career_and_education':
+				result = await getCareerAndEducation()
 				break
 			case 'get_github_stats':
 				result = await getGithubStats()

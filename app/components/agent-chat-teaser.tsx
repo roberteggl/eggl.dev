@@ -40,6 +40,29 @@ const GREETING: ChatLine = {
 	text: 'Hey — I’m the **Eggl agent**. Ask about projects, posts, GitHub, or how to reach Robert.'
 }
 
+const STARTER_PROMPTS = [
+	{
+		label: 'Today’s GitHub',
+		message: 'What did Robert do on GitHub today?'
+	},
+	{
+		label: 'Featured projects',
+		message: 'Show me his featured projects.'
+	},
+	{
+		label: 'Latest posts',
+		message: 'What are the latest blog posts?'
+	},
+	{
+		label: 'Background',
+		message: 'Where does Robert work and study?'
+	},
+	{
+		label: 'Contact',
+		message: 'How can I contact Robert?'
+	}
+] as const
+
 const HISTORY_LIMIT = 12
 
 const panelEase = revealEase
@@ -182,8 +205,8 @@ export default function AgentChatTeaser() {
 		)
 	}
 
-	const sendMessage = async () => {
-		const text = draft.trim()
+	const sendMessage = async (raw?: string) => {
+		const text = (raw ?? draft).trim()
 		if (!text || replying || chatEndedRef.current) return
 
 		const userLine: ChatLine = {
@@ -353,6 +376,9 @@ export default function AgentChatTeaser() {
 		!chatEnded &&
 		replying &&
 		activeTools.every((tool) => tool.status !== 'running')
+
+	const showStarters =
+		!chatEnded && !replying && lines.length === 1 && lines[0]?.id === 'greeting'
 
 	const panelShell = (
 		<div
@@ -554,6 +580,25 @@ export default function AgentChatTeaser() {
 								className="size-1.5 rounded-full bg-muted-foreground/55 animate-pulse [animation-delay:240ms]"
 								aria-hidden
 							/>
+						</div>
+					) : null}
+					{showStarters ? (
+						<div className="mt-1 flex max-w-full flex-wrap gap-1.5 self-start">
+							{STARTER_PROMPTS.map((prompt) => (
+								<button
+									key={prompt.label}
+									type="button"
+									onClick={() => void sendMessage(prompt.message)}
+									className={cn(
+										'rounded-full border border-border/70 bg-background/70 text-muted-foreground transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-foreground',
+										fullscreen
+											? 'px-3 py-1.5 text-[12px]'
+											: 'px-2.5 py-1 text-[11px]'
+									)}
+								>
+									{prompt.label}
+								</button>
+							))}
 						</div>
 					) : null}
 					<div ref={logEndRef} />
