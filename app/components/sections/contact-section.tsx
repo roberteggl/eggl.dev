@@ -61,7 +61,7 @@ const ContactSection = () => {
 								rel={channel.external ? 'noopener noreferrer' : undefined}
 								className="group flex h-full items-start gap-4 p-5 transition-colors hover:bg-surface md:p-6"
 							>
-								<span className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-accent transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
+								<span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[6px] border border-line text-accent transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-accent-foreground">
 									<channel.icon size={18} strokeWidth={1.75} />
 								</span>
 								<span className="min-w-0 flex-1">
@@ -89,7 +89,7 @@ const ContactSection = () => {
 							href="/keys"
 							className="group flex h-full items-start gap-4 p-5 transition-colors hover:bg-surface md:p-6"
 						>
-							<span className="flex h-11 w-11 shrink-0 items-center justify-center border border-dashed border-line text-accent">
+							<span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[6px] border border-dashed border-line text-accent">
 								<KeyRound size={18} strokeWidth={1.75} />
 							</span>
 							<span className="min-w-0 flex-1">

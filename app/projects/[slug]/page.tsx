@@ -95,7 +95,7 @@ export default async function ProjectPage({
 				{project.github && (
 					<a
 						href={project.github}
-						className="inline-flex h-11 items-center gap-2 rounded-none bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+						className="inline-flex h-11 items-center gap-2 rounded-[6px] bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
@@ -106,7 +106,7 @@ export default async function ProjectPage({
 				{project.demo && (
 					<a
 						href={project.demo}
-						className="inline-flex h-11 items-center gap-2 rounded-none border border-line px-5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+						className="inline-flex h-11 items-center gap-2 rounded-[6px] border border-line px-5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
@@ -117,7 +117,7 @@ export default async function ProjectPage({
 				{project.docs && (
 					<a
 						href={project.docs}
-						className="inline-flex h-11 items-center gap-2 rounded-none border border-line px-5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+						className="inline-flex h-11 items-center gap-2 rounded-[6px] border border-line px-5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
@@ -128,7 +128,7 @@ export default async function ProjectPage({
 				{blogPath && (
 					<Link
 						href={blogPath}
-						className="inline-flex h-11 items-center gap-2 rounded-none border border-line px-5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+						className="inline-flex h-11 items-center gap-2 rounded-[6px] border border-line px-5 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
 					>
 						<BookOpen size={16} />
 						Read Blog Post
@@ -144,9 +144,9 @@ export default async function ProjectPage({
 							<Link
 								key={relatedProject.slug}
 								href={getProjectPath(relatedProject)}
-								className="group flex gap-3 border border-line bg-surface p-4 transition-colors hover:border-accent/50"
+								className="group flex gap-3 rounded-[8px] border border-line bg-surface p-4 transition-colors hover:border-accent/50"
 							>
-								<div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-none border border-line">
+								<div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-[6px] border border-line">
 									<Image
 										src={getProjectImageSrc(relatedProject.image)}
 										alt={`${relatedProject.title} project screenshot`}

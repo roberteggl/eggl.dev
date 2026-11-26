@@ -22,7 +22,7 @@ export function ThemeToggle() {
 			type="button"
 			onClick={() => setTheme(isDark ? 'light' : 'dark')}
 			aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-			className="rounded-none p-2 text-black/70 transition-colors duration-150 hover:bg-black/5 hover:text-accent dark:text-white/70 dark:hover:bg-white/10"
+			className="rounded-[6px] p-2 text-black/70 transition-colors duration-150 hover:bg-black/5 hover:text-accent dark:text-white/70 dark:hover:bg-white/10"
 		>
 			<span className="relative block h-[18px] w-[18px]">
 				<Sun

@@ -61,7 +61,7 @@ const SkillsSection = () => {
 					<StaggerItem key={cat.label}>
 						<div className="h-full border border-black/10 bg-white/80 p-7 text-[#0e1217] shadow-[0_1px_0_rgba(14,18,23,0.06)] backdrop-blur-sm transition-colors duration-150 hover:bg-white/90 dark:border-white/15 dark:bg-[#0b0d10]/75 dark:text-[#e8edf2] dark:shadow-none dark:hover:bg-[#0b0d10]/85 md:p-8">
 							<div className="flex items-center gap-4">
-								<div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-none border border-[#0f766e]/35 bg-[#0f766e]/10 text-[#0f766e] dark:border-[#2dd4bf]/40 dark:bg-[#2dd4bf]/15 dark:text-[#2dd4bf]">
+								<div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[6px] border border-[#0f766e]/35 bg-[#0f766e]/10 text-[#0f766e] dark:border-[#2dd4bf]/40 dark:bg-[#2dd4bf]/15 dark:text-[#2dd4bf]">
 									<cat.icon size={20} strokeWidth={1.75} />
 								</div>
 								<div>

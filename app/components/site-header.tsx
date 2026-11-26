@@ -183,7 +183,7 @@ export default function SiteHeader() {
 									s.href.startsWith('http') ? 'noopener noreferrer' : undefined
 								}
 								aria-label={s.label}
-								className="rounded-none p-2 text-black/70 transition-colors duration-150 hover:bg-black/5 hover:text-accent dark:text-white/70 dark:hover:bg-white/10"
+								className="rounded-[6px] p-2 text-black/70 transition-colors duration-150 hover:bg-black/5 hover:text-accent dark:text-white/70 dark:hover:bg-white/10"
 							>
 								<s.icon size={17} strokeWidth={1.75} />
 							</a>
@@ -198,7 +198,7 @@ export default function SiteHeader() {
 					<button
 						type="button"
 						onClick={() => setIsMenuOpen((v) => !v)}
-						className="inline-flex h-9 w-9 items-center justify-center rounded-none border border-black/20 text-black transition-colors duration-150 hover:border-accent hover:text-accent dark:border-white/25 dark:text-white"
+						className="inline-flex h-9 w-9 items-center justify-center rounded-[6px] border border-black/20 text-black transition-colors duration-150 hover:border-accent hover:text-accent dark:border-white/25 dark:text-white"
 						aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
 						aria-expanded={isMenuOpen}
 					>
@@ -269,7 +269,7 @@ export default function SiteHeader() {
 											: undefined
 									}
 									aria-label={s.label}
-									className="rounded-none border border-black/20 p-3 text-black/70 transition-colors duration-150 hover:border-accent hover:text-accent dark:border-white/25 dark:text-white/70"
+									className="rounded-[6px] border border-black/20 p-3 text-black/70 transition-colors duration-150 hover:border-accent hover:text-accent dark:border-white/25 dark:text-white/70"
 								>
 									<s.icon size={18} strokeWidth={1.75} />
 								</a>

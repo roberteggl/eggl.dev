@@ -100,14 +100,14 @@ const EducationSection = () => {
 									{/* dot: 15px box at left-0, center (7.5px) sits exactly on the spine */}
 									<span
 										aria-hidden="true"
-										className={`absolute left-0 top-[4px] flex size-[15px] items-center justify-center border bg-background transition-colors duration-300 ${
+										className={`absolute left-0 top-[4px] flex size-[15px] items-center justify-center rounded-[4px] border bg-background transition-colors duration-300 ${
 											isActive
 												? 'border-accent'
 												: 'border-line group-hover:border-accent'
 										}`}
 									>
 										<span
-											className={`size-[5px] transition-colors duration-300 ${
+											className={`size-[5px] rounded-[1px] transition-colors duration-300 ${
 												isActive ? 'bg-accent' : 'bg-line group-hover:bg-accent'
 											}`}
 										/>
@@ -117,14 +117,14 @@ const EducationSection = () => {
 											{item.period}
 										</p>
 										{item.current ? (
-											<span className="mt-2.5 inline-flex items-center border border-accent/40 bg-accent-soft px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent">
+											<span className="mt-2.5 inline-flex items-center rounded-[4px] border border-accent/40 bg-accent-soft px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-accent">
 												Current
 											</span>
 										) : null}
 									</div>
 									<div>
 										<div className="flex items-start gap-3">
-											<span className="mt-0.5 hidden h-10 w-10 shrink-0 items-center justify-center border border-line bg-surface-2 text-accent sm:flex">
+											<span className="mt-0.5 hidden h-10 w-10 shrink-0 items-center justify-center rounded-[6px] border border-line bg-surface-2 text-accent sm:flex">
 												<item.icon size={18} strokeWidth={1.75} />
 											</span>
 											<div>

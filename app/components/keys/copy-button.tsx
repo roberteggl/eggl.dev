@@ -30,7 +30,7 @@ export default function CopyButton({
 		<button
 			type="button"
 			onClick={handleCopy}
-			className={`inline-flex items-center justify-center border border-line bg-background p-2 text-muted-foreground transition-colors duration-150 hover:border-accent hover:text-accent ${className}`}
+			className={`inline-flex items-center justify-center rounded-[6px] border border-line bg-background p-2 text-muted-foreground transition-colors duration-150 hover:border-accent hover:text-accent ${className}`}
 			title={title}
 			aria-label={title}
 		>

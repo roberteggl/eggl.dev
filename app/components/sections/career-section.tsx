@@ -25,16 +25,16 @@ const LoadingState = () => (
 					key={i}
 					className="luxe-card flex animate-pulse items-center gap-3 px-3.5 py-3"
 				>
-					<div className="h-8 w-8 shrink-0 rounded-none bg-line/70" />
+					<div className="h-8 w-8 shrink-0 rounded-[6px] bg-line/70" />
 					<div className="min-w-0 flex-1 space-y-1.5">
-						<div className="h-5 w-14 rounded-none bg-line/70" />
-						<div className="h-3 w-20 rounded-none bg-line/60" />
+						<div className="h-5 w-14 rounded-[4px] bg-line/70" />
+						<div className="h-3 w-20 rounded-[4px] bg-line/60" />
 					</div>
 				</div>
 			))}
 		</div>
 		<div className="luxe-card mt-6 animate-pulse p-5">
-			<div className="h-32 rounded-none bg-line/50" />
+			<div className="h-32 rounded-[6px] bg-line/50" />
 		</div>
 	</output>
 )

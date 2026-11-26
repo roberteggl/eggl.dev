@@ -23,7 +23,7 @@ const Footer = () => {
 								href="https://github.com/roberteggl"
 								target="_blank"
 								rel="noopener noreferrer"
-								className="rounded-none border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
+								className="rounded-[6px] border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
 								aria-label="GitHub"
 							>
 								<Github size={18} strokeWidth={1.75} />
@@ -32,14 +32,14 @@ const Footer = () => {
 								href="https://linkedin.com/in/roberteggl"
 								target="_blank"
 								rel="noopener noreferrer"
-								className="rounded-none border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
+								className="rounded-[6px] border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
 								aria-label="LinkedIn"
 							>
 								<Linkedin size={18} strokeWidth={1.75} />
 							</a>
 							<a
 								href="mailto:info@eggl.dev"
-								className="rounded-none border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
+								className="rounded-[6px] border border-line p-2.5 text-foreground/70 transition-colors duration-200 hover:border-accent hover:text-accent"
 								aria-label="Email"
 							>
 								<Mail size={18} strokeWidth={1.75} />

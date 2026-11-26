@@ -36,7 +36,7 @@ const GitHubStatsCards = ({ githubData }: GitHubStatsCardsProps) => {
 					key={card.title}
 					className="luxe-card flex items-center gap-3 px-3.5 py-3 md:px-4"
 				>
-					<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-none border border-line bg-surface-2 text-accent">
+					<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] border border-line bg-surface-2 text-accent">
 						<card.icon size={15} strokeWidth={1.75} />
 					</span>
 					<span className="min-w-0">

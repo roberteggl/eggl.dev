@@ -6,12 +6,12 @@
 /* ----------------------------------------------------------------
    Ink & Signal theme, oxide teal accent
    Light = cool paper, .dark = ink
-   Corner system (enforced):
-     sharp (rounded-none): cards, surfaces, images, icon boxes,
-       inputs, tooltips, toggles, CTAs (the signal plane)
-     micro (rounded-[2px]): tags / chips only
+   Corner system:
+     soft-micro (rounded-[6px]): buttons, icon boxes, inputs, toggles
+     soft-panel (rounded-[8px]): cards, tooltips, surfaces
+     micro (rounded-[4px]): tags / chips
      contribution cells: rounded-[3px]
-   Do not introduce pills (rounded-full) or soft radii (md/lg/xl).
+     Chat widget may use larger radii; avoid sitewide pills.
 ---------------------------------------------------------------- */
 @theme {
 	--font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
@@ -179,8 +179,8 @@ h6 {
 
 :focus-visible {
 	outline: 2px solid var(--color-ring);
-	outline-offset: 3px;
-	border-radius: 0;
+	outline-offset: 2px;
+	border-radius: 6px;
 }
 
 .agent-chat-input:focus,
@@ -205,7 +205,7 @@ h6 {
 }
 ::-webkit-scrollbar-thumb {
 	background: var(--color-border);
-	border-radius: 0;
+	border-radius: 4px;
 	border: 2px solid var(--color-background);
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -332,7 +332,7 @@ h6 {
 /* ----- Signal primitives ----- */
 
 @utility signal-card {
-	@apply bg-card text-card-foreground border border-line rounded-none transition-colors duration-200;
+	@apply bg-card text-card-foreground border border-line rounded-[8px] transition-colors duration-200;
 }
 
 @utility signal-card-hover {
@@ -340,7 +340,7 @@ h6 {
 }
 
 @utility signal-chip {
-	@apply inline-flex items-center gap-1.5 rounded-[2px] border border-line bg-surface-2/60 px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-muted-foreground;
+	@apply inline-flex items-center gap-1.5 rounded-[4px] border border-line bg-surface-2/60 px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-muted-foreground;
 }
 
 @utility signal-grid-bg {
@@ -360,16 +360,16 @@ h6 {
 }
 
 @utility signal-button {
-	@apply inline-flex items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
+	@apply inline-flex items-center justify-center gap-2 rounded-[6px] border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
 }
 
 @utility signal-button-outline {
-	@apply inline-flex items-center justify-center gap-2 rounded-none border border-line bg-transparent px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent hover:text-accent disabled:opacity-50;
+	@apply inline-flex items-center justify-center gap-2 rounded-[6px] border border-line bg-transparent px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent hover:text-accent disabled:opacity-50;
 }
 
 /* legacy aliases → signal */
 @utility luxe-card {
-	@apply bg-card text-card-foreground border border-line rounded-none transition-colors duration-200;
+	@apply bg-card text-card-foreground border border-line rounded-[8px] transition-colors duration-200;
 }
 
 @utility luxe-card-hover {
@@ -377,7 +377,7 @@ h6 {
 }
 
 @utility luxe-chip {
-	@apply inline-flex items-center gap-1.5 rounded-[2px] border border-line bg-surface-2/60 px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-muted-foreground;
+	@apply inline-flex items-center gap-1.5 rounded-[4px] border border-line bg-surface-2/60 px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-muted-foreground;
 }
 
 @utility luxe-grid-bg {
@@ -397,11 +397,11 @@ h6 {
 }
 
 @utility luxe-button {
-	@apply inline-flex items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
+	@apply inline-flex items-center justify-center gap-2 rounded-[6px] border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
 }
 
 @utility luxe-button-outline {
-	@apply inline-flex items-center justify-center gap-2 rounded-none border border-line bg-transparent px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent hover:text-accent disabled:opacity-50;
+	@apply inline-flex items-center justify-center gap-2 rounded-[6px] border border-line bg-transparent px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-accent hover:text-accent disabled:opacity-50;
 }
 
 @utility hairline-t {
@@ -434,19 +434,19 @@ h6 {
 }
 
 @utility neo-card {
-	@apply bg-card text-card-foreground border border-line rounded-none transition-colors duration-200 hover:border-accent/50;
+	@apply bg-card text-card-foreground border border-line rounded-[8px] transition-colors duration-200 hover:border-accent/50;
 }
 
 @utility neo-card-static {
-	@apply bg-card text-card-foreground border border-line rounded-none;
+	@apply bg-card text-card-foreground border border-line rounded-[8px];
 }
 
 @utility neo-button {
-	@apply inline-flex items-center justify-center gap-2 rounded-none border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
+	@apply inline-flex items-center justify-center gap-2 rounded-[6px] border border-transparent bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-200 hover:bg-accent hover:text-accent-foreground disabled:opacity-50;
 }
 
 @utility neo-button-lite {
-	@apply inline-flex items-center justify-center gap-2 rounded-none px-4 py-2 text-sm text-muted-foreground transition-all duration-200 hover:bg-surface-2 hover:text-foreground disabled:opacity-50;
+	@apply inline-flex items-center justify-center gap-2 rounded-[6px] px-4 py-2 text-sm text-muted-foreground transition-all duration-200 hover:bg-surface-2 hover:text-foreground disabled:opacity-50;
 }
 
 @utility neo-grid-bg {
@@ -535,11 +535,11 @@ h6 {
 	}
 
 	& code {
-		@apply bg-surface-2 border border-line px-1.5 py-0.5 rounded-none text-[0.85em] font-mono text-foreground;
+		@apply bg-surface-2 border border-line px-1.5 py-0.5 rounded-[4px] text-[0.85em] font-mono text-foreground;
 	}
 
 	& pre {
-		@apply bg-surface-2 border border-line p-5 rounded-none overflow-x-auto mb-6 text-sm leading-relaxed;
+		@apply bg-surface-2 border border-line p-5 rounded-[8px] overflow-x-auto mb-6 text-sm leading-relaxed;
 	}
 
 	& pre code {
@@ -575,7 +575,7 @@ h6 {
 	}
 
 	& img {
-		@apply max-w-full h-auto rounded-none my-6 border border-line;
+		@apply max-w-full h-auto rounded-[8px] my-6 border border-line;
 	}
 }
 
@@ -608,5 +608,5 @@ h6 {
 }
 
 @utility search-input {
-	@apply w-full px-5 py-3 bg-card border border-line rounded-none text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-colors duration-150 placeholder:text-muted-foreground;
+	@apply w-full px-5 py-3 bg-card border border-line rounded-[6px] text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-colors duration-150 placeholder:text-muted-foreground;
 }
