@@ -456,7 +456,7 @@ export const agentFunctionTools: FunctionTool[] = [
 				path: {
 					type: 'string',
 					description:
-						'Site path to open, e.g. /projects/neuland-next, /blog/some-slug, /projects, /blog, /keys, /legal/privacy. Path-only; no full localhost or eggl.dev URL.'
+						'Site path to open, e.g. /projects/neuland-next, /blog/some-slug, /projects, /blog, /keys, /legal/privacy, /#experience (Journey). Path-only; no full localhost or eggl.dev URL.'
 				}
 			},
 			required: ['path'],
@@ -501,6 +501,9 @@ const ALLOWED_TOOLS = new Set([
 	'navigate_to_page',
 	'end_chat'
 ])
+
+/** Homepage section anchors the agent may open (see Journey / site header). */
+const HOME_HASH_RE = /^#(about|experience|projects|activity|skills|contact)$/i
 
 const SITE_PATH_RE =
 	/^\/(?:$|projects(?:\/[a-z0-9-]+)?|blog(?:\/[a-z0-9-]+)?|keys|legal\/(?:privacy|imprint))$/i
@@ -562,12 +565,13 @@ function endChat(args: Record<string, unknown>): EndChatResult {
 	return { ended: true, reason, message }
 }
 
-/** Normalize tool input to a same-site path, or null if external / invalid. */
+/** Normalize tool input to a same-site path (optional home hash), or null if external / invalid. */
 export function normalizeSitePath(input: string): string | null {
 	const raw = input.trim()
 	if (!raw) return null
 
 	let path = raw
+	let hash = ''
 	if (/^https?:\/\//i.test(raw)) {
 		try {
 			const url = new URL(raw)
@@ -579,8 +583,15 @@ export function normalizeSitePath(input: string): string | null {
 				host === '127.0.0.1'
 			if (!allowedHost) return null
 			path = url.pathname || '/'
+			hash = url.hash || ''
 		} catch {
 			return null
+		}
+	} else {
+		const hashIndex = path.indexOf('#')
+		if (hashIndex >= 0) {
+			hash = path.slice(hashIndex)
+			path = path.slice(0, hashIndex) || '/'
 		}
 	}
 
@@ -601,6 +612,14 @@ export function normalizeSitePath(input: string): string | null {
 		return null
 	}
 
+	if (hash) {
+		// Anchors only on the homepage — e.g. /#experience for Journey.
+		if (path !== '/' || !HOME_HASH_RE.test(hash)) {
+			return null
+		}
+		return `${path}${hash}`
+	}
+
 	return path
 }
 
@@ -610,7 +629,7 @@ function navigateToPage(args: Record<string, unknown>) {
 		return {
 			navigated: false,
 			error:
-				'Invalid or off-site path. Use a site path like /projects/neuland-next, /blog, or /keys. External URLs cannot be opened with this tool — give the user a Markdown link instead.'
+				'Invalid or off-site path. Use a site path like /projects/neuland-next, /blog, /keys, or /#experience. External URLs cannot be opened with this tool — give the user a Markdown link instead.'
 		}
 	}
 

@@ -5,11 +5,11 @@ import {
 	Check,
 	LoaderCircle,
 	Maximize2,
-	MessageSquare,
 	Minimize2,
 	RotateCcw,
 	Send,
 	Sparkles,
+	Square,
 	X
 } from 'lucide-react'
 import Link from 'next/link'
@@ -37,13 +37,13 @@ type ChatLine = {
 const GREETING: ChatLine = {
 	id: 'greeting',
 	role: 'agent',
-	text: 'Hey — I’m the **Eggl agent**. Ask about projects, posts, GitHub, or how to reach Robert.'
+	text: 'Hey — I’m the **Eggl agent**. Happy to show you Robert’s projects, posts, GitHub activity, or how to reach him.'
 }
 
 const STARTER_PROMPTS = [
 	{
-		label: 'Today’s GitHub',
-		message: 'What did Robert do on GitHub today?'
+		label: 'This week’s GitHub',
+		message: 'What has Robert been doing on GitHub over the past 7 days?'
 	},
 	{
 		label: 'Featured projects',
@@ -98,11 +98,12 @@ export default function AgentChatTeaser() {
 	const [chatEnded, setChatEnded] = useState(false)
 	const [desktop, setDesktop] = useState(false)
 	const [viewport, setViewport] = useState({ top: 0, height: 0 })
-	const inputRef = useRef<HTMLInputElement>(null)
+	const inputRef = useRef<HTMLTextAreaElement>(null)
 	const launcherRef = useRef<HTMLButtonElement>(null)
 	const logEndRef = useRef<HTMLDivElement>(null)
 	const agentLineIdRef = useRef<string | null>(null)
 	const chatEndedRef = useRef(false)
+	const abortRef = useRef<AbortController | null>(null)
 
 	const fullscreen = open && (!desktop || expanded)
 
@@ -145,6 +146,13 @@ export default function AgentChatTeaser() {
 	}, [open, chatEnded])
 
 	useEffect(() => {
+		const el = inputRef.current
+		if (!el) return
+		el.style.height = 'auto'
+		el.style.height = `${el.scrollHeight}px`
+	}, [draft, open, fullscreen])
+
+	useEffect(() => {
 		logEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
 	}, [lines, replying, activeTools, open, chatEnded, expanded, viewport.height])
 
@@ -173,7 +181,12 @@ export default function AgentChatTeaser() {
 		}
 	}, [fullscreen])
 
+	const stopGeneration = () => {
+		abortRef.current?.abort()
+	}
+
 	const close = () => {
+		abortRef.current?.abort()
 		setOpen(false)
 		setExpanded(false)
 		requestAnimationFrame(() => launcherRef.current?.focus())
@@ -239,14 +252,24 @@ export default function AgentChatTeaser() {
 			// Drop the empty in-progress assistant placeholder from the request
 			.filter((message) => message.content.length > 0)
 
+		const controller = new AbortController()
+		abortRef.current = controller
+
 		try {
 			const response = await fetch('/api/chat', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ messages: history })
+				body: JSON.stringify({ messages: history }),
+				signal: controller.signal
 			})
 
 			if (!response.ok || !response.body) {
+				if (response.status === 429) {
+					const retryRaw = Number(response.headers.get('Retry-After') || '60')
+					const retrySec =
+						Number.isFinite(retryRaw) && retryRaw > 0 ? Math.ceil(retryRaw) : 60
+					throw new Error(`Too many requests. Try again in ${retrySec}s.`)
+				}
 				const payload = (await response.json().catch(() => null)) as {
 					error?: string
 				} | null
@@ -325,8 +348,8 @@ export default function AgentChatTeaser() {
 				}
 
 				if (event.type === 'navigate') {
+					// Keep the panel open so the conversation continues after in-site nav.
 					router.push(event.path)
-					close()
 					return
 				}
 
@@ -348,7 +371,7 @@ export default function AgentChatTeaser() {
 			}
 			buffer = parseNdjsonChunk(`${buffer}\n`, handleEvent)
 
-			if (!chatEndedRef.current) {
+			if (!chatEndedRef.current && !controller.signal.aborted) {
 				patchAgentLine((line) => ({
 					...line,
 					text:
@@ -357,7 +380,14 @@ export default function AgentChatTeaser() {
 				}))
 			}
 		} catch (error) {
-			if (!chatEndedRef.current) {
+			if (controller.signal.aborted) {
+				if (!chatEndedRef.current) {
+					patchAgentLine((line) => ({
+						...line,
+						text: line.text.trim() || 'Stopped.'
+					}))
+				}
+			} else if (!chatEndedRef.current) {
 				const message =
 					error instanceof Error ? error.message : 'Something went wrong.'
 				patchAgentLine((line) => ({
@@ -366,6 +396,9 @@ export default function AgentChatTeaser() {
 				}))
 			}
 		} finally {
+			if (abortRef.current === controller) {
+				abortRef.current = null
+			}
 			setReplying(false)
 			setActiveTools([])
 			agentLineIdRef.current = null
@@ -407,7 +440,7 @@ export default function AgentChatTeaser() {
 			) : null}
 			<div
 				className={cn(
-					'relative flex shrink-0 items-start justify-between gap-3 border-b border-border/50',
+					'relative flex shrink-0 items-center justify-between gap-3 border-b border-border/50',
 					fullscreen
 						? 'px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-4 md:px-7 md:pt-6 md:pb-6'
 						: 'px-4 py-3.5'
@@ -426,31 +459,15 @@ export default function AgentChatTeaser() {
 							aria-hidden
 						/>
 					</span>
-					<div className="min-w-0">
-						<p
-							id={`${panelId}-title`}
-							className={cn(
-								'font-medium tracking-tight text-foreground',
-								fullscreen ? 'text-[17px]' : 'text-[15px]'
-							)}
-						>
-							Eggl Agent
-						</p>
-						<p
-							className={cn(
-								'mt-0.5 text-muted-foreground',
-								fullscreen ? 'text-[13px]' : 'text-[12px]'
-							)}
-						>
-							{chatEnded
-								? 'Chat ended'
-								: fullscreen
-									? desktop
-										? 'Full conversation dock'
-										: 'Ask about projects, posts, and more'
-									: 'Projects, posts, and how Robert builds'}
-						</p>
-					</div>
+					<p
+						id={`${panelId}-title`}
+						className={cn(
+							'min-w-0 font-medium tracking-tight text-foreground',
+							fullscreen ? 'text-[17px]' : 'text-[15px]'
+						)}
+					>
+						Eggl Agent
+					</p>
 				</div>
 				<div className="flex shrink-0 items-center gap-0.5">
 					<button
@@ -622,7 +639,7 @@ export default function AgentChatTeaser() {
 					</p>
 				) : (
 					<form
-						className="flex w-full items-center gap-2"
+						className="flex w-full items-end gap-2"
 						onSubmit={(event) => {
 							event.preventDefault()
 							void sendMessage()
@@ -631,33 +648,55 @@ export default function AgentChatTeaser() {
 						<label htmlFor={inputId} className="sr-only">
 							Message the Eggl agent
 						</label>
-						<input
+						<textarea
 							ref={inputRef}
 							id={inputId}
 							value={draft}
 							onChange={(event) => setDraft(event.target.value)}
+							onKeyDown={(event) => {
+								if (event.key === 'Enter' && !event.shiftKey) {
+									event.preventDefault()
+									void sendMessage()
+								}
+							}}
 							placeholder="Ask anything…"
 							autoComplete="off"
 							enterKeyHint="send"
-							disabled={replying}
+							rows={1}
+							disabled={chatEnded}
 							className={cn(
-								'agent-chat-input min-w-0 flex-1 rounded-full border border-border/70 bg-background/70 text-foreground placeholder:text-muted-foreground disabled:opacity-60',
+								'agent-chat-input min-w-0 flex-1 resize-none border border-border/70 bg-background/70 text-foreground placeholder:text-muted-foreground disabled:opacity-60',
 								fullscreen
-									? 'h-12 px-5 text-[16px] md:text-[15px]'
-									: 'h-10 px-4 text-[13px]'
+									? 'min-h-12 max-h-36 rounded-[1.35rem] px-5 py-3 text-[16px] md:text-[15px]'
+									: 'min-h-10 max-h-28 rounded-[1.15rem] px-4 py-2.5 text-[13px]'
 							)}
 						/>
-						<button
-							type="submit"
-							disabled={!draft.trim() || replying}
-							aria-label="Send message"
-							className={cn(
-								'inline-flex shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground transition-opacity disabled:opacity-40',
-								fullscreen ? 'size-12' : 'size-10'
-							)}
-						>
-							<Send size={15} strokeWidth={1.75} />
-						</button>
+						{replying ? (
+							<button
+								type="button"
+								onClick={stopGeneration}
+								aria-label="Stop generating"
+								title="Stop"
+								className={cn(
+									'inline-flex shrink-0 items-center justify-center rounded-full bg-foreground text-background transition-opacity',
+									fullscreen ? 'size-12' : 'size-10'
+								)}
+							>
+								<Square size={14} strokeWidth={2} fill="currentColor" />
+							</button>
+						) : (
+							<button
+								type="submit"
+								disabled={!draft.trim()}
+								aria-label="Send message"
+								className={cn(
+									'inline-flex shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground transition-opacity disabled:opacity-40',
+									fullscreen ? 'size-12' : 'size-10'
+								)}
+							>
+								<Send size={15} strokeWidth={1.75} />
+							</button>
+						)}
 					</form>
 				)}
 				<p className="mt-2 px-1 text-[10px] leading-snug text-muted-foreground/80">
@@ -767,20 +806,25 @@ export default function AgentChatTeaser() {
 					aria-controls={panelId}
 					aria-hidden={fullscreen}
 					tabIndex={fullscreen ? -1 : undefined}
-					aria-label={open ? 'Close agent chat' : 'Open agent chat'}
+					aria-label={open ? 'Close AI chat' : 'Open AI chat'}
 					onClick={() => (open ? close() : openPanel())}
 					className={cn(
-						'pointer-events-auto inline-flex size-12 items-center justify-center rounded-full shadow-[0_12px_28px_-14px_rgba(14,18,23,0.55)] transition-colors',
+						'pointer-events-auto inline-flex items-center justify-center shadow-[0_12px_28px_-14px_rgba(14,18,23,0.55)] transition-colors',
 						fullscreen && 'invisible pointer-events-none',
 						open
-							? 'border border-border/70 bg-card text-foreground hover:bg-surface-2'
-							: 'bg-accent text-accent-foreground hover:bg-accent-light'
+							? 'size-12 rounded-full border border-border/70 bg-card text-foreground hover:bg-surface-2'
+							: 'h-12 gap-2 rounded-full bg-accent px-4 text-accent-foreground hover:bg-accent-light'
 					)}
 				>
 					{open ? (
 						<X size={18} strokeWidth={1.75} />
 					) : (
-						<MessageSquare size={18} strokeWidth={1.75} />
+						<>
+							<Sparkles size={16} strokeWidth={1.75} aria-hidden="true" />
+							<span className="font-mono text-[12px] uppercase tracking-[0.14em]">
+								AI chat
+							</span>
+						</>
 					)}
 				</button>
 			</div>

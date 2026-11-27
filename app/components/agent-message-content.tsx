@@ -35,7 +35,7 @@ function toInternalHref(raw: string): string | null {
 				host === 'localhost' ||
 				host === '127.0.0.1'
 			) {
-				return url.pathname || '/'
+				return `${url.pathname || '/'}${url.hash || ''}`
 			}
 		}
 	} catch {

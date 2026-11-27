@@ -90,7 +90,8 @@ export function createAgentEventStream(
 						input,
 						reasoning: { effort: 'low' },
 						// Only our function tools — never hosted web_search or other built-ins.
-						store: true
+						// Do not persist responses in OpenAI storage (aligns with privacy policy).
+						store: false
 					},
 					{
 						stream: true,
